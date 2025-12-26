@@ -31,13 +31,14 @@ The following parts need to be printed (recommended in PETG White). The modular 
 - **Plant Pot:** The bottom container for the plant.
 - **Reservoir/Overpot:** Outer water container/shell that holds the pot.
 
-### Grow Modules (4x Required)
-Each module consists of two parts:
-- **Inner Shell:** Holds the plant/roots, designed for heat management.
-- **Outer Shell:** Decorative and functional layer, holds the LED strip.
+### Shell Assembly
+The 4-level structure is built from the following parts:
+- **Inner Shell (4x):** Holds the plant/roots.
+- **Outer Shell Bottom (1x):** The base segment of the outer shell.
+- **Outer Shell (3x):** Standard segments stacked on top of the bottom shell.
+- **Shell Connector (3x):** Outer rings used to connect the shell segments (glued).
 
 ### Filter Assembly (Top)
-- **Top Cap / Light Mount:** Connects the top module to the filter system.
 - **Filter Housing:** Container for the activated carbon.
 - **Internal Sieve:** Sieve insert for inside the filter housing.
 - **Fan Adapter:** Connects the 140mm fan to the filter housing.
