@@ -25,3 +25,15 @@ The GrowTower utilizes a forced-air system where the Arctic P14 fan pulls air th
 ## Getting Started
 
 See [BOM.md](BOM.md) for a full list of materials required to build your own GrowTower.
+
+## Internal Sieve Printing Instructions
+
+The Internal Sieve model is intentionally designed to be "closed". To print it correctly:
+
+1.  **Open the Sieve:** In your slicer, use a modifier to remove the top and bottom solid layers.
+2.  **Create the Mesh:** Set the infill density to approximately **30%** and use a **Rectilinear** pattern. This generates the necessary mesh structure for the filter.
+
+| | |
+|:---:|:---:|
+| ![Slicer View 1](images/sieve_slicer_1.png) | ![Slicer View 2](images/sieve_slicer_2.png) |
+
