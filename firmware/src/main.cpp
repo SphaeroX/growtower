@@ -7,21 +7,23 @@
 // Define the pin for the light control (PWM)
 // Please check your actual wiring. D0 is a placeholder provided in the plan.
 // On Seeed XIAO ESP32S3, D0 is GPIO1 (usually).
-#define LIGHT_PIN D0
+#define LIGHT_PIN D1
+// Fan connected to GPIO4 (D2)
+#define FAN_PIN D2
 
 // NTP Server settings
 const char *ntpServer = "pool.ntp.org";
 const long gmtOffset_sec = 3600;     // GMT+1
 const int daylightOffset_sec = 3600; // Summer time +1hr
 
-// PWM Channel configuration
-const int pwmFreq = 5000;
-// const int pwmChannel = 0; // Not needed for Arduino ESP32 v3.0+
+// PWM Channel configuration (for Fan)
+const int pwmFreq =
+    25000; // Standard for PC fans usually, or 5000 if generic driver
 const int pwmResolution = 8;
-const int maxDutyCycle = 255; // 2^8 - 1
+const int maxDutyCycle = 255;
 
 // Internal state
-int currentBrightnessPercent = 0;
+// int currentBrightnessPercent = 0; // Removed
 
 void printLocalTime() {
   struct tm timeinfo;
@@ -32,23 +34,38 @@ void printLocalTime() {
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
 
-void setLight(int percent) {
+void setLight(bool on) {
+  if (on) {
+    digitalWrite(LIGHT_PIN, HIGH);
+    Serial.println("Light set to ON");
+  } else {
+    digitalWrite(LIGHT_PIN, LOW);
+    Serial.println("Light set to OFF");
+  }
+}
+
+// Arctic P14 PWM PST Min Duty Cycle (~5% of 255)
+const int fanMinDuty = 13;
+
+void setFan(int percent) {
   if (percent < 0)
     percent = 0;
   if (percent > 100)
     percent = 100;
 
-  currentBrightnessPercent = percent;
-
-  // Map 0-100 to 0-255
-  int dutyCycle = map(percent, 0, 100, 0, 255);
+  // Map 0-100% to fanMinDuty-255
+  // 0% input = Minimum running speed (~200 RPM)
+  // 100% input = Maximum speed
+  int dutyCycle = map(percent, 0, 100, fanMinDuty, 255);
 
   // New API: ledcWrite(pin, duty)
-  ledcWrite(LIGHT_PIN, dutyCycle);
+  ledcWrite(FAN_PIN, dutyCycle);
 
-  Serial.print("Light set to ");
+  Serial.print("Fan set to ");
   Serial.print(percent);
-  Serial.println("%");
+  Serial.print("% (Duty: ");
+  Serial.print(dutyCycle);
+  Serial.println(")");
 }
 
 void processCommand(String command) {
@@ -56,17 +73,26 @@ void processCommand(String command) {
   command.toUpperCase();
 
   if (command == "ON") {
-    setLight(100);
+    setLight(true);
   } else if (command == "OFF") {
-    setLight(0);
-  } else if (command.startsWith("PWM:")) {
-    String valueStr = command.substring(4);
+    setLight(false);
+  } else if (command.startsWith("FAN")) {
+    // Control Fan
+    // Support "FAN 50", "FAN:50", "FAN50"
+    String valueStr = command.substring(3);
+    valueStr.trim(); // Remove leading/trailing whitespace
+    if (valueStr.startsWith(":")) {
+      valueStr.remove(0, 1); // Remove colon if present
+      valueStr.trim();
+    }
+
     int value = valueStr.toInt();
-    setLight(value);
+    setFan(value);
   } else if (command == "TIME") {
+
     printLocalTime();
   } else {
-    Serial.println("Unknown command. Available: ON, OFF, PWM:<0-100>, TIME");
+    Serial.println("Unknown command. Available: ON, OFF, FAN <0-100>, TIME");
   }
 }
 
@@ -76,14 +102,18 @@ void setup() {
   // Wait for Serial to be ready (useful for debugging on some boards)
   // delay(2000);
 
-  // Configure PWM
-  // New API: ledcAttach(pin, freq, resolution)
-  if (!ledcAttach(LIGHT_PIN, pwmFreq, pwmResolution)) {
-    Serial.println("PWM Setup Failed!");
-  }
+  // Configure Light Pin as Output
+  pinMode(LIGHT_PIN, OUTPUT);
+  // Initial State: Light Off
+  setLight(false);
 
-  // Initial State: Off
-  setLight(0);
+  // Configure Fan PWM
+  // New API: ledcAttach(pin, freq, resolution)
+  if (!ledcAttach(FAN_PIN, pwmFreq, pwmResolution)) {
+    Serial.println("Fan PWM Setup Failed!");
+  }
+  // Initial State: Fan Off
+  setFan(0);
 
   Serial.println("Starting Firmware...");
 
