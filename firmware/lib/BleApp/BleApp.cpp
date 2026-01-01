@@ -34,8 +34,13 @@ class ServerCallbacks : public NimBLEServerCallbacks {
   void onConnect(NimBLEServer *pServer) { Serial.println("Client connected"); };
 
   void onDisconnect(NimBLEServer *pServer) {
-    Serial.println("Client disconnected");
-    NimBLEDevice::startAdvertising();
+    Serial.println("Client disconnected - Waiting to restart advertising...");
+    delay(500); // Give the stack time to clear the connection
+    if (NimBLEDevice::getAdvertising()->start()) {
+      Serial.println("Advertising restarted successfully.");
+    } else {
+      Serial.println("Failed to restart advertising!");
+    }
   }
 };
 
