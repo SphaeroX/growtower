@@ -61,11 +61,25 @@ Once the monitor is running, you can type these commands and press Enter:
 
 | Command | Description | Example |
 | :--- | :--- | :--- |
-| `fan <0-100>` | Set fan speed in percent. | `fan 50` |
-| `light on` | Turn grow light ON manually. | `light on` |
-| `light off` | Turn grow light OFF manually. | `light off` |
-| `auto` | Resume automatic light schedule. | `auto` |
-| `status` | Show current time, fan speed, & WiFi status. | `status` |
+| `ON` | Turn light ON. | `ON` |
+| `OFF` | Turn light OFF. | `OFF` |
+| `FAN <0-100>` | Set fan speed in percent. | `FAN 50` |
+| `TIME` | Print current local time from NTP. | `TIME` |
+
+## BLE Commands
+
+The device advertises as **GrowTower-BLE**.
+
+**Service UUID:** `4fafc201-1fb5-459e-8fcc-c5c9c331914b`
+
+| Characteristic | UUID | Access | Description |
+| :--- | :--- | :--- | :--- |
+| **Light** | `beb5483e-36e1-4688-b7f5-ea07361b26a8` | Read/Write | Write `0x01` for ON, `0x00` for OFF. |
+| **Fan** | `82563452-9477-4b78-953e-38ec6f43e592` | Read/Write | Write 0-100 (byte) for speed %. |
+| **Fan Range Min** | `c0b9a304-1234-4567-89ab-cdef01234567` | Read/Write | Min Speed %. Default 0. |
+| **Fan Range Max** | `c0b9a304-1234-4567-89ab-cdef01234568` | Read/Write | Max Speed %. Default 100. |
+| **Light On Hour** | `c0b9a304-1234-4567-89ab-cdef01234569` | Read/Write | Hour (0-23) to turn ON. |
+| **Light Off Hour** | `c0b9a304-1234-4567-89ab-cdef0123456a` | Read/Write | Hour (0-23) to turn OFF. |
 
 ## Troubleshooting
 

@@ -1,7 +1,10 @@
 #include "secrets.h"
 #include <Arduino.h>
+#include <BleApp.h>
+#include <Preferences.h>
 #include <WiFi.h>
 #include <time.h>
+
 
 // --- Configuration ---
 // Define the pin for the light control (PWM)
@@ -22,9 +25,37 @@ const int pwmFreq =
 const int pwmResolution = 8;
 const int maxDutyCycle = 255;
 
+// Preferences
+Preferences preferences;
+
+// Configurable Variables (with defaults)
+int fanMinPercent = 0;
+int fanMaxPercent = 100;
+int lightOnHour = 18;
+int lightOffHour = 14;
+
 // Internal state
 // int currentBrightnessPercent = 0; // Removed
 bool isLightOn = false; // Tracks the current state of the light
+
+// Forward declarations of setters for BLE
+void setFanMin(int minVal);
+void setFanMax(int maxVal);
+void setLightOnTime(int hour);
+void setLightOffTime(int hour);
+
+void loadSettings() {
+  preferences.begin("growtower", true); // Read-only mode
+  // If keys don't exist, defaults (0, 100, 18, 14) are used
+  fanMinPercent = preferences.getInt("fanMin", 0);
+  fanMaxPercent = preferences.getInt("fanMax", 100);
+  lightOnHour = preferences.getInt("onHour", 18);
+  lightOffHour = preferences.getInt("offHour", 14);
+  preferences.end(); // Close
+
+  Serial.printf("Settings loaded: FanMin=%d, FanMax=%d, On=%d, Off=%d\n",
+                fanMinPercent, fanMaxPercent, lightOnHour, lightOffHour);
+}
 
 void printLocalTime() {
   struct tm timeinfo;
@@ -54,9 +85,16 @@ void checkTimer() {
   }
 
   int hour = timeinfo.tm_hour;
-  // Desired: ON from 18:00 to 14:00
-  // ON if hour >= 18 OR hour < 14
-  bool shouldBeOn = (hour >= 18 || hour < 14);
+  // Desired: ON from lightOnHour to lightOffHour
+
+  bool shouldBeOn = false;
+  if (lightOnHour > lightOffHour) {
+    // Crosses midnight (e.g. 18 to 14)
+    shouldBeOn = (hour >= lightOnHour || hour < lightOffHour);
+  } else {
+    // Same day (e.g. 08 to 20)
+    shouldBeOn = (hour >= lightOnHour && hour < lightOffHour);
+  }
 
   // Updates only if state changes to avoid spamming setLight (which prints to
   // Serial)
@@ -68,7 +106,9 @@ void checkTimer() {
 }
 
 // Arctic P14 PWM PST Min Duty Cycle (~5% of 255)
-const int fanMinDuty = 13;
+// This is CONSTANT for the hardware.
+// The user 'fanMinPercent' is logical scaling.
+const int hardwareFanMinDuty = 13;
 
 void setFan(int percent) {
   if (percent < 0)
@@ -76,19 +116,100 @@ void setFan(int percent) {
   if (percent > 100)
     percent = 100;
 
-  // Map 0-100% to fanMinDuty-255
-  // 0% input = Minimum running speed (~200 RPM)
-  // 100% input = Maximum speed
-  int dutyCycle = map(percent, 0, 100, fanMinDuty, 255);
+  int dutyCycle = 0;
+
+  if (percent == 0) {
+    dutyCycle = 0; // Off
+  } else {
+    // Map logic:
+    // Input 1-100% maps to Output [fanMin, fanMax]
+    // Then map Output to hardware duty [hardwareFanMinDuty, 255]
+
+    // Safety check if min > max
+    int effMin = fanMinPercent;
+    int effMax = fanMaxPercent;
+    if (effMin > effMax) {
+      effMin = effMax;
+    }
+
+    long mappedPercent = map(percent, 1, 100, effMin, effMax);
+
+    dutyCycle = map(mappedPercent, 0, 100, hardwareFanMinDuty, 255);
+  }
 
   // New API: ledcWrite(pin, duty)
   ledcWrite(FAN_PIN, dutyCycle);
 
-  Serial.print("Fan set to ");
+  Serial.print("Fan set to input ");
   Serial.print(percent);
+  Serial.print("% -> Mapped ");
+  // Re-calculate for display
+  int effMin = fanMinPercent;
+  int effMax = fanMaxPercent;
+  if (effMin > effMax)
+    effMin = effMax;
+  Serial.print(map(percent, 1, 100, effMin, effMax));
+
   Serial.print("% (Duty: ");
   Serial.print(dutyCycle);
   Serial.println(")");
+}
+
+// --- Setters with Persistence for BLE ---
+
+void setFanMin(int minVal) {
+  if (minVal < 0)
+    minVal = 0;
+  if (minVal > 100)
+    minVal = 100;
+  fanMinPercent = minVal;
+
+  preferences.begin("growtower", false); // RW
+  preferences.putInt("fanMin", fanMinPercent);
+  preferences.end();
+  Serial.printf("Config: Fan Min set to %d%%\n", fanMinPercent);
+  // Optional: Refresh fan speed if currently running
+}
+
+void setFanMax(int maxVal) {
+  if (maxVal < 0)
+    maxVal = 0;
+  if (maxVal > 100)
+    maxVal = 100;
+  fanMaxPercent = maxVal;
+
+  preferences.begin("growtower", false);
+  preferences.putInt("fanMax", fanMaxPercent);
+  preferences.end();
+  Serial.printf("Config: Fan Max set to %d%%\n", fanMaxPercent);
+}
+
+void setLightOnTime(int hour) {
+  if (hour < 0)
+    hour = 0;
+  if (hour > 23)
+    hour = 23;
+  lightOnHour = hour;
+
+  preferences.begin("growtower", false);
+  preferences.putInt("onHour", lightOnHour);
+  preferences.end();
+  Serial.printf("Config: Light On Hour set to %d:00\n", lightOnHour);
+  checkTimer(); // Re-check immediately
+}
+
+void setLightOffTime(int hour) {
+  if (hour < 0)
+    hour = 0;
+  if (hour > 23)
+    hour = 23;
+  lightOffHour = hour;
+
+  preferences.begin("growtower", false);
+  preferences.putInt("offHour", lightOffHour);
+  preferences.end();
+  Serial.printf("Config: Light Off Hour set to %d:00\n", lightOffHour);
+  checkTimer(); // Re-check immediately
 }
 
 void processCommand(String command) {
@@ -125,9 +246,12 @@ void setup() {
   // Wait for Serial to be ready (useful for debugging on some boards)
   // delay(2000);
 
+  // Load settings from Flash
+  loadSettings();
+
   // Configure Light Pin as Output
   pinMode(LIGHT_PIN, OUTPUT);
-  // Initial State: Light Off
+  // Initial State: Check logic? Default off for safety, loop will fix it
   setLight(false);
 
   // Configure Fan PWM
@@ -140,8 +264,13 @@ void setup() {
 
   Serial.println("Starting Firmware...");
 
-// Connect to WiFi
-// WIFI_SSID and WIFI_PASS are defined in secrets.h (generated from .env)
+  // Initialize BLE
+  // We need to pass the new setters
+  initBLE(setLight, setFan, setFanMin, setFanMax, setLightOnTime,
+          setLightOffTime);
+
+  // Connect to WiFi
+  // WIFI_SSID and WIFI_PASS are defined in secrets.h (generated from .env)
 #ifdef WIFI_SSID
   Serial.print("Connecting to ");
   Serial.println(WIFI_SSID);
