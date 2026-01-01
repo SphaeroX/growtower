@@ -45,6 +45,10 @@ Builds and uploads the firmware to the connected ESP32-C6.
 pio run -t upload
 ```
 
+```powershell
+pio run -t upload -t monitor
+```
+
 *Note: If the upload fails, ensure the device is in bootloader mode (hold BOOT, press RESET, release BOOT).*
 
 ### 3. Monitor (Debug)

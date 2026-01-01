@@ -81,7 +81,7 @@ void initBLE(LightCallback lightCb, FanCallback fanCb, IntCallback fanMinCb,
   g_lightOnCb = lightOnCb;
   g_lightOffCb = lightOffCb;
 
-  NimBLEDevice::init("GrowTower-BLE");
+  NimBLEDevice::init("TOWER");
 
   pServer = NimBLEDevice::createServer();
   pServer->setCallbacks(new ServerCallbacks());
@@ -135,7 +135,16 @@ void initBLE(LightCallback lightCb, FanCallback fanCb, IntCallback fanMinCb,
   pService->start();
 
   NimBLEAdvertising *pAdvertising = NimBLEDevice::getAdvertising();
-  pAdvertising->addServiceUUID(SERVICE_UUID);
+
+  NimBLEAdvertisementData advData;
+  advData.setFlags(0x06); // General Discoverable + BR/EDR Not Supported
+  advData.setCompleteServices(NimBLEUUID(SERVICE_UUID));
+  pAdvertising->setAdvertisementData(advData);
+
+  NimBLEAdvertisementData scanData;
+  scanData.setName("TOWER");
+  pAdvertising->setScanResponseData(scanData);
+
   pAdvertising->start();
 
   Serial.println("BLE Dedicated Service with Config started...");
