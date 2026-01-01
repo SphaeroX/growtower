@@ -24,6 +24,7 @@ const int maxDutyCycle = 255;
 
 // Internal state
 // int currentBrightnessPercent = 0; // Removed
+bool isLightOn = false; // Tracks the current state of the light
 
 void printLocalTime() {
   struct tm timeinfo;
@@ -41,6 +42,28 @@ void setLight(bool on) {
   } else {
     digitalWrite(LIGHT_PIN, LOW);
     Serial.println("Light set to OFF");
+  }
+  isLightOn = on;
+}
+
+void checkTimer() {
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    // If we don't have time yet, we can't do timer logic.
+    return;
+  }
+
+  int hour = timeinfo.tm_hour;
+  // Desired: ON from 18:00 to 14:00
+  // ON if hour >= 18 OR hour < 14
+  bool shouldBeOn = (hour >= 18 || hour < 14);
+
+  // Updates only if state changes to avoid spamming setLight (which prints to
+  // Serial)
+  if (shouldBeOn != isLightOn) {
+    Serial.printf("Timer Update: Time is %02d:%02d. Setting Light to %s\n",
+                  hour, timeinfo.tm_min, shouldBeOn ? "ON" : "OFF");
+    setLight(shouldBeOn);
   }
 }
 
@@ -164,5 +187,9 @@ void loop() {
 
   // Optional: Periodically sync time or just rely on background NTP
   // Minimal blocking in loop
-  delay(10);
+  // Check timer every loop
+  checkTimer();
+
+  // Short delay to avoid WDT trigger but keep responsive
+  delay(100);
 }
