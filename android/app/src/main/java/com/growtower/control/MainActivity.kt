@@ -50,7 +50,12 @@ class MainActivity : AppCompatActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 arrayOf(Manifest.permission.BLUETOOTH_SCAN, Manifest.permission.BLUETOOTH_CONNECT)
             } else {
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
+                // For Android 11 and below, we need FINE_LOCATION to scan
+                arrayOf(
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.BLUETOOTH_ADMIN,
+                        Manifest.permission.BLUETOOTH
+                )
             }
 
     private val permissionLauncher =
@@ -121,7 +126,10 @@ class MainActivity : AppCompatActivity() {
 
         val scanner = bluetoothAdapter!!.bluetoothLeScanner
         val settings =
-                ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build()
+                ScanSettings.Builder()
+                        .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY) // High duty cycle
+                        .setMatchMode(ScanSettings.MATCH_MODE_AGGRESSIVE) // More results
+                        .build()
 
         // val filters =
         // listOf(ScanFilter.Builder().setServiceUuid(ParcelUuid(SERVICE_UUID)).build())
@@ -146,7 +154,7 @@ class MainActivity : AppCompatActivity() {
                                 }
                             }
                         },
-                        10000
+                        15000 // Increased to 15 seconds
                 )
     }
 
@@ -171,7 +179,8 @@ class MainActivity : AppCompatActivity() {
                     if (deviceName == "TOWER" || scanRecordName == "TOWER") {
                         log(">>> TARGET FOUND: TOWER <<<")
                         // Stop scanning and connect
-                        bluetoothAdapter!!.bluetoothLeScanner.stopScan(this)
+                        if (isConnected) return // Already connecting/connected
+                        bluetoothAdapter?.bluetoothLeScanner?.stopScan(this)
                         connectToDevice(device)
                     }
                 }
