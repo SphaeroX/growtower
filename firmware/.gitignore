@@ -1,3 +1,4 @@
 .pio
 .env
 include/secrets.h
+.vscode
