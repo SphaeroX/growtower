@@ -13,8 +13,10 @@ typedef std::function<void(int)> FanCallback;
 typedef std::function<void(int)> IntCallback;
 
 // Initialize BLE with all callbacks
+// Initialize BLE with all callbacks and initial values
 void initBLE(LightCallback lightCb, FanCallback fanCb, IntCallback fanMinCb,
              IntCallback fanMaxCb, IntCallback lightOnCb,
-             IntCallback lightOffCb);
+             IntCallback lightOffCb, bool lightState, int fanVal, int fanMin,
+             int fanMax, int lightOn, int lightOff);
 
 #endif

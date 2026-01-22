@@ -5,7 +5,6 @@
 #include <WiFi.h>
 #include <time.h>
 
-
 // --- Configuration ---
 // Define the pin for the light control (PWM)
 // Please check your actual wiring. D0 is a placeholder provided in the plan.
@@ -24,6 +23,7 @@ const int pwmFreq =
     25000; // Standard for PC fans usually, or 5000 if generic driver
 const int pwmResolution = 8;
 const int maxDutyCycle = 255;
+const int pwmChannel = 0; // Added for Core v2.x compatibility
 
 // Preferences
 Preferences preferences;
@@ -53,7 +53,7 @@ void loadSettings() {
   lightOffHour = preferences.getInt("offHour", 14);
   preferences.end(); // Close
 
-  Serial.printf("Settings loaded: FanMin=%d, FanMax=%d, On=%d, Off=%d\n",
+  Serial.printf("[SYS] Settings loaded: FanMin=%d, FanMax=%d, On=%d, Off=%d\n",
                 fanMinPercent, fanMaxPercent, lightOnHour, lightOffHour);
 }
 
@@ -69,10 +69,10 @@ void printLocalTime() {
 void setLight(bool on) {
   if (on) {
     digitalWrite(LIGHT_PIN, HIGH);
-    Serial.println("Light set to ON");
+    Serial.println("[SYS] Light set to ON");
   } else {
     digitalWrite(LIGHT_PIN, LOW);
-    Serial.println("Light set to OFF");
+    Serial.println("[SYS] Light set to OFF");
   }
   isLightOn = on;
 }
@@ -99,8 +99,9 @@ void checkTimer() {
   // Updates only if state changes to avoid spamming setLight (which prints to
   // Serial)
   if (shouldBeOn != isLightOn) {
-    Serial.printf("Timer Update: Time is %02d:%02d. Setting Light to %s\n",
-                  hour, timeinfo.tm_min, shouldBeOn ? "ON" : "OFF");
+    Serial.printf(
+        "[SYS] Timer Update: Time is %02d:%02d. Setting Light to %s\n", hour,
+        timeinfo.tm_min, shouldBeOn ? "ON" : "OFF");
     setLight(shouldBeOn);
   }
 }
@@ -137,22 +138,10 @@ void setFan(int percent) {
     dutyCycle = map(mappedPercent, 0, 100, hardwareFanMinDuty, 255);
   }
 
-  // New API: ledcWrite(pin, duty)
-  ledcWrite(FAN_PIN, dutyCycle);
+  // Legacy API (Core v2.x): ledcWrite(channel, duty)
+  ledcWrite(pwmChannel, dutyCycle);
 
-  Serial.print("Fan set to input ");
-  Serial.print(percent);
-  Serial.print("% -> Mapped ");
-  // Re-calculate for display
-  int effMin = fanMinPercent;
-  int effMax = fanMaxPercent;
-  if (effMin > effMax)
-    effMin = effMax;
-  Serial.print(map(percent, 1, 100, effMin, effMax));
-
-  Serial.print("% (Duty: ");
-  Serial.print(dutyCycle);
-  Serial.println(")");
+  Serial.printf("[SYS] Fan set to %d%% (Duty: %d)\n", percent, dutyCycle);
 }
 
 // --- Setters with Persistence for BLE ---
@@ -254,32 +243,35 @@ void setup() {
   // Initial State: Check logic? Default off for safety, loop will fix it
   setLight(false);
 
-  // Configure Fan PWM
-  // New API: ledcAttach(pin, freq, resolution)
-  if (!ledcAttach(FAN_PIN, pwmFreq, pwmResolution)) {
-    Serial.println("Fan PWM Setup Failed!");
-  }
+  // Configure Fan PWM (Legacy Core v2.x)
+  // ledcSetup(channel, freq, resolution)
+  // ledcAttachPin(pin, channel)
+  ledcSetup(pwmChannel, pwmFreq, pwmResolution);
+  ledcAttachPin(FAN_PIN, pwmChannel);
   // Initial State: Fan Off
-  setFan(0);
+  setFan(15);
 
-  Serial.println("Starting Firmware...");
+  Serial.println("\n=================================");
+  Serial.println("      🌱 GrowTower Firmware      ");
+  Serial.println("=================================");
 
   // Initialize BLE
   // We need to pass the new setters
+  // We need to pass the new setters and current state
   initBLE(setLight, setFan, setFanMin, setFanMax, setLightOnTime,
-          setLightOffTime);
+          setLightOffTime, isLightOn, 15, fanMinPercent, fanMaxPercent,
+          lightOnHour, lightOffHour);
 
   // Connect to WiFi
   // WIFI_SSID and WIFI_PASS are defined in secrets.h (generated from .env)
 #ifdef WIFI_SSID
-  Serial.print("Connecting to ");
-  Serial.println(WIFI_SSID);
+  Serial.printf("[WIFI] Connecting to %s", WIFI_SSID);
 #ifdef WIFI_PASS
   WiFi.begin(WIFI_SSID, WIFI_PASS);
 #else
   // Fallback or error if PASS is missing but SSID used
   WiFi.begin(WIFI_SSID);
-  Serial.println("Warning: WIFI_PASS not defined.");
+  Serial.println("\n[WIFI] Warning: WIFI_PASS not defined.");
 #endif
 
   int retries = 0;
@@ -291,19 +283,18 @@ void setup() {
   Serial.println("");
 
   if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("WiFi connected.");
-    Serial.print("IP address: ");
+    Serial.print("[WIFI] Connected. IP: ");
     Serial.println(WiFi.localIP());
 
     // Init and get the time
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
     printLocalTime();
   } else {
-    Serial.println("WiFi connection failed.");
+    Serial.println("[WIFI] Connection failed.");
   }
 #else
-  Serial.println(
-      "Error: WIFI_SSID not defined. Check .env and secrets generation.");
+  Serial.println("[WIFI] Error: WIFI_SSID not defined. Check .env and secrets "
+                 "generation.");
 #endif
 }
 
