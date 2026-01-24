@@ -37,3 +37,14 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
 |:---:|:---:|
 | ![Slicer View 1](images/sieve_slicer_1.png) | ![Slicer View 2](images/sieve_slicer_2.png) |
 
+## Current Experiments
+
+1. **Stress Killer CBD (Automatic):**
+   - Currently testing with an automatic strain.
+   - *Note:* While autoflowers can be counterproductive in restricted spaces due to lack of control over size/timing, this run serves primarily as a system stress test.
+
+2. **One-Bud Method (Future Plan):**
+   - **Strain Type:** Feminized seed (Photoperiod), NOT Automatic.
+   - **Technique:** Completely skip the vegetative phase. The plant will be placed directly into the flowering light cycle immediately after germination.
+   - **Goal:** To produce a single main cola (One-Bud). This minimizes lateral growth, saves significant space, and reduces the total cultivation time. The GrowTower's vertical design is exceptionally well-suited for this technique.
+
