@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowTower Controller</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        
+        .card-title {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .status-connected {
+            background: #4CAF50;
+        }
+        
+        .status-disconnected {
+            background: #f44336;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 5px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .control-group {
+            margin: 20px 0;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 5px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 1em;
+            text-align: center;
+        }
+        
+        input[type="number"]::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .value-display {
+            min-width: 50px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            margin: 10px 0;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255,255,255,0.3);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #4CAF50;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        
+        .time-inputs {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .time-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        
+        .log-container {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+            padding: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
+        }
+        
+        .log-entry.error {
+            border-left-color: #f44336;
+        }
+        
+        .log-entry.success {
+            border-left-color: #4CAF50;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 GrowTower Controller</h1>
+        
+        <!-- Connection Card -->
+        <div class="card">
+            <div class="card-title">
+                <span>🔗 Verbindung</span>
+                <span id="connectionStatus" class="status-badge status-disconnected">Getrennt</span>
+            </div>
+            <div style="text-align: center;">
+                <button id="connectBtn" class="btn btn-success">Mit GrowTower verbinden</button>
+                <button id="disconnectBtn" class="btn btn-danger hidden">Trennen</button>
+                <button id="refreshBtn" class="btn hidden">Daten aktualisieren</button>
+            </div>
+            <p style="margin-top: 15px; text-align: center; font-size: 0.9em; opacity: 0.8;">
+                Suche nach "TOWER" Gerät über Bluetooth Low Energy
+            </p>
+            <div style="margin-top: 15px; text-align: center;">
+                <button id="scanAllBtn" class="btn" style="padding: 10px 20px; font-size: 0.9em;">Alle BLE Geräte suchen</button>
+            </div>
+        </div>
+        
+        <!-- Controls Card (Hidden until connected) -->
+        <div id="controlsCard" class="card hidden">
+            <div class="card-title">⚡ Schnellsteuerung</div>
+            
+            <!-- Light Control -->
+            <div class="switch-container">
+                <div>
+                    <div style="font-weight: bold;">💡 Licht</div>
+                    <div style="font-size: 0.9em; opacity: 0.8;">Ein/Ausschalten</div>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="lightSwitch">
+                    <span class="slider"></span>
+                </label>
+            </div>
+            
+            <!-- Fan Speed -->
+            <div class="control-group">
+                <label class="control-label">🌀 Lüftergeschwindigkeit</label>
+                <div class="slider-container">
+                    <input type="range" id="fanSlider" min="0" max="100" value="50">
+                    <span id="fanValue" class="value-display">50%</span>
+                    <button id="setFanBtn" class="btn" style="padding: 8px 20px;">Setzen</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Configuration Card (Hidden until connected) -->
+        <div id="configCard" class="card hidden">
+            <div class="card-title">⚙️ Konfiguration</div>
+            
+            <!-- Fan Range -->
+            <div class="control-group">
+                <label class="control-label">🌀 Lüfter Bereich (Min/Max)</label>
+                <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div>
+                        <div style="font-size: 0.9em; margin-bottom: 5px;">Minimum (%)</div>
+                        <div class="slider-container">
+                            <input type="range" id="fanMinSlider" min="0" max="100" value="0">
+                            <span id="fanMinValue" class="value-display">0%</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.9em; margin-bottom: 5px;">Maximum (%)</div>
+                        <div class="slider-container">
+                            <input type="range" id="fanMaxSlider" min="0" max="100" value="100">
+                            <span id="fanMaxValue" class="value-display">100%</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="saveFanRangeBtn" class="btn" style="margin-top: 15px;">Bereich speichern</button>
+            </div>
+            
+            <!-- Light Schedule -->
+            <div class="control-group">
+                <label class="control-label">🕐 Licht Zeitplan</label>
+                <div class="time-inputs">
+                    <div class="time-input-group">
+                        <label style="font-size: 0.9em;">Einschalten um (Stunde)</label>
+                        <input type="number" id="lightOnHour" min="0" max="23" value="18">
+                    </div>
+                    <div class="time-input-group">
+                        <label style="font-size: 0.9em;">Ausschalten um (Stunde)</label>
+                        <input type="number" id="lightOffHour" min="0" max="23" value="14">
+                    </div>
+                </div>
+                <button id="saveScheduleBtn" class="btn" style="margin-top: 15px;">Zeitplan speichern</button>
+            </div>
+        </div>
+        
+        <!-- Current Values Card (Hidden until connected) -->
+        <div id="valuesCard" class="card hidden">
+            <div class="card-title">📊 Aktuelle Werte</div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">💡 Licht Status</div>
+                    <div id="currentLight" class="info-value">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🌀 Lüfter</div>
+                    <div id="currentFan" class="info-value">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🌀 Lüfter Min</div>
+                    <div id="currentFanMin" class="info-value">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🌀 Lüfter Max</div>
+                    <div id="currentFanMax" class="info-value">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🕐 Licht AN um</div>
+                    <div id="currentOnHour" class="info-value">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">🕐 Licht AUS um</div>
+                    <div id="currentOffHour" class="info-value">-</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Log Card -->
+        <div class="card">
+            <div class="card-title">📝 Ereignis-Log</div>
+            <div id="logContainer" class="log-container">
+                <div class="log-entry">Bereit für Verbindung...</div>
+            </div>
+            <button id="clearLogBtn" class="btn" style="margin-top: 10px; padding: 8px 20px; font-size: 0.9em;">Log leeren</button>
+        </div>
+    </div>
+
+    <script>
+        // BLE UUIDs
+        const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
+        const CHAR_LIGHT = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
+        const CHAR_FAN = '82563452-9477-4b78-953e-38ec6f43e592';
+        const CHAR_FAN_MIN = 'c0b9a304-1234-4567-89ab-cdef01234567';
+        const CHAR_FAN_MAX = 'c0b9a304-1234-4567-89ab-cdef01234568';
+        const CHAR_LIGHT_ON_HOUR = 'c0b9a304-1234-4567-89ab-cdef01234569';
+        const CHAR_LIGHT_OFF_HOUR = 'c0b9a304-1234-4567-89ab-cdef0123456a';
+        
+        let device = null;
+        let server = null;
+        let service = null;
+        let characteristics = {};
+        
+        // UI Elements
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const connectionStatus = document.getElementById('connectionStatus');
+        const controlsCard = document.getElementById('controlsCard');
+        const configCard = document.getElementById('configCard');
+        const valuesCard = document.getElementById('valuesCard');
+        const lightSwitch = document.getElementById('lightSwitch');
+        const fanSlider = document.getElementById('fanSlider');
+        const fanValue = document.getElementById('fanValue');
+        const setFanBtn = document.getElementById('setFanBtn');
+        const fanMinSlider = document.getElementById('fanMinSlider');
+        const fanMinValue = document.getElementById('fanMinValue');
+        const fanMaxSlider = document.getElementById('fanMaxSlider');
+        const fanMaxValue = document.getElementById('fanMaxValue');
+        const saveFanRangeBtn = document.getElementById('saveFanRangeBtn');
+        const lightOnHour = document.getElementById('lightOnHour');
+        const lightOffHour = document.getElementById('lightOffHour');
+        const saveScheduleBtn = document.getElementById('saveScheduleBtn');
+        const logContainer = document.getElementById('logContainer');
+        const clearLogBtn = document.getElementById('clearLogBtn');
+        const scanAllBtn = document.getElementById('scanAllBtn');
+        
+        // Logging
+        function log(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.insertBefore(entry, logContainer.firstChild);
+            console.log(message);
+        }
+        
+        // Check Web Bluetooth support
+        if (!navigator.bluetooth) {
+            log('Web Bluetooth wird nicht unterstützt! Bitte Chrome/Edge verwenden.', 'error');
+            connectBtn.disabled = true;
+        }
+        
+        // Connect to device with filters
+        async function connect() {
+            await performConnection(false);
+        }
+        
+        // Connect scanning all devices
+        async function connectAll() {
+            await performConnection(true);
+        }
+        
+        // Perform connection
+        async function performConnection(acceptAll) {
+            try {
+                if (acceptAll) {
+                    log('Suche nach ALLEN BLE Geräten... (dies zeigt jedes Gerät an)');
+                } else {
+                    log('Suche nach GrowTower Gerät (TOWER)...');
+                }
+                
+                let options;
+                if (acceptAll) {
+                    options = {
+                        acceptAllDevices: true,
+                        optionalServices: [SERVICE_UUID]
+                    };
+                } else {
+                    options = {
+                        filters: [
+                            { name: 'TOWER' },
+                            { namePrefix: 'TOWER' },
+                            { services: [SERVICE_UUID] }
+                        ],
+                        optionalServices: [SERVICE_UUID]
+                    };
+                }
+                
+                device = await navigator.bluetooth.requestDevice(options);
+                
+                log(`Gerät gefunden: ${device.name}`);
+                
+                device.addEventListener('gattserverdisconnected', onDisconnected);
+                
+                log('Verbinde...');
+                server = await device.gatt.connect();
+                
+                // Warte kurz bis Verbindung stabil ist
+                log('Warte auf stabile Verbindung...');
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Prüfe ob Verbindung noch aktiv
+                if (!server.connected) {
+                    throw new Error('Verbindung wurde unterbrochen');
+                }
+                
+                log('Verbunden!');
+                
+                // Retry-Logik für Service-Abruf
+                let retries = 3;
+                while (retries > 0) {
+                    try {
+                        log(`Hole Service... (Versuch ${4 - retries}/3)`);
+                        service = await server.getPrimaryService(SERVICE_UUID);
+                        break;
+                    } catch (e) {
+                        retries--;
+                        if (retries === 0) throw e;
+                        log(`Service-Abruf fehlgeschlagen, versuche erneut...`, 'error');
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                }
+                
+                log('Hole Characteristics...');
+                characteristics.light = await service.getCharacteristic(CHAR_LIGHT);
+                characteristics.fan = await service.getCharacteristic(CHAR_FAN);
+                characteristics.fanMin = await service.getCharacteristic(CHAR_FAN_MIN);
+                characteristics.fanMax = await service.getCharacteristic(CHAR_FAN_MAX);
+                characteristics.lightOnHour = await service.getCharacteristic(CHAR_LIGHT_ON_HOUR);
+                characteristics.lightOffHour = await service.getCharacteristic(CHAR_LIGHT_OFF_HOUR);
+                
+                log('Alle Characteristics geladen!', 'success');
+                
+                // Update UI
+                updateConnectionUI(true);
+                
+                // Read all values
+                await readAllValues();
+                
+            } catch (error) {
+                log(`Fehler: ${error.message}`, 'error');
+                log('Tipp: Falls das Gerät nicht funktioniert, versuche es in den Windows Bluetooth Einstellungen zu entfernen und neu zu koppeln.', 'error');
+                console.error(error);
+            }
+        }
+        
+        // Disconnect
+        async function disconnect() {
+            if (device && device.gatt.connected) {
+                await device.gatt.disconnect();
+            }
+        }
+        
+        // Handle disconnect
+        function onDisconnected(event) {
+            log('Verbindung getrennt', 'error');
+            updateConnectionUI(false);
+            device = null;
+            server = null;
+            service = null;
+            characteristics = {};
+        }
+        
+        // Update UI based on connection state
+        function updateConnectionUI(connected) {
+            if (connected) {
+                connectionStatus.textContent = 'Verbunden';
+                connectionStatus.className = 'status-badge status-connected';
+                connectBtn.classList.add('hidden');
+                disconnectBtn.classList.remove('hidden');
+                refreshBtn.classList.remove('hidden');
+                controlsCard.classList.remove('hidden');
+                configCard.classList.remove('hidden');
+                valuesCard.classList.remove('hidden');
+            } else {
+                connectionStatus.textContent = 'Getrennt';
+                connectionStatus.className = 'status-badge status-disconnected';
+                connectBtn.classList.remove('hidden');
+                disconnectBtn.classList.add('hidden');
+                refreshBtn.classList.add('hidden');
+                controlsCard.classList.add('hidden');
+                configCard.classList.add('hidden');
+                valuesCard.classList.add('hidden');
+            }
+        }
+        
+        // Read all values from device
+        async function readAllValues() {
+            try {
+                // Read light status
+                const lightValue = await characteristics.light.readValue();
+                const lightState = lightValue.getUint8(0);
+                lightSwitch.checked = lightState === 1;
+                document.getElementById('currentLight').textContent = lightState === 1 ? 'AN' : 'AUS';
+                
+                // Read fan speed
+                const fanValue = await characteristics.fan.readValue();
+                const fanSpeed = fanValue.getUint8(0);
+                fanSlider.value = fanSpeed;
+                document.getElementById('fanValue').textContent = fanSpeed + '%';
+                document.getElementById('currentFan').textContent = fanSpeed + '%';
+                
+                // Read fan min
+                const fanMinValue = await characteristics.fanMin.readValue();
+                const fanMin = fanMinValue.getUint8(0);
+                fanMinSlider.value = fanMin;
+                document.getElementById('fanMinValue').textContent = fanMin + '%';
+                document.getElementById('currentFanMin').textContent = fanMin + '%';
+                
+                // Read fan max
+                const fanMaxValue = await characteristics.fanMax.readValue();
+                const fanMax = fanMaxValue.getUint8(0);
+                fanMaxSlider.value = fanMax;
+                document.getElementById('fanMaxValue').textContent = fanMax + '%';
+                document.getElementById('currentFanMax').textContent = fanMax + '%';
+                
+                // Read light on hour
+                const onHourValue = await characteristics.lightOnHour.readValue();
+                const onHour = onHourValue.getUint8(0);
+                lightOnHour.value = onHour;
+                document.getElementById('currentOnHour').textContent = onHour + ':00';
+                
+                // Read light off hour
+                const offHourValue = await characteristics.lightOffHour.readValue();
+                const offHour = offHourValue.getUint8(0);
+                lightOffHour.value = offHour;
+                document.getElementById('currentOffHour').textContent = offHour + ':00';
+                
+                log('Alle Werte aktualisiert!', 'success');
+            } catch (error) {
+                log(`Fehler beim Lesen: ${error.message}`, 'error');
+            }
+        }
+        
+        // Write light state
+        async function setLight(state) {
+            try {
+                const value = new Uint8Array([state ? 1 : 0]);
+                await characteristics.light.writeValue(value);
+                log(`Licht ${state ? 'EIN' : 'AUS'}`, 'success');
+                document.getElementById('currentLight').textContent = state ? 'AN' : 'AUS';
+            } catch (error) {
+                log(`Fehler: ${error.message}`, 'error');
+            }
+        }
+        
+        // Write fan speed
+        async function setFan(speed) {
+            try {
+                const value = new Uint8Array([speed]);
+                await characteristics.fan.writeValue(value);
+                log(`Lüfter auf ${speed}% gesetzt`, 'success');
+                document.getElementById('currentFan').textContent = speed + '%';
+            } catch (error) {
+                log(`Fehler: ${error.message}`, 'error');
+            }
+        }
+        
+        // Write fan range
+        async function setFanRange(min, max) {
+            try {
+                const minValue = new Uint8Array([min]);
+                const maxValue = new Uint8Array([max]);
+                await characteristics.fanMin.writeValue(minValue);
+                await characteristics.fanMax.writeValue(maxValue);
+                log(`Lüfter Bereich: ${min}% - ${max}%`, 'success');
+                document.getElementById('currentFanMin').textContent = min + '%';
+                document.getElementById('currentFanMax').textContent = max + '%';
+            } catch (error) {
+                log(`Fehler: ${error.message}`, 'error');
+            }
+        }
+        
+        // Write light schedule
+        async function setSchedule(onHour, offHour) {
+            try {
+                const onValue = new Uint8Array([onHour]);
+                const offValue = new Uint8Array([offHour]);
+                await characteristics.lightOnHour.writeValue(onValue);
+                await characteristics.lightOffHour.writeValue(offValue);
+                log(`Zeitplan: AN um ${onHour}:00, AUS um ${offHour}:00`, 'success');
+                document.getElementById('currentOnHour').textContent = onHour + ':00';
+                document.getElementById('currentOffHour').textContent = offHour + ':00';
+            } catch (error) {
+                log(`Fehler: ${error.message}`, 'error');
+            }
+        }
+        
+        // Event Listeners
+        connectBtn.addEventListener('click', connect);
+        scanAllBtn.addEventListener('click', connectAll);
+        
+        disconnectBtn.addEventListener('click', () => {
+            disconnect();
+        });
+        
+        refreshBtn.addEventListener('click', readAllValues);
+        
+        lightSwitch.addEventListener('change', (e) => {
+            setLight(e.target.checked);
+        });
+        
+        fanSlider.addEventListener('input', (e) => {
+            fanValue.textContent = e.target.value + '%';
+        });
+        
+        setFanBtn.addEventListener('click', () => {
+            setFan(parseInt(fanSlider.value));
+        });
+        
+        fanMinSlider.addEventListener('input', (e) => {
+            fanMinValue.textContent = e.target.value + '%';
+        });
+        
+        fanMaxSlider.addEventListener('input', (e) => {
+            fanMaxValue.textContent = e.target.value + '%';
+        });
+        
+        saveFanRangeBtn.addEventListener('click', () => {
+            const min = parseInt(fanMinSlider.value);
+            const max = parseInt(fanMaxSlider.value);
+            if (min > max) {
+                log('Fehler: Min darf nicht größer als Max sein!', 'error');
+                return;
+            }
+            setFanRange(min, max);
+        });
+        
+        saveScheduleBtn.addEventListener('click', () => {
+            const onH = parseInt(lightOnHour.value);
+            const offH = parseInt(lightOffHour.value);
+            setSchedule(onH, offH);
+        });
+        
+        clearLogBtn.addEventListener('click', () => {
+            logContainer.innerHTML = '<div class="log-entry">Log geleert...</div>';
+        });
+        
+        // Initial log
+        log('GrowTower Web Controller bereit');
+        log('Klicke "Mit GrowTower verbinden" um zu starten');
+    </script>
+</body>
+</html>

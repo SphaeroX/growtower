@@ -1,6 +1,13 @@
 {
-  "platformio-ide.projectRoot": "${workspaceFolder}/firmware",
-  "platformio-ide.defaultEnvironment": "main",
-  "platformio-ide.buildTask": "PlatformIO: Build (main)",
-  "platformio-ide.uploadTask": "PlatformIO: Upload (main)"
+  "folders": [
+    {
+      "name": "Monorepo Root",
+      "path": "."
+    },
+    {
+      "name": "Firmware Project",
+      "path": "Firmware"
+    }
+  ],
+  "settings": {}
 }
