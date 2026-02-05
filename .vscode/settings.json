@@ -6,7 +6,7 @@
     },
     {
       "name": "Firmware Project",
-      "path": "Firmware"
+      "path": "firmware"
     }
   ],
   "settings": {}
