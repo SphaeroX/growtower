@@ -1,0 +1,6 @@
+{
+  "platformio-ide.projectRoot": "${workspaceFolder}/firmware",
+  "platformio-ide.defaultEnvironment": "main",
+  "platformio-ide.buildTask": "PlatformIO: Build (main)",
+  "platformio-ide.uploadTask": "PlatformIO: Upload (main)"
+}
