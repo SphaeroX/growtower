@@ -27,7 +27,7 @@ metadata:
 ## Instructions
 
 1. Connect ESP32 via USB
-2. Run monitor command
+2. Run monitor command (timeout min 20 secounds)
 3. View real-time logs
 4. Type commands and press Enter
 5. Exit when done
@@ -36,7 +36,7 @@ metadata:
 
 ```powershell
 cd firmware
-pio device monitor
+pio run -t upload -t monitor
 ```
 
 ## Available Serial Commands
