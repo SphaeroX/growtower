@@ -48,14 +48,14 @@ class BLEManager {
         const options = {
             filters: filters.length > 0 ? filters : undefined,
             acceptAllDevices: filters.length === 0,
-            optionalServices: [BLE_UUIDS.SERVICE]
+            optionalServices: [BLE_UUIDS.SERVICE, BLE_UUIDS.SERVICE_ALT]
         };
 
         logger.info('Suche nach BLE Gerät...');
         this.device = await navigator.bluetooth.requestDevice(options);
-        
+
         logger.success(`Gerät gefunden: ${this.device.name || 'Unnamed'} (${this.device.id})`);
-        
+
         // Setup disconnect handler
         this.device.addEventListener('gattserverdisconnected', (e) => {
             this.handleDisconnect(e);
@@ -74,39 +74,39 @@ class BLEManager {
 
         try {
             logger.info('Verbinde mit GATT Server...');
-            
+
             // Connect with timeout
             const connectPromise = this.device.gatt.connect();
             const timeoutPromise = new Promise((_, reject) => {
                 setTimeout(() => reject(new Error('Verbindungs-Timeout')), CONFIG.CONNECTION_TIMEOUT);
             });
-            
+
             this.server = await Promise.race([connectPromise, timeoutPromise]);
-            
+
             logger.success('GATT Verbindung hergestellt');
-            
+
             // Wait for connection to stabilize
             logger.info('Warte auf stabile Verbindung...');
             await this.delay(CONFIG.SERVICE_ACCESS_DELAY);
-            
+
             if (!this.server.connected) {
                 throw new Error('Verbindung wurde unerwartet getrennt');
             }
 
             // Get primary service with retries
             this.service = await this.getServiceWithRetry();
-            
+
             // Get all characteristics
             await this.getAllCharacteristics();
-            
+
             this.isConnected = true;
             logger.success('BLE Verbindung vollständig hergestellt!');
-            
+
             // Notify callbacks
             this.connectionCallbacks.forEach(cb => cb());
-            
+
             return true;
-            
+
         } catch (error) {
             logger.error(`Verbindungsfehler: ${error.message}`);
             this.cleanup();
@@ -119,24 +119,34 @@ class BLEManager {
      */
     async getServiceWithRetry() {
         let lastError;
-        
+
         for (let attempt = 1; attempt <= CONFIG.SERVICE_RETRIES; attempt++) {
             try {
                 logger.info(`Hole Service (Versuch ${attempt}/${CONFIG.SERVICE_RETRIES})...`);
-                const service = await this.server.getPrimaryService(BLE_UUIDS.SERVICE);
-                logger.success('Service gefunden');
-                return service;
+                try {
+                    // Try official service UUID first
+                    logger.info(`Versuche Service ${BLE_UUIDS.SERVICE}...`);
+                    const service = await this.server.getPrimaryService(BLE_UUIDS.SERVICE);
+                    logger.success('Service gefunden (Standard UUID)');
+                    return service;
+                } catch (e1) {
+                    logger.warning(`Standard UUID nicht gefunden, versuche Alternative...`);
+                    // Try alternative UUID (raw bytes mismatch)
+                    const service = await this.server.getPrimaryService(BLE_UUIDS.SERVICE_ALT);
+                    logger.success('Service gefunden (Alternative UUID)');
+                    return service;
+                }
             } catch (error) {
                 lastError = error;
                 logger.warning(`Service-Abruf fehlgeschlagen: ${error.message}`);
-                
+
                 if (attempt < CONFIG.SERVICE_RETRIES) {
                     logger.info(`Warte ${CONFIG.RETRY_DELAY}ms vor erneutem Versuch...`);
                     await this.delay(CONFIG.RETRY_DELAY);
                 }
             }
         }
-        
+
         throw new Error(`Konnte Service nicht abrufen nach ${CONFIG.SERVICE_RETRIES} Versuchen: ${lastError.message}`);
     }
 
@@ -154,7 +164,7 @@ class BLEManager {
         ];
 
         logger.info('Lade Characteristics...');
-        
+
         for (const char of chars) {
             try {
                 this.characteristics[char.name] = await this.service.getCharacteristic(char.uuid);
@@ -164,7 +174,7 @@ class BLEManager {
                 throw error;
             }
         }
-        
+
         logger.success('Alle Characteristics geladen');
     }
 
