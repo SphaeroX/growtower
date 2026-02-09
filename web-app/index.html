@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -680,35 +680,35 @@
 
         <!-- Info Box (shown initially) -->
         <div id="infoBox" class="info-box">
-            <h3>📋 Erste Schritte</h3>
+            <h3>📋 Getting Started</h3>
             <ul>
-                <li>Stellen Sie sicher, dass der ESP32 mit Strom versorgt ist</li>
-                <li>Verwenden Sie Chrome oder Edge (Web Bluetooth wird benötigt)</li>
-                <li>Klicken Sie auf "Mit GrowTower verbinden"</li>
-                <li>Falls keine Geräte angezeigt werden: Entfernen Sie "TOWER" in den Windows Bluetooth Einstellungen</li>
+                <li>Make sure the ESP32 is powered on</li>
+                <li>Use Chrome or Edge (Web Bluetooth required)</li>
+                <li>Click "Connect to GrowTower"</li>
+                <li>If no devices appear: Remove "TOWER" from Windows Bluetooth settings</li>
             </ul>
         </div>
 
         <!-- Connection Card -->
         <div class="card connection-card">
-            <h2 class="card-title"><span>🔗</span> Verbindung</h2>
+            <h2 class="card-title"><span>🔗</span> Connection</h2>
             <div class="card-content">
                 <div class="connection-status">
                     <div class="device-info">
                         <span class="device-label">Status</span>
                         <span id="deviceName" class="device-name">-</span>
                     </div>
-                    <span id="connectionStatus" class="status-badge status-disconnected">Getrennt</span>
+                    <span id="connectionStatus" class="status-badge status-disconnected">Disconnected</span>
                 </div>
                 <div class="connection-buttons">
                     <button id="connectBtn" class="btn">
-                        <span>🔍</span> Mit GrowTower verbinden
+                        <span>🔍</span> Connect to GrowTower
                     </button>
                     <button id="scanAllBtn" class="btn btn-secondary">
-                        <span>📡</span> Alle Geräte suchen
+                        <span>📡</span> Scan All Devices
                     </button>
                     <button id="disconnectBtn" class="btn btn-danger hidden">
-                        <span>🔌</span> Trennen
+                        <span>🔌</span> Disconnect
                     </button>
                 </div>
             </div>
@@ -716,14 +716,14 @@
 
         <!-- Controls Card -->
         <div id="controlsCard" class="card hidden">
-            <h2 class="card-title"><span>⚡</span> Steuerung</h2>
+            <h2 class="card-title"><span>⚡</span> Control</h2>
             
             <!-- Light Control -->
             <div class="control-group">
                 <div class="toggle-container">
                     <div class="toggle-info">
-                        <span class="toggle-label">💡 Licht</span>
-                        <span class="toggle-sublabel">Ein- oder Ausschalten</span>
+                        <span class="toggle-label">💡 Light</span>
+                        <span class="toggle-sublabel">Turn on or off</span>
                     </div>
                     <label class="switch">
                         <input type="checkbox" id="lightSwitch">
@@ -735,24 +735,24 @@
             <!-- Fan Control -->
             <div class="control-group">
                 <div class="control-label">
-                    <span>🌀 Lüfter Geschwindigkeit</span>
+                    <span>🌀 Fan Speed</span>
                     <span id="fanValue" class="control-value">50%</span>
                 </div>
                 <div class="range-container">
                     <input type="range" id="fanSlider" min="0" max="100" value="50">
-                    <button id="setFanBtn" class="btn btn-small">Setzen</button>
+                    <button id="setFanBtn" class="btn btn-small">Set</button>
                 </div>
             </div>
         </div>
 
         <!-- Configuration Card -->
         <div id="configCard" class="card hidden">
-            <h2 class="card-title"><span>⚙️</span> Konfiguration</h2>
+            <h2 class="card-title"><span>⚙️</span> Configuration</h2>
             
             <!-- Fan Range -->
             <div class="control-group">
                 <div class="control-label">
-                    <span>🌀 Lüfter Bereich (Min/Max)</span>
+                    <span>🌀 Fan Range (Min/Max)</span>
                 </div>
                 <div class="range-grid">
                     <div class="range-item">
@@ -771,84 +771,84 @@
                     </div>
                 </div>
                 <div class="action-bar">
-                    <button id="saveFanRangeBtn" class="btn btn-small">Bereich speichern</button>
+                    <button id="saveFanRangeBtn" class="btn btn-small">Save Range</button>
                 </div>
             </div>
 
             <!-- Light Schedule -->
             <div class="control-group">
                 <div class="control-label">
-                    <span>🕐 Licht Zeitplan</span>
+                    <span>🕐 Light Schedule</span>
                 </div>
                 <div class="time-grid">
                     <div class="time-input-group">
-                        <label>Einschalten um</label>
+                        <label>Turn on at</label>
                         <div class="time-input-wrapper">
                             <input type="number" id="lightOnHour" min="0" max="23" value="18">
-                            <span class="time-suffix">:00 Uhr</span>
+                            <span class="time-suffix">:00</span>
                         </div>
                     </div>
                     <div class="time-input-group">
-                        <label>Ausschalten um</label>
+                        <label>Turn off at</label>
                         <div class="time-input-wrapper">
                             <input type="number" id="lightOffHour" min="0" max="23" value="14">
-                            <span class="time-suffix">:00 Uhr</span>
+                            <span class="time-suffix">:00</span>
                         </div>
                     </div>
                 </div>
                 <div class="action-bar">
-                    <button id="saveScheduleBtn" class="btn btn-small">Zeitplan speichern</button>
+                    <button id="saveScheduleBtn" class="btn btn-small">Save Schedule</button>
                 </div>
             </div>
         </div>
 
         <!-- Values Display Card -->
         <div id="valuesCard" class="card hidden">
-            <h2 class="card-title"><span>📊</span> Aktuelle Werte</h2>
+            <h2 class="card-title"><span>📊</span> Current Values</h2>
             <div class="values-grid">
                 <div class="value-item">
-                    <div class="value-label">💡 Licht</div>
-                    <div id="currentLight" class="value-display off">AUS</div>
+                    <div class="value-label">💡 Light</div>
+                    <div id="currentLight" class="value-display off">OFF</div>
                 </div>
                 <div class="value-item">
-                    <div class="value-label">🌀 Lüfter</div>
+                    <div class="value-label">🌀 Fan</div>
                     <div id="currentFan" class="value-display">-</div>
                 </div>
                 <div class="value-item">
-                    <div class="value-label">🌀 Lüfter Min</div>
+                    <div class="value-label">🌀 Fan Min</div>
                     <div id="currentFanMin" class="value-display">-</div>
                 </div>
                 <div class="value-item">
-                    <div class="value-label">🌀 Lüfter Max</div>
+                    <div class="value-label">🌀 Fan Max</div>
                     <div id="currentFanMax" class="value-display">-</div>
                 </div>
                 <div class="value-item">
-                    <div class="value-label">🕐 Licht AN</div>
+                    <div class="value-label">🕐 Light ON</div>
                     <div id="currentOnHour" class="value-display">-</div>
                 </div>
                 <div class="value-item">
-                    <div class="value-label">🕐 Licht AUS</div>
+                    <div class="value-label">🕐 Light OFF</div>
                     <div id="currentOffHour" class="value-display">-</div>
                 </div>
             </div>
             <div class="action-bar">
                 <button id="refreshBtn" class="btn btn-secondary btn-small">
-                    <span>🔄</span> Aktualisieren
+                    <span>🔄</span> Refresh
                 </button>
             </div>
         </div>
 
         <!-- Log Card -->
         <div class="card">
-            <h2 class="card-title"><span>📝</span> Ereignis-Log</h2>
+            <h2 class="card-title"><span>📝</span> Event Log</h2>
             <div id="logContainer" class="log-container">
                 <div class="log-entry">
                     <span class="log-timestamp">[--:--:--]</span>
-                    <span class="log-message">Bereit für Verbindung...</span>
+                    <span class="log-message">Ready for connection...</span>
                 </div>
             </div>
             <div class="log-actions">
-                <button id="clearLogBtn" class="btn btn-secondary btn-small">Log leeren</button>
+                <button id="clearLogBtn" class="btn btn-secondary btn-small">Clear Log</button>
             </div>
         </div>
 
@@ -953,30 +953,30 @@
             async requestDevice(scanAll = false) {
                 const options = {
                     acceptAllDevices: scanAll,
-                    optionalServices: []  // Keine Service-Filter für bessere Kompatibilität
+                    optionalServices: []  // No service filters for better compatibility
                 };
 
                 if (!scanAll) {
-                    // Nur nach Namen filtern, nicht nach Services
+                    // Filter by name only, not by services
                     options.filters = [
                         { name: 'TOWER' }
                     ];
                 }
 
-                logger.info(scanAll ? 'Suche nach allen BLE Geräten...' : 'Suche nach GrowTower...');
+                logger.info(scanAll ? 'Scanning for all BLE devices...' : 'Searching for GrowTower...');
                 this.device = await navigator.bluetooth.requestDevice(options);
                 
-                logger.success(`Gerät gefunden: ${this.device.name || 'Unnamed'} (${this.device.id})`);
+                logger.success(`Device found: ${this.device.name || 'Unnamed'} (${this.device.id})`);
                 
                 this.device.addEventListener('gattserverdisconnected', () => this.handleDisconnect());
                 return this.device;
             }
 
             async connect() {
-                if (!this.device) throw new Error('Kein Gerät ausgewählt');
+                if (!this.device) throw new Error('No device selected');
 
                 try {
-                    logger.info('Verbinde mit GATT Server...');
+                    logger.info('Connecting to GATT Server...');
                     
                     this.server = await Promise.race([
                         this.device.gatt.connect(),
@@ -985,12 +985,12 @@
                         )
                     ]);
 
-                    logger.success('GATT Verbindung hergestellt');
-                    logger.info('Warte auf Verbindungs-Stabilisierung...');
+                    logger.success('GATT connection established');
+                    logger.info('Waiting for connection stabilization...');
                     await this.delay(CONFIG.SERVICE_ACCESS_DELAY);
 
                     if (!this.server.connected) {
-                        throw new Error('Verbindung unterbrochen');
+                        throw new Error('Connection interrupted');
                     }
 
                     // Get service with retries
@@ -1000,12 +1000,12 @@
                     await this.getCharacteristics();
                     
                     this.connected = true;
-                    logger.success('BLE Verbindung vollständig!');
+                    logger.success('BLE connection complete!');
                     
                     if (this.onConnectCallback) this.onConnectCallback();
                     
                 } catch (error) {
-                    logger.error(`Verbindungsfehler: ${error.message}`);
+                    logger.error(`Connection error: ${error.message}`);
                     this.cleanup();
                     throw error;
                 }
@@ -1015,19 +1015,19 @@
                 let lastError;
                 for (let i = 1; i <= CONFIG.SERVICE_RETRIES; i++) {
                     try {
-                        logger.info(`Hole Service (Versuch ${i}/${CONFIG.SERVICE_RETRIES})...`);
+                        logger.info(`Getting service (attempt ${i}/${CONFIG.SERVICE_RETRIES})...`);
                         const svc = await this.server.getPrimaryService(BLE_UUIDS.SERVICE);
-                        logger.success('Service gefunden');
+                        logger.success('Service found');
                         return svc;
                     } catch (e) {
                         lastError = e;
                         if (i < CONFIG.SERVICE_RETRIES) {
-                            logger.warning(`Service-Abruf fehlgeschlagen, versuche erneut...`);
+                            logger.warning(`Service retrieval failed, retrying...`);
                             await this.delay(CONFIG.RETRY_DELAY);
                         }
                     }
                 }
-                throw new Error(`Service nicht gefunden: ${lastError.message}`);
+                throw new Error(`Service not found: ${lastError.message}`);
             }
 
             async getCharacteristics() {
@@ -1040,34 +1040,34 @@
                     ['lightOff', BLE_UUIDS.LIGHT_OFF]
                 ];
 
-                logger.info('Lade Characteristics...');
+                logger.info('Loading characteristics...');
                 for (const [name, uuid] of charDefs) {
                     try {
                         this.chars[name] = await this.service.getCharacteristic(uuid);
-                        logger.info(`✓ ${name} geladen`);
+                        logger.info(`✓ ${name} loaded`);
                     } catch (e) {
-                        logger.error(`✗ ${name} fehlgeschlagen: ${e.message}`);
+                        logger.error(`✗ ${name} failed: ${e.message}`);
                         throw e;
                     }
                 }
-                logger.success('Alle Characteristics geladen');
+                logger.success('All characteristics loaded');
             }
 
             async readValue(name) {
                 const char = this.chars[name];
-                if (!char) throw new Error(`Characteristic ${name} nicht verfügbar`);
+                if (!char) throw new Error(`Characteristic ${name} not available`);
                 const val = await char.readValue();
                 return val.getUint8(0);
             }
 
             async writeValue(name, value) {
                 const char = this.chars[name];
-                if (!char) throw new Error(`Characteristic ${name} nicht verfügbar`);
+                if (!char) throw new Error(`Characteristic ${name} not available`);
                 await char.writeValue(new Uint8Array([value]));
             }
 
             handleDisconnect() {
-                logger.error('Verbindung getrennt');
+                logger.error('Connection lost');
                 this.connected = false;
                 this.cleanup();
                 if (this.onDisconnectCallback) this.onDisconnectCallback();
@@ -1119,9 +1119,9 @@
             }
 
             async readAll() {
-                if (!bleManager.connected) throw new Error('Nicht verbunden');
+                if (!bleManager.connected) throw new Error('Not connected');
 
-                logger.info('Lese alle Werte...');
+                logger.info('Reading all values...');
                 
                 this.state.light.on = (await bleManager.readValue('light')) === 1;
                 this.state.fan.speed = await bleManager.readValue('fan');
@@ -1130,14 +1130,14 @@
                 this.state.schedule.lightOnHour = await bleManager.readValue('lightOn');
                 this.state.schedule.lightOffHour = await bleManager.readValue('lightOff');
 
-                logger.success('Alle Werte gelesen');
+                logger.success('All values read');
                 this.notify();
             }
 
             async setLight(on) {
                 await bleManager.writeValue('light', on ? 1 : 0);
                 this.state.light.on = on;
-                logger.success(`Licht ${on ? 'EIN' : 'AUS'}`);
+                logger.success(`Light ${on ? 'ON' : 'OFF'}`);
                 this.notify();
             }
 
@@ -1145,7 +1145,7 @@
                 speed = Math.max(0, Math.min(100, speed));
                 await bleManager.writeValue('fan', speed);
                 this.state.fan.speed = speed;
-                logger.success(`Lüfter ${speed}%`);
+                logger.success(`Fan ${speed}%`);
                 this.notify();
             }
 
@@ -1156,7 +1156,7 @@
                 await bleManager.writeValue('fanMax', max);
                 this.state.fan.min = min;
                 this.state.fan.max = max;
-                logger.success(`Bereich ${min}%-${max}%`);
+                logger.success(`Range ${min}%-${max}%`);
                 this.notify();
             }
 
@@ -1167,7 +1167,7 @@
                 await bleManager.writeValue('lightOff', offHour);
                 this.state.schedule.lightOnHour = onHour;
                 this.state.schedule.lightOffHour = offHour;
-                logger.success(`Zeitplan ${onHour}:00-${offHour}:00`);
+                logger.success(`Schedule ${onHour}:00-${offHour}:00`);
                 this.notify();
             }
         }
@@ -1218,7 +1218,7 @@
                 
                 // Connection status
                 if (state.connected) {
-                    e.connectionStatus.textContent = 'Verbunden';
+                    e.connectionStatus.textContent = 'Connected';
                     e.connectionStatus.className = 'status-badge status-connected';
                     e.deviceName.textContent = state.deviceName || 'TOWER';
                     e.infoBox.classList.add('hidden');
@@ -1233,7 +1233,7 @@
                     
                     // Update values
                     e.lightSwitch.checked = state.light.on;
-                    e.currentLight.textContent = state.light.on ? 'AN' : 'AUS';
+                    e.currentLight.textContent = state.light.on ? 'ON' : 'OFF';
                     e.currentLight.className = 'value-display ' + (state.light.on ? 'on' : 'off');
                     
                     e.fanSlider.value = state.fan.speed;
@@ -1254,7 +1254,7 @@
                     e.currentOffHour.textContent = state.schedule.lightOffHour + ':00';
                     
                 } else {
-                    e.connectionStatus.textContent = 'Getrennt';
+                    e.connectionStatus.textContent = 'Disconnected';
                     e.connectionStatus.className = 'status-badge status-disconnected';
                     e.deviceName.textContent = '-';
                     
@@ -1282,7 +1282,7 @@
             setLoading(btn, loading) {
                 if (loading) {
                     btn.dataset.originalText = btn.innerHTML;
-                    btn.innerHTML = '<span></span> Warte...';
+                    btn.innerHTML = '<span></span> Wait...';
                     btn.classList.add('btn-loading');
                     btn.disabled = true;
                 } else {
@@ -1299,13 +1299,13 @@
         async function initApp() {
             // Check BLE support
             if (!bleManager.isSupported()) {
-                logger.error('Web Bluetooth wird nicht unterstützt!');
-                logger.error('Bitte Chrome oder Edge verwenden.');
+                logger.error('Web Bluetooth is not supported!');
+                logger.error('Please use Chrome or Edge.');
                 return;
             }
 
-            logger.info('GrowTower Controller v2.0 gestartet');
-            logger.info('Web Bluetooth wird unterstützt ✓');
+            logger.info('GrowTower Controller v2.0 started');
+            logger.info('Web Bluetooth supported ✓');
 
             ui.init();
             stateManager.subscribe(state => ui.update(state));
@@ -1316,7 +1316,7 @@
                 try {
                     await stateManager.readAll();
                 } catch (e) {
-                    logger.error(`Fehler beim Lesen: ${e.message}`);
+                    logger.error(`Error reading: ${e.message}`);
                 }
             });
 
@@ -1331,7 +1331,7 @@
             ui.elements.refreshBtn?.addEventListener('click', refresh);
             ui.elements.clearLogBtn?.addEventListener('click', () => {
                 logger.clear();
-                logger.info('Log geleert');
+                logger.info('Log cleared');
             });
 
             // Light switch
@@ -1339,7 +1339,7 @@
                 try {
                     await stateManager.setLight(e.target.checked);
                 } catch (err) {
-                    logger.error(`Fehler: ${err.message}`);
+                    logger.error(`Error: ${err.message}`);
                     e.target.checked = !e.target.checked;
                 }
             });
@@ -1351,7 +1351,7 @@
                     ui.setLoading(ui.elements.setFanBtn, true);
                     await stateManager.setFanSpeed(vals.fanSpeed);
                 } catch (err) {
-                    logger.error(`Fehler: ${err.message}`);
+                    logger.error(`Error: ${err.message}`);
                 } finally {
                     ui.setLoading(ui.elements.setFanBtn, false);
                 }
@@ -1360,14 +1360,14 @@
             ui.elements.saveFanRangeBtn?.addEventListener('click', async () => {
                 const vals = ui.getValues();
                 if (vals.fanMin > vals.fanMax) {
-                    logger.error('Minimum darf nicht größer als Maximum sein!');
+                    logger.error('Minimum cannot be greater than maximum!');
                     return;
                 }
                 try {
                     ui.setLoading(ui.elements.saveFanRangeBtn, true);
                     await stateManager.setFanRange(vals.fanMin, vals.fanMax);
                 } catch (err) {
-                    logger.error(`Fehler: ${err.message}`);
+                    logger.error(`Error: ${err.message}`);
                 } finally {
                     ui.setLoading(ui.elements.saveFanRangeBtn, false);
                 }
@@ -1379,7 +1379,7 @@
                     ui.setLoading(ui.elements.saveScheduleBtn, true);
                     await stateManager.setSchedule(vals.lightOnHour, vals.lightOffHour);
                 } catch (err) {
-                    logger.error(`Fehler: ${err.message}`);
+                    logger.error(`Error: ${err.message}`);
                 } finally {
                     ui.setLoading(ui.elements.saveScheduleBtn, false);
                 }
@@ -1400,18 +1400,18 @@
                 ui.setLoading(btn, false);
                 
                 if (err.message.includes('cancelled') || err.message.includes('User')) {
-                    logger.info('Abgebrochen vom Benutzer');
+                    logger.info('Cancelled by user');
                 } else {
-                    logger.error(`Fehler: ${err.message}`);
+                    logger.error(`Error: ${err.message}`);
                     if (err.message.includes('disconnected')) {
-                        logger.info('Tipp: Entfernen Sie "TOWER" in Windows Bluetooth Einstellungen');
+                        logger.info('Tip: Remove "TOWER" from Windows Bluetooth settings');
                     }
                 }
             }
         }
 
         async function disconnect() {
-            logger.info('Trenne Verbindung...');
+            logger.info('Disconnecting...');
             await bleManager.disconnect();
             stateManager.setConnected(false);
         }
@@ -1421,7 +1421,7 @@
                 ui.setLoading(ui.elements.refreshBtn, true);
                 await stateManager.readAll();
             } catch (err) {
-                logger.error(`Fehler: ${err.message}`);
+                logger.error(`Error: ${err.message}`);
             } finally {
                 ui.setLoading(ui.elements.refreshBtn, false);
             }
