@@ -1,8 +1,8 @@
 #include "secrets.h"
 #include <Arduino.h>
 #include <ArduinoOTA.h>
+#include <ESPAsyncWebServer.h>
 #include <ESPmDNS.h>
-#include <GrowTowerBLE.h>
 #include <Preferences.h>
 #include <WiFi.h>
 #include <time.h>
@@ -27,9 +27,15 @@ const int HARDWARE_FAN_MIN_DUTY = 13;
 // =============================================================================
 // OTA CONFIGURATION
 // =============================================================================
-const char *OTA_HOSTNAME = "growtower";
-const char *OTA_PASSWORD = "growtower123";  // Change this!
+const char *OTA_PASSWORD = "growtower123";
 const uint16_t OTA_PORT = 3232;
+
+// =============================================================================
+// WEB SERVER CONFIGURATION
+// =============================================================================
+AsyncWebServer server(80);
+const char *DEFAULT_HOSTNAME = "growtower";
+char currentHostname[32] = "growtower";
 
 // =============================================================================
 // NTP CONFIGURATION
@@ -61,6 +67,7 @@ void saveFanMin(int minVal);
 void saveFanMax(int maxVal);
 void saveLightOnHour(int hour);
 void saveLightOffHour(int hour);
+void saveHostname(const char *hostname);
 void setLight(bool on);
 void setFan(int percent);
 void checkTimer();
@@ -70,22 +77,655 @@ void initWiFi();
 void initPWM();
 void printStatus();
 void initOTA();
+void initWebServer();
+String getStatusJSON();
+
+// =============================================================================
+// HTML FRONTEND (Embedded)
+// =============================================================================
+const char index_html[] PROGMEM = R"rawliteral(
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowTower Controller</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .status-title {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .status-value {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .status-value:last-child {
+            margin-bottom: 0;
+        }
+        
+        .status-label {
+            color: #cbd5e1;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        
+        .status-indicator.on {
+            color: #4ade80;
+        }
+        
+        .status-indicator.off {
+            color: #f87171;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor;
+        }
+        
+        .control-group {
+            margin-bottom: 25px;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(74, 222, 128, 0.5);
+            transition: transform 0.2s;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 10px rgba(74, 222, 128, 0.5);
+        }
+        
+        .slider-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 600;
+            color: #4ade80;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-on {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            color: #1a1a2e;
+        }
+        
+        .btn-on:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(74, 222, 128, 0.4);
+        }
+        
+        .btn-off {
+            background: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+            color: #1a1a2e;
+        }
+        
+        .btn-off:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(248, 113, 113, 0.4);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .time-inputs {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .time-input {
+            flex: 1;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #4ade80;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4ade80;
+        }
+        
+        .time-separator {
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        
+        .save-btn {
+            margin-top: 15px;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .message {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .message.success {
+            background: #4ade80;
+            color: #1a1a2e;
+        }
+        
+        .message.error {
+            background: #f87171;
+            color: white;
+        }
+        
+        .current-time {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .status-card {
+                padding: 20px;
+            }
+            
+            button {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌱 GrowTower Controller</h1>
+        
+        <div class="status-card">
+            <div class="status-title">Aktueller Status</div>
+            <div class="status-value">
+                <span class="status-label">Licht:</span>
+                <span class="status-indicator" id="lightStatus">
+                    <span class="dot"></span>
+                    <span id="lightText">-</span>
+                </span>
+            </div>
+            <div class="status-value">
+                <span class="status-label">Lüfter:</span>
+                <span class="status-indicator">
+                    <span id="fanValue">-</span>%
+                </span>
+            </div>
+            <div class="status-value">
+                <span class="status-label">Lüfter Bereich:</span>
+                <span class="status-indicator">
+                    <span id="fanMin">-</span>% - <span id="fanMax">-</span>%
+                </span>
+            </div>
+            <div class="status-value">
+                <span class="status-label">Licht Timer:</span>
+                <span class="status-indicator">
+                    <span id="lightOn">-</span>:00 - <span id="lightOff">-</span>:00
+                </span>
+            </div>
+            <div class="status-value">
+                <span class="status-label">Geräte-Name:</span>
+                <span class="status-indicator" id="hostnameDisplay">
+                    -
+                </span>
+            </div>
+        </div>
+        
+        <div class="status-card">
+            <div class="section-title">Licht Steuerung</div>
+            <div class="button-group">
+                <button class="btn-on" onclick="setLight(true)">Licht AN</button>
+                <button class="btn-off" onclick="setLight(false)">Licht AUS</button>
+            </div>
+        </div>
+        
+        <div class="status-card">
+            <div class="section-title">Lüfter Steuerung</div>
+            <div class="control-group">
+                <label class="control-label">Geschwindigkeit: <span id="fanPercent">30</span>%</label>
+                <div class="slider-container">
+                    <input type="range" id="fanSlider" min="0" max="100" value="30" oninput="updateFanLabel(this.value)">
+                    <span class="slider-value" id="fanDisplay">30%</span>
+                </div>
+            </div>
+            <button class="save-btn" onclick="setFan()">Lüfter einstellen</button>
+        </div>
+        
+        <div class="status-card">
+            <div class="section-title">Lüfter Bereich</div>
+            <div class="control-group">
+                <label class="control-label">Minimum: <span id="fanMinLabel">0</span>%</label>
+                <div class="slider-container">
+                    <input type="range" id="fanMinSlider" min="0" max="100" value="0" oninput="updateFanMinLabel(this.value)">
+                    <span class="slider-value" id="fanMinDisplay">0%</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Maximum: <span id="fanMaxLabel">100</span>%</label>
+                <div class="slider-container">
+                    <input type="range" id="fanMaxSlider" min="0" max="100" value="100" oninput="updateFanMaxLabel(this.value)">
+                    <span class="slider-value" id="fanMaxDisplay">100%</span>
+                </div>
+            </div>
+            <button class="save-btn" onclick="setFanRange()">Bereich speichern</button>
+        </div>
+        
+        <div class="status-card">
+            <div class="section-title">Licht Timer</div>
+            <div class="control-group">
+                <label class="control-label">Einschaltzeit</label>
+                <div class="time-inputs">
+                    <input type="number" id="onHour" min="0" max="23" value="18" class="time-input">
+                    <span class="time-separator">:</span>
+                    <input type="number" value="00" disabled class="time-input" style="opacity: 0.5;">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">Ausschaltzeit</label>
+                <div class="time-inputs">
+                    <input type="number" id="offHour" min="0" max="23" value="14" class="time-input">
+                    <span class="time-separator">:</span>
+                    <input type="number" value="00" disabled class="time-input" style="opacity: 0.5;">
+                </div>
+            </div>
+            <button class="save-btn" onclick="setLightTimer()">Timer speichern</button>
+        </div>
+        
+        <div class="status-card">
+            <div class="section-title">Netzwerk Einstellungen</div>
+            <div class="control-group">
+                <label class="control-label">Geräte-Name (für growtower.local)</label>
+                <input type="text" id="hostnameInput" placeholder="growtower" maxlength="31">
+            </div>
+            <button class="save-btn" onclick="setHostname()">Namen speichern & Neustart</button>
+        </div>
+        
+        <div class="current-time">
+            Letzte Aktualisierung: <span id="lastUpdate">-</span>
+        </div>
+    </div>
+
+    <script>
+        let currentStatus = {};
+        
+        function showMessage(text, type = 'success') {
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            msg.textContent = text;
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 3000);
+        }
+        
+        function updateFanLabel(value) {
+            document.getElementById('fanPercent').textContent = value;
+            document.getElementById('fanDisplay').textContent = value + '%';
+        }
+        
+        function updateFanMinLabel(value) {
+            document.getElementById('fanMinLabel').textContent = value;
+            document.getElementById('fanMinDisplay').textContent = value + '%';
+        }
+        
+        function updateFanMaxLabel(value) {
+            document.getElementById('fanMaxLabel').textContent = value;
+            document.getElementById('fanMaxDisplay').textContent = value + '%';
+        }
+        
+        function updateUI(status) {
+            currentStatus = status;
+            
+            // Light status
+            const lightStatus = document.getElementById('lightStatus');
+            const lightText = document.getElementById('lightText');
+            if (status.light) {
+                lightStatus.className = 'status-indicator on';
+                lightText.textContent = 'AN';
+            } else {
+                lightStatus.className = 'status-indicator off';
+                lightText.textContent = 'AUS';
+            }
+            
+            // Fan values
+            document.getElementById('fanValue').textContent = status.fan;
+            document.getElementById('fanMin').textContent = status.fanMin;
+            document.getElementById('fanMax').textContent = status.fanMax;
+            
+            // Timer
+            document.getElementById('lightOn').textContent = String(status.lightOn).padStart(2, '0');
+            document.getElementById('lightOff').textContent = String(status.lightOff).padStart(2, '0');
+            
+            // Hostname
+            document.getElementById('hostnameDisplay').textContent = status.hostname + '.local';
+            
+            // Update controls if they haven't been touched
+            if (document.activeElement !== document.getElementById('fanSlider')) {
+                document.getElementById('fanSlider').value = status.fan;
+                updateFanLabel(status.fan);
+            }
+            if (document.activeElement !== document.getElementById('fanMinSlider')) {
+                document.getElementById('fanMinSlider').value = status.fanMin;
+                updateFanMinLabel(status.fanMin);
+            }
+            if (document.activeElement !== document.getElementById('fanMaxSlider')) {
+                document.getElementById('fanMaxSlider').value = status.fanMax;
+                updateFanMaxLabel(status.fanMax);
+            }
+            if (document.activeElement !== document.getElementById('onHour')) {
+                document.getElementById('onHour').value = status.lightOn;
+            }
+            if (document.activeElement !== document.getElementById('offHour')) {
+                document.getElementById('offHour').value = status.lightOff;
+            }
+            if (document.activeElement !== document.getElementById('hostnameInput')) {
+                document.getElementById('hostnameInput').value = status.hostname;
+            }
+            
+            // Last update
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('de-DE');
+        }
+        
+        async function fetchStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const status = await response.json();
+                updateUI(status);
+            } catch (error) {
+                console.error('Error fetching status:', error);
+            }
+        }
+        
+        async function setLight(on) {
+            try {
+                const response = await fetch(`/api/light?state=${on ? 1 : 0}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage(on ? 'Licht eingeschaltet' : 'Licht ausgeschaltet');
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Schalten', 'error');
+            }
+        }
+        
+        async function setFan() {
+            const value = document.getElementById('fanSlider').value;
+            try {
+                const response = await fetch(`/api/fan?speed=${value}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage(`Lüfter auf ${value}% eingestellt`);
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Einstellen', 'error');
+            }
+        }
+        
+        async function setFanRange() {
+            const min = document.getElementById('fanMinSlider').value;
+            const max = document.getElementById('fanMaxSlider').value;
+            try {
+                const response = await fetch(`/api/fanrange?min=${min}&max=${max}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage(`Lüfter Bereich: ${min}%-${max}%`);
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Speichern', 'error');
+            }
+        }
+        
+        async function setLightTimer() {
+            const on = document.getElementById('onHour').value;
+            const off = document.getElementById('offHour').value;
+            try {
+                const response = await fetch(`/api/timer?on=${on}&off=${off}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage(`Timer: ${String(on).padStart(2, '0')}:00 - ${String(off).padStart(2, '0')}:00`);
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Speichern', 'error');
+            }
+        }
+        
+        async function setHostname() {
+            const hostname = document.getElementById('hostnameInput').value.trim();
+            if (!hostname) {
+                showMessage('Bitte einen Namen eingeben', 'error');
+                return;
+            }
+            if (!/^[a-zA-Z0-9-]+$/.test(hostname)) {
+                showMessage('Nur Buchstaben, Zahlen und Bindestriche erlaubt', 'error');
+                return;
+            }
+            try {
+                const response = await fetch(`/api/hostname?name=${encodeURIComponent(hostname)}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage('Gerät wird neu gestartet...');
+                    setTimeout(() => {
+                        window.location.href = `http://${hostname}.local`;
+                    }, 5000);
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Speichern', 'error');
+            }
+        }
+        
+        // Initial fetch and periodic updates
+        fetchStatus();
+        setInterval(fetchStatus, 2000);
+    </script>
+</body>
+</html>
+)rawliteral";
 
 // =============================================================================
 // SETUP FUNCTION
 // =============================================================================
 void setup() {
-  // Initialize Serial
   Serial.begin(115200);
-  delay(1000); // Wait for Serial to stabilize
+  delay(1000);
 
   Serial.println("\n");
   Serial.println(
       "╔══════════════════════════════════════════════════════════════╗");
   Serial.println(
-      "║                    🌱 GrowTower v2.0                         ║");
+      "║                    🌱 GrowTower v3.0                         ║");
   Serial.println(
-      "║              Professional Cultivation System                 ║");
+      "║           Web-Based Cultivation System                       ║");
   Serial.println(
       "╚══════════════════════════════════════════════════════════════╝");
   Serial.println("\n[SYS] System initializing...\n");
@@ -97,30 +737,14 @@ void setup() {
   // Initialize Light pin
   Serial.println("[SYS] Initializing light control...");
   pinMode(LIGHT_PIN, OUTPUT);
-  setLight(false); // Start with light off for safety
+  setLight(false);
 
   // Initialize Fan PWM
   Serial.println("[SYS] Initializing fan PWM...");
   initPWM();
   setFan(currentFanSpeed);
 
-  // Initialize BLE
-  Serial.println("[SYS] Initializing BLE server...");
-  growtower_ble_init(setLight,         // Light callback
-                     setFan,           // Fan callback
-                     saveFanMin,       // Fan min callback
-                     saveFanMax,       // Fan max callback
-                     saveLightOnHour,  // Light on hour callback
-                     saveLightOffHour, // Light off hour callback
-                     isLightOn,        // Initial light state
-                     currentFanSpeed,  // Initial fan speed
-                     fanMinPercent,    // Initial fan min
-                     fanMaxPercent,    // Initial fan max
-                     lightOnHour,      // Initial light on hour
-                     lightOffHour      // Initial light off hour
-  );
-
-  // Initialize WiFi and NTP
+  // Initialize WiFi
   Serial.println("[SYS] Initializing WiFi...");
   initWiFi();
 
@@ -128,21 +752,23 @@ void setup() {
   Serial.println("[SYS] Initializing OTA...");
   initOTA();
 
-  // Print initial status
+  // Initialize Web Server
+  Serial.println("[SYS] Initializing Web Server...");
+  initWebServer();
+
   Serial.println("\n[SYS] Initialization complete!");
   printStatus();
-  Serial.println(
-      "\n[SYS] Ready for commands. Type 'HELP' for available commands.\n");
+  Serial.println("\n[SYS] Ready. Access the controller at: http://" +
+                 String(currentHostname) + ".local\n");
 }
 
 // =============================================================================
 // MAIN LOOP
 // =============================================================================
 void loop() {
-  // Handle OTA updates
   ArduinoOTA.handle();
+  checkTimer();
 
-  // Check for serial commands
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
     input.trim();
@@ -151,10 +777,6 @@ void loop() {
     }
   }
 
-  // Check timer for automatic light control
-  checkTimer();
-
-  // Small delay to prevent WDT issues
   delay(100);
 }
 
@@ -162,7 +784,6 @@ void loop() {
 // PWM INITIALIZATION
 // =============================================================================
 void initPWM() {
-  // Configure PWM using legacy ESP32 API
   ledcSetup(PWM_CHANNEL, PWM_FREQUENCY, PWM_RESOLUTION);
   ledcAttachPin(FAN_PIN, PWM_CHANNEL);
   Serial.printf("[PWM] Initialized: Channel=%d, Freq=%dHz, Resolution=%dbit\n",
@@ -200,12 +821,10 @@ void initWiFi() {
     configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER);
     printLocalTime();
   } else {
-    Serial.println("[WIFI] Connection failed! Continuing without WiFi...");
-    Serial.println("[WIFI] Timer functions will not work without time sync.");
+    Serial.println("[WIFI] Connection failed!");
   }
 #else
   Serial.println("[WIFI] Error: WIFI_SSID not defined in secrets.h");
-  Serial.println("[WIFI] Create firmware/.env file with your WiFi credentials");
 #endif
 }
 
@@ -219,25 +838,25 @@ void initOTA() {
   }
 
   // Configure mDNS
-  if (!MDNS.begin(OTA_HOSTNAME)) {
+  if (!MDNS.begin(currentHostname)) {
     Serial.println("[OTA] Error setting up mDNS responder!");
     return;
   }
-  Serial.printf("[OTA] mDNS responder started: %s.local\n", OTA_HOSTNAME);
+  Serial.printf("[OTA] mDNS responder started: %s.local\n", currentHostname);
+
+  // Add web server service to mDNS
+  MDNS.addService("http", "tcp", 80);
 
   // Configure ArduinoOTA
-  ArduinoOTA.setHostname(OTA_HOSTNAME);
+  ArduinoOTA.setHostname(currentHostname);
   ArduinoOTA.setPort(OTA_PORT);
-  // ArduinoOTA.setPassword(OTA_PASSWORD);  // Uncomment to enable password
 
   ArduinoOTA.onStart([]() {
     String type = ArduinoOTA.getCommand() == U_FLASH ? "sketch" : "filesystem";
     Serial.printf("[OTA] Start updating %s\n", type.c_str());
   });
 
-  ArduinoOTA.onEnd([]() {
-    Serial.println("[OTA] Update complete");
-  });
+  ArduinoOTA.onEnd([]() { Serial.println("[OTA] Update complete"); });
 
   ArduinoOTA.onProgress([](unsigned int progress, unsigned int total) {
     Serial.printf("[OTA] Progress: %u%%\r", (progress / (total / 100)));
@@ -260,25 +879,151 @@ void initOTA() {
 
   ArduinoOTA.begin();
   Serial.printf("[OTA] Ready on port %d\n", OTA_PORT);
-  Serial.printf("[OTA] Upload command: pio run -t upload -e main_ota\n");
+}
+
+// =============================================================================
+// WEB SERVER INITIALIZATION
+// =============================================================================
+void initWebServer() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("[WEB] WiFi not connected, Web Server disabled");
+    return;
+  }
+
+  // Main page
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send_P(200, "text/html", index_html);
+  });
+
+  // API: Get status
+  server.on("/api/status", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(200, "application/json", getStatusJSON());
+  });
+
+  // API: Set light
+  server.on("/api/light", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("state")) {
+      int state = request->getParam("state")->value().toInt();
+      setLight(state == 1);
+      request->send(200, "application/json", "{\"success\":true}");
+    } else {
+      request->send(400, "application/json",
+                    "{\"success\":false,\"error\":\"Missing state param\"}");
+    }
+  });
+
+  // API: Set fan speed
+  server.on("/api/fan", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("speed")) {
+      int speed = request->getParam("speed")->value().toInt();
+      setFan(speed);
+      request->send(200, "application/json", "{\"success\":true}");
+    } else {
+      request->send(400, "application/json",
+                    "{\"success\":false,\"error\":\"Missing speed param\"}");
+    }
+  });
+
+  // API: Set fan range
+  server.on("/api/fanrange", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("min") && request->hasParam("max")) {
+      int min = request->getParam("min")->value().toInt();
+      int max = request->getParam("max")->value().toInt();
+      saveFanMin(min);
+      saveFanMax(max);
+      request->send(200, "application/json", "{\"success\":true}");
+    } else {
+      request->send(400, "application/json",
+                    "{\"success\":false,\"error\":\"Missing params\"}");
+    }
+  });
+
+  // API: Set light timer
+  server.on("/api/timer", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("on") && request->hasParam("off")) {
+      int on = request->getParam("on")->value().toInt();
+      int off = request->getParam("off")->value().toInt();
+      saveLightOnHour(on);
+      saveLightOffHour(off);
+      request->send(200, "application/json", "{\"success\":true}");
+    } else {
+      request->send(400, "application/json",
+                    "{\"success\":false,\"error\":\"Missing params\"}");
+    }
+  });
+
+  // API: Set hostname
+  server.on("/api/hostname", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("name")) {
+      String name = request->getParam("name")->value();
+      saveHostname(name.c_str());
+      request->send(200, "application/json",
+                    "{\"success\":true,\"message\":\"Rebooting...\"}");
+      delay(1000);
+      ESP.restart();
+    } else {
+      request->send(400, "application/json",
+                    "{\"success\":false,\"error\":\"Missing name param\"}");
+    }
+  });
+
+  // 404 handler
+  server.onNotFound(
+      [](AsyncWebServerRequest *request) { request->send(404, "text/plain", "Not Found"); });
+
+  server.begin();
+  Serial.println("[WEB] Web server started on port 80");
+}
+
+// =============================================================================
+// STATUS JSON GENERATOR
+// =============================================================================
+String getStatusJSON() {
+  struct tm timeinfo;
+  bool hasTime = getLocalTime(&timeinfo);
+
+  String json = "{";
+  json += "\"light\":" + String(isLightOn ? "true" : "false") + ",";
+  json += "\"fan\":" + String(currentFanSpeed) + ",";
+  json += "\"fanMin\":" + String(fanMinPercent) + ",";
+  json += "\"fanMax\":" + String(fanMaxPercent) + ",";
+  json += "\"lightOn\":" + String(lightOnHour) + ",";
+  json += "\"lightOff\":" + String(lightOffHour) + ",";
+  json += "\"hostname\":\"" + String(currentHostname) + "\",";
+  json += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
+  json += "\"wifiConnected\":" + String(WiFi.status() == WL_CONNECTED ? "true" : "false") + ",";
+  json += "\"hasTime\":" + String(hasTime ? "true" : "false");
+  if (hasTime) {
+    char timeStr[25];
+    strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
+    json += ",\"currentTime\":\"" + String(timeStr) + "\"";
+  }
+  json += "}";
+  return json;
 }
 
 // =============================================================================
 // SETTINGS MANAGEMENT
 // =============================================================================
 void loadSettings() {
-  preferences.begin("growtower", true); // Read-only mode
+  preferences.begin("growtower", true);
 
   fanMinPercent = preferences.getInt("fanMin", 0);
   fanMaxPercent = preferences.getInt("fanMax", 100);
   lightOnHour = preferences.getInt("onHour", 18);
   lightOffHour = preferences.getInt("offHour", 14);
 
+  // Load hostname with default fallback
+  String savedHostname = preferences.getString("hostname", DEFAULT_HOSTNAME);
+  strncpy(currentHostname, savedHostname.c_str(), sizeof(currentHostname) - 1);
+  currentHostname[sizeof(currentHostname) - 1] = '\0';
+
   preferences.end();
 
-  Serial.printf("[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, "
-                "LightOff=%d:00\n",
-                fanMinPercent, fanMaxPercent, lightOnHour, lightOffHour);
+  Serial.printf(
+      "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, LightOff=%d:00, "
+      "Hostname=%s\n",
+      fanMinPercent, fanMaxPercent, lightOnHour, lightOffHour, currentHostname);
 }
 
 void saveFanMin(int minVal) {
@@ -293,8 +1038,6 @@ void saveFanMin(int minVal) {
   preferences.end();
 
   Serial.printf("[CONFIG] Fan Min saved: %d%%\n", fanMinPercent);
-
-  // Refresh current fan speed with new min/max
   setFan(currentFanSpeed);
 }
 
@@ -310,8 +1053,6 @@ void saveFanMax(int maxVal) {
   preferences.end();
 
   Serial.printf("[CONFIG] Fan Max saved: %d%%\n", fanMaxPercent);
-
-  // Refresh current fan speed with new min/max
   setFan(currentFanSpeed);
 }
 
@@ -327,7 +1068,7 @@ void saveLightOnHour(int hour) {
   preferences.end();
 
   Serial.printf("[CONFIG] Light On Hour saved: %d:00\n", lightOnHour);
-  checkTimer(); // Re-check immediately
+  checkTimer();
 }
 
 void saveLightOffHour(int hour) {
@@ -342,7 +1083,18 @@ void saveLightOffHour(int hour) {
   preferences.end();
 
   Serial.printf("[CONFIG] Light Off Hour saved: %d:00\n", lightOffHour);
-  checkTimer(); // Re-check immediately
+  checkTimer();
+}
+
+void saveHostname(const char *hostname) {
+  preferences.begin("growtower", false);
+  preferences.putString("hostname", hostname);
+  preferences.end();
+
+  strncpy(currentHostname, hostname, sizeof(currentHostname) - 1);
+  currentHostname[sizeof(currentHostname) - 1] = '\0';
+
+  Serial.printf("[CONFIG] Hostname saved: %s\n", currentHostname);
 }
 
 // =============================================================================
@@ -357,16 +1109,12 @@ void setLight(bool on) {
     Serial.println("[LIGHT] State: OFF");
   }
   isLightOn = on;
-
-  // Update BLE characteristic
-  growtower_ble_update_light(on);
 }
 
 // =============================================================================
 // FAN CONTROL
 // =============================================================================
 void setFan(int percent) {
-  // Clamp input
   if (percent < 0)
     percent = 0;
   if (percent > 100)
@@ -376,32 +1124,23 @@ void setFan(int percent) {
   int dutyCycle = 0;
 
   if (percent == 0) {
-    dutyCycle = 0; // Fan off
+    dutyCycle = 0;
   } else {
-    // Ensure min <= max
     int effectiveMin = fanMinPercent;
     int effectiveMax = fanMaxPercent;
     if (effectiveMin > effectiveMax) {
       effectiveMin = effectiveMax;
     }
 
-    // Map input to effective range
     long mappedPercent = map(percent, 1, 100, effectiveMin, effectiveMax);
-
-    // Map to hardware duty cycle
-    dutyCycle =
-        map(mappedPercent, 0, 100, HARDWARE_FAN_MIN_DUTY, MAX_DUTY_CYCLE);
+    dutyCycle = map(mappedPercent, 0, 100, HARDWARE_FAN_MIN_DUTY, MAX_DUTY_CYCLE);
   }
 
-  // Apply PWM
   ledcWrite(PWM_CHANNEL, dutyCycle);
 
   Serial.printf(
       "[FAN] Speed: %d%% (Effective Range: %d%%-%d%%, Duty: %d/255)\n", percent,
       fanMinPercent, fanMaxPercent, dutyCycle);
-
-  // Update BLE characteristic
-  growtower_ble_update_fan(percent);
 }
 
 // =============================================================================
@@ -410,22 +1149,18 @@ void setFan(int percent) {
 void checkTimer() {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
-    return; // No time available yet
+    return;
   }
 
   int currentHour = timeinfo.tm_hour;
   bool shouldBeOn = false;
 
-  // Calculate if light should be on
   if (lightOnHour > lightOffHour) {
-    // Spanning midnight (e.g., 18:00 to 14:00)
     shouldBeOn = (currentHour >= lightOnHour || currentHour < lightOffHour);
   } else {
-    // Same day (e.g., 08:00 to 20:00)
     shouldBeOn = (currentHour >= lightOnHour && currentHour < lightOffHour);
   }
 
-  // Only update if state changed
   if (shouldBeOn != isLightOn) {
     Serial.printf("[TIMER] Time: %02d:%02d | Auto-switching light %s\n",
                   currentHour, timeinfo.tm_min, shouldBeOn ? "ON" : "OFF");
@@ -453,11 +1188,11 @@ void printStatus() {
   Serial.printf("  Light:        %s\n", isLightOn ? "ON ✓" : "OFF ✗");
   Serial.printf("  Fan Speed:    %d%%\n", currentFanSpeed);
   Serial.printf("  Fan Range:    %d%% - %d%%\n", fanMinPercent, fanMaxPercent);
-  Serial.printf("  Light Timer:  %02d:00 - %02d:00\n", lightOnHour,
-                lightOffHour);
-  Serial.printf("  BLE Status:   %s (%d client(s))\n",
-                growtower_ble_is_connected() ? "Connected ✓" : "Advertising...",
-                growtower_ble_get_connected_count());
+  Serial.printf("  Light Timer:  %02d:00 - %02d:00\n", lightOnHour, lightOffHour);
+  Serial.printf("  Hostname:     %s.local\n", currentHostname);
+  Serial.printf("  IP Address:   %s\n", WiFi.localIP().toString().c_str());
+  Serial.printf("  Web Server:   %s\n",
+                WiFi.status() == WL_CONNECTED ? "Running ✓" : "Disabled ✗");
   Serial.println("═══════════════════════════════════════════════\n");
 }
 
@@ -481,6 +1216,7 @@ void processCommand(String command) {
     Serial.println("║  FANMAX <0-100>  - Set fan maximum speed      ║");
     Serial.println("║  LIGHTON <0-23>  - Set light ON hour          ║");
     Serial.println("║  LIGHTOFF <0-23> - Set light OFF hour         ║");
+    Serial.println("║  HOST <name>     - Set hostname               ║");
     Serial.println("║  TIME            - Show current time          ║");
     Serial.println("║  STATUS          - Show system status         ║");
     Serial.println("║  RESET           - Reset all settings         ║");
@@ -515,6 +1251,16 @@ void processCommand(String command) {
     valueStr.trim();
     int value = valueStr.toInt();
     saveLightOffHour(value);
+  } else if (command.startsWith("HOST ")) {
+    String valueStr = command.substring(5);
+    valueStr.trim();
+    valueStr.toLowerCase();
+    if (valueStr.length() > 0 && valueStr.length() < 32) {
+      saveHostname(valueStr.c_str());
+      Serial.println("[CMD] Hostname saved. Restart to apply changes.");
+    } else {
+      Serial.println("[CMD] Invalid hostname (1-31 chars)");
+    }
   } else if (command == "TIME") {
     printLocalTime();
   } else if (command == "STATUS") {

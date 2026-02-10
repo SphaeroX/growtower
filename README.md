@@ -7,6 +7,8 @@ A minimalist, vertical grow tower designed for home cannabis cultivation. This p
 - **Vertical Grow System:** Maximizes vertical space usage.
 - **Integrated Odor Control:** Features a custom-designed activated carbon filter housing.
 - **Silent & Efficient Cooling:**  Uses a standard Arctic P14 generic PC fan for both airflow and cooling.
+- **Web-based Control:** Control your GrowTower from any browser at `http://growtower.local` - no app required!
+- **Automatic Light Timer:** Configurable 24h light schedule with web interface.
 - **Minimalist Design:** clean aesthetics that blend into a modern home environment.
 - **Beginner Friendly:**  Simple assembly and maintenance. Hard to make mistakes.
 - **3D Printable:**  Most structural components are designed to be 3D printed.
@@ -25,6 +27,29 @@ The GrowTower utilizes a forced-air system where the Arctic P14 fan pulls air th
 ## Getting Started
 
 See [BOM.md](BOM.md) for a full list of materials required to build your own GrowTower.
+
+## Web Controller
+
+The GrowTower includes a built-in web server for easy control via WiFi:
+
+- **Access:** Open `http://growtower.local` in any browser after connecting to WiFi
+- **Features:**
+  - Real-time status dashboard (light, fan, timer)
+  - Manual light control (ON/OFF)
+  - PWM fan speed adjustment (0-100%) with configurable min/max range
+  - 24-hour light timer with automatic scheduling
+  - Configurable device hostname (e.g., `mytower.local`)
+  - REST API for custom integrations
+
+### Quick Start
+
+1. Flash the ESP32 with the firmware from the `firmware/` directory
+2. Configure WiFi credentials in `firmware/.env` (see [firmware/README.md](firmware/README.md))
+3. Connect to power - the device will automatically connect to WiFi
+4. Open `http://growtower.local` in your browser
+5. Control your GrowTower from anywhere on your network!
+
+For detailed firmware documentation, see [firmware/README.md](firmware/README.md).
 
 ## Internal Sieve Printing Instructions
 
