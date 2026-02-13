@@ -51,6 +51,19 @@ The GrowTower includes a built-in web server for easy control via WiFi:
 
 For detailed firmware documentation, see [firmware/README.md](firmware/README.md).
 
+## Plant Pot Printing Instructions
+
+For optimal results without supports, the plant pot can be cut in the slicer and glued together after printing:
+
+1. **Cut the Pot:** In your slicer, use the cut tool to split the pot horizontally into two parts.
+2. **Print Both Parts:** Print both halves without supports, flat side down.
+3. **Glue Together:** After printing, glue the two halves together using super glue or epoxy.
+
+| | |
+|:---:|:---:|
+| ![Plant Pot Cut 1](images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](images/plant_pot_slicer_2.png.png) |
+| *Cut position in slicer* | *Separated parts ready for printing* |
+
 ## Internal Sieve Printing Instructions
 
 The Internal Sieve model is intentionally designed to be "closed". To print it correctly:
