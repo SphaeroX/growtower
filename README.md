@@ -62,7 +62,7 @@ For optimal results without supports, the plant pot can be cut in the slicer and
 | | |
 |:---:|:---:|
 | ![Plant Pot Cut 1](images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](images/plant_pot_slicer_2.png.png) |
-| *Cut position in slicer* | *Separated parts ready for printing* |
+| *Upper Part* | *Lower Part* |
 
 ## Internal Sieve Printing Instructions
 
