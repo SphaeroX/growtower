@@ -24,6 +24,19 @@ A minimalist, vertical grow tower designed for home cannabis cultivation. This p
 
 The GrowTower utilizes a forced-air system where the Arctic P14 fan pulls air through the tower, ensuring fresh CO2 for the plant and maintaining optimal temperatures. The air is then pushed through an activated carbon filter before exiting, neutralizing any odors. The vertical stacking design allows for modularity and easy height adjustment as the plant grows.
 
+## Semi-Hydroponic Growing System
+
+The GrowTower operates as a **semi-hydroponic system** using a drip irrigation method. Water is delivered directly to the plant's root zone through a drip system, providing precise moisture control while maintaining some of the benefits of traditional soil growing.
+
+### Recommended Growing Medium
+
+For optimal results and to prevent root rot in this semi-hydroponic setup, we highly recommend:
+
+- **Composana Qualitätsblumenerde** mixed with **40% Perlite**
+- This 1:1 mixture ensures excellent drainage and aeration
+- The high perlite content prevents waterlogging and root rot, which is crucial when working with a drip system
+- Avoid using regular potting soil without amendments, as it retains too much moisture
+
 ## Getting Started
 
 See [BOM.md](BOM.md) for a full list of materials required to build your own GrowTower.
