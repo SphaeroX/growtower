@@ -67,6 +67,7 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
 1. **Stress Killer CBD (Automatic):**
    - Currently testing with an automatic strain.
    - *Note:* While autoflowers can be counterproductive in restricted spaces due to lack of control over size/timing, this run serves primarily as a system stress test.
+   - **Results so far:** Everything is running very well! The only issue encountered is that the roots are getting too much water. This happened because regular soil without perlite was used, and the water reservoir was always kept full. **Lesson learned:** If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
 
 2. **One-Bud Method (Future Plan):**
    - **Strain Type:** Feminized seed (Photoperiod), NOT Automatic.
