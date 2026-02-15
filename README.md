@@ -93,7 +93,11 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
 1. **Stress Killer CBD (Automatic):**
    - Currently testing with an automatic strain.
    - *Note:* While autoflowers can be counterproductive in restricted spaces due to lack of control over size/timing, this run serves primarily as a system stress test.
-   - **Results so far:** Everything is running very well! The only issue encountered is that the roots are getting too much water. This happened because regular soil without perlite was used, and the water reservoir was always kept full. **Lesson learned:** If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
+   - **Results so far:** The wick system with no-name soil (without perlite) created too much moisture at the roots, which blocked nutrient uptake. The leaves are very yellow, and although the plant is flowering, it shouldn't be this harsh already. 
+   - **The Good:** The buds are beautiful—large and dense!
+   - **The Not-So-Good:** The lower part of the plant is bushy, which hopefully won't happen with the One-Bud method.
+   - **Expected Harvest:** Beginning of March 2026 (if it survives that long).
+   - **Lesson learned:** The wick system with regular soil without perlite was the problem. Too much moisture at the roots blocks nutrient uptake. If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
 
 ## Grow #2 - One-Bud Method with Improved Setup
 
