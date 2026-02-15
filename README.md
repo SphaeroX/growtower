@@ -95,8 +95,28 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
    - *Note:* While autoflowers can be counterproductive in restricted spaces due to lack of control over size/timing, this run serves primarily as a system stress test.
    - **Results so far:** Everything is running very well! The only issue encountered is that the roots are getting too much water. This happened because regular soil without perlite was used, and the water reservoir was always kept full. **Lesson learned:** If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
 
-2. **One-Bud Method (Future Plan):**
-   - **Strain Type:** Feminized seed (Photoperiod), NOT Automatic.
-   - **Technique:** Completely skip the vegetative phase. The plant will be placed directly into the flowering light cycle immediately after germination.
-   - **Goal:** To produce a single main cola (One-Bud). This minimizes lateral growth, saves significant space, and reduces the total cultivation time. The GrowTower's vertical design is exceptionally well-suited for this technique.
+## Grow #2 - One-Bud Method with Improved Setup
+
+For the second grow, I will implement the One-Bud technique with an improved setup based on lessons learned from the first grow and forum feedback.
+
+### Technique
+
+- **Strain Type:** Feminized seed (Photoperiod), NOT Automatic
+- **Approach:** Completely skip the vegetative phase. The plant will be placed directly into the flowering light cycle (12/12) immediately after germination
+- **Goal:** Produce a single main cola (One-Bud). This minimizes lateral growth, saves significant space, and reduces the total cultivation time. The GrowTower's vertical design is exceptionally well-suited for this technique.
+
+### Setup Changes for Grow #2
+
+- **Growing Medium:** Composana Qualitätsblumenerde mixed with **40% Perlite** (instead of regular soil without amendments)
+
+- **Fertilizer Strategy (based on forum feedback):**
+  - Use only **50% of manufacturer dosage** (reduce by half)
+  - Target EC value: **max 1.5** (previously 1.8 was too high)
+  - This prevents over-fertilization and nutrient burn
+  - Monitor EC in drain water to check uptake
+  
+- **pH Management:**
+  - Use proper pH-down products (e.g., Canna pH- Bloom)
+  - Avoid pH-down with citric acid for pH correction
+  - Target pH range: 6.0-6.3
 
