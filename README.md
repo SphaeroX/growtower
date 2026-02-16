@@ -124,3 +124,25 @@ For the second grow, I will implement the One-Bud technique with an improved set
   - Avoid pH-down with citric acid for pH correction
   - Target pH range: 6.0-6.3
 
+### Alternative Substrate & Watering Strategy
+
+Based on experienced grower feedback, here is an optimized approach that can be used instead of or alongside the Composana setup:
+
+**Substrate Mix:**
+- **50% soil mixed with 50% Perlite/Coco** (instead of 40% perlite)
+- Do not compress the substrate too much when bottom feeding
+- Alternative base substrates: Floragard TKS2 or Floragard Growmix + Peligran Premium Perlite (~25% with wicks if not over-compressing)
+
+**Watering Strategy:**
+- **Phase 1 (First 2 weeks in final pot):** Water from above with drainage
+- **Phase 2 (After 2 weeks):** Switch to bottom feeding
+- This gives roots enough time to establish throughout the entire pot
+- Starting bottom feeding too early risks waterlogging in unrooted areas, preventing root growth there and resulting in uneven root distribution at harvest
+
+**Important:** Bottom feeding significantly dilutes the substrate over time, requiring earlier fertilization.
+
+**Recommended Fertilizers (budget-friendly & proven):**
+- **Compo Complete** (all-in-one solution)
+- **Hesi** (TNT + Bloom + Root Complex + Hesi Boost - comprehensive, cheaper and better than Hy-Pro)
+- **Canna pH-** (phosphoric acid for pH adjustment)
+
