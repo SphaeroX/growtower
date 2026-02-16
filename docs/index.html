@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrowTower - Your Smart Vertical Grow Cabinet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #3b82f6;
+            --accent: #8b5cf6;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gray: #64748b;
+            --card-bg: #1e293b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(2, 6, 23, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+        }
+
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--light);
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Build Section */
+        .build {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-content p {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        .step-content ul {
+            list-style: none;
+            color: var(--gray);
+        }
+
+        .step-content li {
+            padding: 0.3rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .step-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Gallery */
+        .gallery {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .gallery-item p {
+            padding: 1rem;
+            color: var(--gray);
+            text-align: center;
+        }
+
+        /* Planting Section */
+        .planting {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+
+        .planting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .planting-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .planting-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .planting-card p, .planting-card li {
+            color: var(--gray);
+            margin-bottom: 0.8rem;
+        }
+
+        .planting-card ul {
+            list-style: none;
+        }
+
+        .planting-card li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .planting-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+
+        .highlight {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .highlight p {
+            color: var(--light);
+            margin: 0;
+        }
+
+        /* Tips Section */
+        .tips {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .tip-card {
+            background: rgba(255,255,255,0.03);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .tip-card.warning {
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+
+        .tip-card.success {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .tip-card.info {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .tip-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .tip-card.warning .tip-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .tip-card.success .tip-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--primary);
+        }
+
+        .tip-card.info .tip-badge {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--secondary);
+        }
+
+        .tip-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tip-card p {
+            color: var(--gray);
+        }
+
+        /* BOM Section */
+        .bom {
+            padding: 6rem 2rem;
+            background: var(--darker);
+            text-align: center;
+        }
+
+        .bom-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .bom h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .bom p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .price-tag {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 2rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--gray);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .step {
+                grid-template-columns: 60px 1fr;
+                gap: 1rem;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#build">Build Guide</a></li>
+            <li><a href="#planting">Growing</a></li>
+            <li><a href="#tips">Tips</a></li>
+            <li><a href="#bom">Materials</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>GrowTower</h1>
+            <p class="hero-tagline">Your Smart Vertical Grow Cabinet</p>
+            <p class="hero-description">
+                A minimalist, space-saving home grow system. 
+                With integrated odor filter, smart light control, and web app – 
+                perfect for beginners and small apartments.
+            </p>
+            <div class="cta-buttons">
+                <a href="#build" class="btn btn-primary">Start Building</a>
+                <a href="https://github.com/MGasc/growtower" class="btn btn-secondary" target="_blank">GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Features</h2>
+                <p>Everything you need for a successful grow</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Vertical Design</h3>
+                    <p>Maximize your space with the modular tower system. Adapts to plant height.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌪️</div>
+                    <h3>Odor Filter</h3>
+                    <p>Activated carbon filter system with Arctic P14 fan effectively neutralizes odors.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Smart Control</h3>
+                    <p>ESP32-based control with web interface. Control light timer and fan via browser.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔇</div>
+                    <h3>Quiet & Efficient</h3>
+                    <p>Arctic P14 PWM fan for minimal noise and optimal cooling.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>3D Printable</h3>
+                    <p>All structural parts are optimized for 3D printing. PETG recommended.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Web App</h3>
+                    <p>No app installation needed. Simply open in browser and control.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="build" class="build">
+        <div class="container">
+            <div class="section-title">
+                <h2>Build Guide</h2>
+                <p>Step by step to your own GrowTower</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Print 3D Parts</h3>
+                        <p>Start printing the structural parts in PETG (white recommended):</p>
+                        <ul>
+                            <li>Plant Pot (bottom container)</li>
+                            <li>Reservoir 850 (water container)</li>
+                            <li>Inner Shell (4x) - for the plant</li>
+                            <li>Outer Shell Bottom + Outer Shell (3x)</li>
+                            <li>Shell Connector (3x)</li>
+                            <li>Filter Housing + Internal Sieve + Fan Adapter</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Prepare Electronics</h3>
+                        <p>Solder components according to the wiring diagram:</p>
+                        <ul>
+                            <li>XIAO ESP32 C6 as controller</li>
+                            <li>Relay module for the light</li>
+                            <li>DC-DC Buck Converters for fan & controller</li>
+                            <li>Connect Arctic P14 PWM fan</li>
+                            <li>Wire LED strip (24V)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Assemble Housing</h3>
+                        <p>Put the shells together:</p>
+                        <ul>
+                            <li>Outer Shell Bottom as base</li>
+                            <li>Stack 3x Outer Shell on top</li>
+                            <li>Shell Connectors to glue segments together</li>
+                            <li>Mount Filter Housing on top</li>
+                            <li>Fill activated carbon (3-4mm pellets, CTC > 65%)</li>
+                            <li>Mount fan on Fan Adapter</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Flash Firmware</h3>
+                        <p>Install the software:</p>
+                        <ul>
+                            <li>Install PlatformIO or Arduino IDE</li>
+                            <li>Enter WiFi credentials in firmware/.env</li>
+                            <li>Compile and flash firmware</li>
+                            <li>Enable OTA updates (optional)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Initial Setup</h3>
+                        <p>Test your GrowTower:</p>
+                        <ul>
+                            <li>Connect power (24V, 2A)</li>
+                            <li>Open growtower.local in browser</li>
+                            <li>Test light (ON/OFF)</li>
+                            <li>Adjust fan speed (0-100%)</li>
+                            <li>Program light timer</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2>Gallery</h2>
+                <p>This is what your GrowTower looks like</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="../images/1.jpg" alt="GrowTower Front View">
+                    <p>Front view with full lighting</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/2.jpg" alt="GrowTower with Light Chamber">
+                    <p>With attached light chamber</p>
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/3.jpg" alt="GrowTower Inside View">
+                    <p>Inside view with plant placement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="planting" class="planting">
+        <div class="container">
+            <div class="section-title">
+                <h2>Growing Guide</h2>
+                <p>Successfully grow with the GrowTower</p>
+            </div>
+            <div class="planting-grid">
+                <div class="planting-card">
+                    <h3>🌱 The One-Bud Method</h3>
+                    <p>Ideal for the GrowTower – produces a single large main cola:</p>
+                    <ul>
+                        <li>Use <strong>feminized seeds</strong> (no autoflower)</li>
+                        <li>Skip the vegetation phase completely</li>
+                        <li>Immediately after germination: <strong>12/12 light cycle</strong></li>
+                        <li>Saves space and significantly shortens grow time</li>
+                    </ul>
+                    <div class="highlight">
+                        <p><strong>Why no autoflower?</strong> With limited space, you want control over size and timing.</p>
+                    </div>
+                </div>
+                <div class="planting-card">
+                    <h3>🪴 Substrate Mix</h3>
+                    <p>The right soil is crucial for healthy roots:</p>
+                    <ul>
+                        <li><strong>50% soil + 50% perlite/coco</strong></li>
+                        <li>Or: Composana quality potting soil + 40% perlite</li>
+                        <li><strong>Never compress!</strong> Fill loosely</li>
+                        <li>Alternative: Floragard TKS2 or Growmix</li>
+                    </ul>
+                    <div class="highlight">
+                        <p><strong>Important:</strong> Regular potting soil without amendments retains too much water – root rot danger!</p>
+                    </div>
+                </div>
+                <div class="planting-card">
+                    <h3>💧 Watering</h3>
+                    <p>Semi-hydroponic with drip system:</p>
+                    <ul>
+                        <li><strong>Week 1-2:</strong> Water from top with drainage</li>
+                        <li><strong>From week 3:</strong> Switch to bottom feeding</li>
+                        <li>Roots need time to establish throughout the entire pot</li>
+                        <li>Too early bottom feeding = root rot in unrooted areas</li>
+                    </ul>
+                </div>
+                <div class="planting-card">
+                    <h3>🧪 Fertilizer & pH</h3>
+                    <p>Proven strategy for healthy plants:</p>
+                    <ul>
+                        <li><strong>Use only 50% of manufacturer dosage</strong></li>
+                        <li>Target EC: maximum 1.5 (previously 1.8 was too high)</li>
+                        <li>Maintain pH: 6.0-6.3</li>
+                        <li>pH down with phosphoric acid (e.g., Canna pH- Bloom)</li>
+                        <li><strong>No citric acid based pH down!</strong></li>
+                    </ul>
+                    <div class="highlight">
+                        <p><strong>Tip:</strong> Measure EC in drain water to check uptake.</p>
+                    </div>
+                </div>
+                <div class="planting-card">
+                    <h3>💡 Light & Environment</h3>
+                    <p>Create optimal conditions:</p>
+                    <ul>
+                        <li>LED strip: 120 LEDs/m, 4000K color temperature</li>
+                        <li>12/12 light cycle for One-Bud method</li>
+                        <li>Fan for air exchange and CO2 supply</li>
+                        <li>Regulate temperature via fan speed</li>
+                    </ul>
+                </div>
+                <div class="planting-card">
+                    <h3>🌿 Recommended Fertilizers</h3>
+                    <p>Budget-friendly and proven options:</p>
+                    <ul>
+                        <li><strong>Compo Complete</strong> – All-in-One solution</li>
+                        <li><strong>Hesi</strong> – TNT + Bloom + Root Complex + Boost</li>
+                        <li>Cheaper and better than Hy-Pro</li>
+                        <li>Canna pH- for pH adjustment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="tips" class="tips">
+        <div class="container">
+            <div class="section-title">
+                <h2>Important Tips</h2>
+                <p>What you should definitely not forget</p>
+            </div>
+            <div class="tips-grid">
+                <div class="tip-card warning">
+                    <span class="tip-badge">Warning</span>
+                    <h3>Wick System Without Perlite</h3>
+                    <p>Regular soil without perlite in a wick system creates too much moisture at the roots. This blocks nutrient uptake and leads to yellow leaves.</p>
+                </div>
+                <div class="tip-card success">
+                    <span class="tip-badge">Pro Tip</span>
+                    <h3>Bottom Feeding Timing</h3>
+                    <p>Wait at least 2 weeks before switching to bottom feeding. Roots must first spread throughout the entire pot, otherwise unrooted wet areas will form.</p>
+                </div>
+                <div class="tip-card info">
+                    <span class="tip-badge">Info</span>
+                    <h3>Dilute Fertilizer</h3>
+                    <p>With halved fertilizer dosage (50% instead of 100%) you avoid over-fertilization and nutrient burn. The plant absorbs better.</p>
+                </div>
+                <div class="tip-card warning">
+                    <span class="tip-badge">Important</span>
+                    <h3>pH Down Selection</h3>
+                    <p>Never use citric acid based pH down for pH correction. Use products with phosphoric acid like Canna pH- Bloom.</p>
+                </div>
+                <div class="tip-card success">
+                    <span class="tip-badge">Pro Tip</span>
+                    <h3>Reservoir Water Level</h3>
+                    <p>Fill the reservoir only with as much water as you would normally water with. Or mix 50% perlite into the soil to prevent waterlogging.</p>
+                </div>
+                <div class="tip-card info">
+                    <span class="tip-badge">Note</span>
+                    <h3>Bottom Feeding Effect</h3>
+                    <p>Bottom feeding dilutes the substrate over time. You need to start fertilizing earlier than with conventional watering method.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="bom" class="bom">
+        <div class="container">
+            <div class="bom-content">
+                <h2>Required Materials</h2>
+                <p>All parts to build your GrowTower at a glance</p>
+                
+                <div style="text-align: left; max-width: 800px; margin: 3rem auto;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🔧 Hardware & Electronics</h3>
+                    <ul style="color: var(--gray); list-style: none; margin-bottom: 2rem;">
+                        <li style="padding: 0.5rem 0;">✓ Arctic P14 PWM PST Fan (140mm)</li>
+                        <li style="padding: 0.5rem 0;">✓ 24V DC Power Supply (2A)</li>
+                        <li style="padding: 0.5rem 0;">✓ XIAO ESP32 C6 Microcontroller</li>
+                        <li style="padding: 0.5rem 0;">✓ Relay Module (1-Channel)</li>
+                        <li style="padding: 0.5rem 0;">✓ 2x DC-DC Buck Converter</li>
+                        <li style="padding: 0.5rem 0;">✓ LED Strip 2835 (120 LEDs/m, 4000K)</li>
+                        <li style="padding: 0.5rem 0;">✓ Silicone Wire 22 AWG</li>
+                        <li style="padding: 0.5rem 0;">✓ M3 Screws & Nuts</li>
+                    </ul>
+
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🖨️ Consumables</h3>
+                    <ul style="color: var(--gray); list-style: none; margin-bottom: 2rem;">
+                        <li style="padding: 0.5rem 0;">✓ PETG Filament ~1kg (white)</li>
+                        <li style="padding: 0.5rem 0;">✓ Activated Carbon Pellets 1kg (3-4mm, CTC > 65%)</li>
+                        <li style="padding: 0.5rem 0;">✓ Black Acrylic Paint (spray)</li>
+                    </ul>
+
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🛠️ Tools</h3>
+                    <ul style="color: var(--gray); list-style: none; margin-bottom: 2rem;">
+                        <li style="padding: 0.5rem 0;">✓ 3D Printer</li>
+                        <li style="padding: 0.5rem 0;">✓ Soldering Iron</li>
+                        <li style="padding: 0.5rem 0;">✓ Side Cutters & Wire Strippers</li>
+                        <li style="padding: 0.5rem 0;">✓ Screwdriver</li>
+                    </ul>
+                </div>
+
+                <div class="price-tag">~$120 / €112</div>
+                <p style="color: var(--gray); font-size: 0.9rem;">Estimated total cost (excluding seeds & soil)</p>
+                
+                <div class="cta-buttons" style="margin-top: 2rem;">
+                    <a href="../BOM.md" class="btn btn-secondary" target="_blank">View Detailed BOM</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>GrowTower - An Open Source Project by <a href="https://github.com/MGasc/growtower" target="_blank">MGasc</a></p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">Made with 💚 for the community</p>
+    </footer>
+</body>
+</html>
