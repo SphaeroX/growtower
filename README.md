@@ -20,6 +20,11 @@ A minimalist, vertical grow tower designed for home cannabis cultivation. This p
 | ![View 1](images/1.jpg) | ![View 2](images/2.jpg) | ![View 3](images/3.jpg) |
 | *Front View* | *With Light Chamber* | *Inside* |
 
+### Controller & Electronics
+
+![Controller](images/controller.jpg)
+*Wired ESP32 Controller with Fan, Light Relay and Power Supply*
+
 ## How it Works
 
 The GrowTower utilizes a forced-air system where the Arctic P14 fan pulls air through the tower, ensuring fresh CO2 for the plant and maintaining optimal temperatures. The air is then pushed through an activated carbon filter before exiting, neutralizing any odors. The vertical stacking design allows for modularity and easy height adjustment as the plant grows.
