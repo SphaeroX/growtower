@@ -69,47 +69,14 @@ The GrowTower includes a built-in web server for easy control via WiFi:
 
 For detailed firmware documentation, see [firmware/README.md](firmware/README.md).
 
-## Plant Pot Printing Instructions
+## 3D Printing Instructions
 
-For optimal results without supports, the plant pot can be cut in the slicer and glued together after printing:
+All STL files are located in the [`stls/`](stls/) directory. For detailed printing instructions including slicer settings for the Plant Pot, Internal Sieve, and Reservoir 850 Vase, please see [`stls/README.md`](stls/README.md).
 
-1. **Cut the Pot:** In your slicer, use the cut tool to split the pot horizontally into two parts.
-2. **Print Both Parts:** Print both halves without supports, flat side down.
-3. **Glue Together:** After printing, glue the two halves together using super glue or epoxy.
-
-| | |
-|:---:|:---:|
-| ![Plant Pot Cut 1](images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](images/plant_pot_slicer_2.png) |
-| *Upper Part* | *Lower Part* |
-
-## Internal Sieve Printing Instructions
-
-The Internal Sieve model is intentionally designed to be "closed". To print it correctly:
-
-1.  **Open the Sieve:** In your slicer, use a modifier to remove the top and bottom solid layers.
-2.  **Create the Mesh:** Set the infill density to approximately **30%** and use a **Rectilinear** pattern. This generates the necessary mesh structure for the filter.
-
-| | |
-|:---:|:---:|
-| ![Slicer View 1](images/sieve_slicer_1.png) | ![Slicer View 2](images/sieve_slicer_2.png) |
-
-## Reservoir 850 Vase Printing Instructions
-
-For optimal printing results and watertightness, use these settings:
-
-1. **Vase Mode:** Enable "Spiralize" or "Vase Mode" in your slicer.
-2. **Bottom Layers:** Use at least **4 bottom layers** for a stable and leak-proof base.
-3. **Pattern Design:** Ensure the upper pattern differs from the lower pattern to create a distinct transition and visual appeal.
-4. **Layer Height:** Use a **small layer height** (e.g., 0.1-0.2mm) to ensure the print is watertight.
-5. **Flow Rate:** Increase flow rate by at least **5%** compared to your standard settings for better layer adhesion and watertightness.
-6. **Ironing:** Enable ironing to re-weld the top layer for a smoother and more sealed surface.
-7. **Infill/Wall Overlap:** Set the "Infill/wall overlap" value to **40% to 50%** for better adhesion between walls and infill.
-
-### Troubleshooting Leaks
-
-- **Water Test:** Always perform a water test before using the reservoir to check for leaks.
-- **Common Issue:** Pay special attention to the transition from the bottom to the walls, as this is where leaks most commonly occur.
-- **Repair:** If leaks are found at the bottom-wall transition, they can often be fixed by welding the spots with a soldering iron. Don't give up - somehow it can always be made watertight!
+| | | | |
+|:---:|:---:|:---:|:---:|
+| ![Plant Pot Cut 1](images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](images/plant_pot_slicer_2.png) | ![Slicer View 1](images/sieve_slicer_1.png) | ![Slicer View 2](images/sieve_slicer_2.png) |
+| *Plant Pot Upper* | *Plant Pot Lower* | *Sieve View 1* | *Sieve View 2* |
 
 ## Current Experiments
 
