@@ -93,6 +93,16 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
 |:---:|:---:|
 | ![Slicer View 1](images/sieve_slicer_1.png) | ![Slicer View 2](images/sieve_slicer_2.png) |
 
+## Reservoir 850 Vase Printing Instructions
+
+For optimal printing results and watertightness, use these settings:
+
+1. **Vase Mode:** Enable "Spiralize" or "Vase Mode" in your slicer.
+2. **Bottom Layers:** Use at least **4 bottom layers** for a stable and leak-proof base.
+3. **Pattern Design:** Ensure the upper pattern differs from the lower pattern to create a distinct transition and visual appeal.
+4. **Layer Height:** Use a **small layer height** (e.g., 0.1-0.2mm) to ensure the print is watertight.
+5. **Flow Rate:** Increase flow rate by at least **5%** compared to your standard settings for better layer adhesion and watertightness.
+
 ## Current Experiments
 
 1. **Stress Killer CBD (Automatic):**
