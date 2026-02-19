@@ -102,6 +102,8 @@ For optimal printing results and watertightness, use these settings:
 3. **Pattern Design:** Ensure the upper pattern differs from the lower pattern to create a distinct transition and visual appeal.
 4. **Layer Height:** Use a **small layer height** (e.g., 0.1-0.2mm) to ensure the print is watertight.
 5. **Flow Rate:** Increase flow rate by at least **5%** compared to your standard settings for better layer adhesion and watertightness.
+6. **Ironing:** Enable ironing to re-weld the top layer for a smoother and more sealed surface.
+7. **Infill/Wall Overlap:** Set the "Infill/wall overlap" value to **40% to 50%** for better adhesion between walls and infill.
 
 ### Troubleshooting Leaks
 
