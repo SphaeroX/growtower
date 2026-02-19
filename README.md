@@ -103,6 +103,12 @@ For optimal printing results and watertightness, use these settings:
 4. **Layer Height:** Use a **small layer height** (e.g., 0.1-0.2mm) to ensure the print is watertight.
 5. **Flow Rate:** Increase flow rate by at least **5%** compared to your standard settings for better layer adhesion and watertightness.
 
+### Troubleshooting Leaks
+
+- **Water Test:** Always perform a water test before using the reservoir to check for leaks.
+- **Common Issue:** Pay special attention to the transition from the bottom to the walls, as this is where leaks most commonly occur.
+- **Repair:** If leaks are found at the bottom-wall transition, they can often be fixed by welding the spots with a soldering iron. Don't give up - somehow it can always be made watertight!
+
 ## Current Experiments
 
 1. **Stress Killer CBD (Automatic):**
