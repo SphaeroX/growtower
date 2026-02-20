@@ -101,9 +101,9 @@ For the second grow, I will implement the One-Bud technique with an improved set
 
 ### Setup Changes for Grow #2
 
-- **Growing Medium:** Composana Qualitätsblumenerde mixed with **50% Perlite**
+- **Growing Medium:** Composana Qualitätsblumenerde mixed with **40-50% Perlite**
 
-- **Fertilizer:** Use **mineral Compo Blüte** fertilizer (NOT Compo Complete)
+- **Fertilizer:** Use **mineral Compo Blüte** fertilizer 
 
 ### Fertilizer Schedule (Micro-Grow)
 
