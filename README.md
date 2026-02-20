@@ -101,38 +101,39 @@ For the second grow, I will implement the One-Bud technique with an improved set
 
 ### Setup Changes for Grow #2
 
-- **Growing Medium:** Composana Qualitätsblumenerde mixed with **40% Perlite** (instead of regular soil without amendments)
+- **Growing Medium:** Composana Qualitätsblumenerde mixed with **50% Perlite**
 
-- **Fertilizer Strategy (based on forum feedback):**
-  - Use only **50% of manufacturer dosage** (reduce by half)
-  - Target EC value: **max 1.5** (previously 1.8 was too high)
-  - This prevents over-fertilization and nutrient burn
-  - Monitor EC in drain water to check uptake
-  
-- **pH Management:**
-  - Use proper pH-down products (e.g., Canna pH- Bloom)
-  - Avoid pH-down with citric acid for pH correction
-  - Target pH range: 6.0-6.3
+- **Fertilizer:** Use **mineral Compo Blüte** fertilizer (NOT Compo Complete)
 
-### Alternative Substrate & Watering Strategy
+### Fertilizer Schedule (Micro-Grow)
 
-Based on experienced grower feedback, here is an optimized approach that can be used instead of or alongside the Composana setup:
+**Week 1 - Week 3 (Germination to first white pistils):**
+- Pure water only - no fertilizer
+- The nutrients in the 50% Compo Sana soil are sufficient
+- The plant will grow large and green on soil nutrients alone
 
-**Substrate Mix:**
-- **50% soil mixed with 50% Perlite/Coco** (instead of 40% perlite)
-- Do not compress the substrate too much when bottom feeding
-- Alternative base substrates: Floragard TKS2 or Floragard Growmix + Peligran Premium Perlite (~25% with wicks if not over-compressing)
+**Week 3/4 onwards (Flowering begins):**
+- Start adding **Compo Blüte** to the water (bottom watering)
+- Start with **25-50% of the recommended dose** - the soil still has residual nutrients
+- Only increase if the plant shows signs of hunger (light green/yellowing)
 
-**Watering Strategy:**
-- **Phase 1 (First 2 weeks in final pot):** Water from above with drainage
-- **Phase 2 (After 2 weeks):** Switch to bottom feeding
-- This gives roots enough time to establish throughout the entire pot
-- Starting bottom feeding too early risks waterlogging in unrooted areas, preventing root growth there and resulting in uneven root distribution at harvest
+**Last 10-14 days before harvest:**
+- Pure water only (flushing)
+- Allows the plant to use up remaining nutrient salts from the leaves
 
-**Important:** Bottom feeding significantly dilutes the substrate over time, requiring earlier fertilization.
+### Critical Watering Warning
 
-**Recommended Fertilizers (budget-friendly & proven):**
-- **Compo Complete** (all-in-one solution)
-- **Hesi** (TNT + Bloom + Root Complex + Hesi Boost - comprehensive, cheaper and better than Hy-Pro)
-- **Canna pH-** (phosphoric acid for pH adjustment)
+**NEVER water from above later in the grow!**
+
+When bottom watering with mineral fertilizer, water moves up through the soil and evaporates at the surface. The fertilizer salts accumulate in the top soil layer (often visible as white crust).
+
+If you suddenly water from above, you flush these highly concentrated salts directly down into the roots - causing immediate, fatal nutrient shock.
+
+**Always water from below throughout the entire grow.**
+
+### pH Management
+
+- Use proper pH-down products (e.g., Canna pH- Bloom)
+- Avoid pH-down with citric acid for pH correction
+- Target pH range: 6.0-6.3
 
