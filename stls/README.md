@@ -2,10 +2,15 @@
 
 This directory contains all STL files for the GrowTower project.
 
-## General Printing Recommendations
+## General Printing Recommendations & Materials
 
-- **Material:** PETG White (recommended for durability and light reflection)
-- **Nozzle:** 0.4mm standard
+- **Main Material:** PETG White (highly recommended for the main body). The white color is crucial on the inside to maximize light reflection for the plant.
+- **Exceptions (Black Material):** The Filter Components, Plant Pot, and Water Reservoir can and should be printed in **Black PETG** (or another dark opaque color). This prevents light from reaching the roots and water, which would otherwise encourage algae growth.
+- **Light-Proofing (Crucial Step):** The white outer shell **must** be light-proofed from the outside. This is a critical physical requirement to prevent external light from disrupting the plant's light cycle (especially important for photoperiod strains in Grow #2). 
+  - **Method 1 (Recommended):** Spray paint the fully assembled white outer shell from the outside using black acrylic spray paint.
+  - **Method 2:** Wrap the outside tightly in a black, light-blocking foil or tape.
+  - *Note:* The inside of the shell must remain white for maximum light reflection!
+- **Nozzle:** 0.6mm recommended (faster printing, sufficient precision)
 - **Support:** Generally not required for most parts
 
 ---

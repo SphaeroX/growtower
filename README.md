@@ -71,7 +71,9 @@ For detailed firmware documentation, see [firmware/README.md](firmware/README.md
 
 ## 3D Printing Instructions
 
-All STL files are located in the [`stls/`](stls/) directory. For detailed printing instructions including slicer settings for the Plant Pot, Internal Sieve, and Reservoir 850 Vase, please see [`stls/README.md`](stls/README.md).
+All STL files are located in the [`stls/`](stls/) directory. **Important:** The choice of filament color (White vs. Black) and post-processing (light-proofing the outer shell) is critical for the physical functionality of this project.
+
+For detailed printing instructions including material recommendations, light-proofing steps, and slicer settings for the Plant Pot, Internal Sieve, and Reservoir, please see [`stls/README.md`](stls/README.md).
 
 | | | | |
 |:---:|:---:|:---:|:---:|

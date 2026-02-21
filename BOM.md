@@ -25,7 +25,9 @@ Here is the list of parts required to build the GrowTower.
 
 ## 3D Printed Parts
 
-The following parts need to be printed (recommended in PETG White). The modular design consists of:
+Most parts need to be printed in **PETG White** to ensure maximum light reflection inside the tower. However, to prevent light leaks and algae, specific parts (Filter, Plant Pot, Reservoir) should be printed in black, and the white outer shell must be post-processed to be light-proof from the outside. For detailed printing instructions and color choices, see [`stls/README.md`](stls/README.md).
+
+The modular design consists of:
 
 ### Base & Reservoir
 - **Plant Pot:** The bottom container for the plant.
