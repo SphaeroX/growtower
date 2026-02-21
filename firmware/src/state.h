@@ -11,6 +11,7 @@ extern int fanMinPercent;
 extern int fanMaxPercent;
 extern int lightOnHour;
 extern int lightOffHour;
+extern bool timerEnabled;
 
 extern bool isLightOn;
 extern int currentFanSpeed;
@@ -30,6 +31,7 @@ void saveFanMin(int minVal);
 void saveFanMax(int maxVal);
 void saveLightOnHour(int hour);
 void saveLightOffHour(int hour);
+void saveTimerEnabled(bool enabled);
 void saveHostname(const char *hostname);
 void setLight(bool on);
 void setFan(int percent);
@@ -45,6 +47,7 @@ void loadPhaseData();
 void savePhaseData();
 void setPhase(PlantPhase phase);
 void resetPhase(PlantPhase phase);
+void resetAllSettings();
 String getPhaseJSON();
 void printLocalTime();
 

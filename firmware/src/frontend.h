@@ -45,6 +45,20 @@ const char index_html[] PROGMEM = R"rawliteral(
         input[type="text"]:focus { outline: none; border-color: #4ade80; }
         .time-separator { color: #94a3b8; font-weight: 600; }
         .save-btn { margin-top: 15px; width: 100%; padding: 15px; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
+        .toggle-container { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .toggle-label { color: #cbd5e1; font-size: 0.95rem; }
+        .toggle-switch { position: relative; width: 50px; height: 26px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #475569; transition: 0.4s; border-radius: 26px; }
+        .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: 0.4s; border-radius: 50%; }
+        .toggle-switch input:checked + .toggle-slider { background-color: #4ade80; }
+        .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+        .toggle-status { font-size: 0.85rem; margin-top: 5px; text-align: center; }
+        .toggle-status.active { color: #4ade80; }
+        .toggle-status.inactive { color: #f87171; }
+        .reset-section { margin-top: 30px; border-top: 2px solid rgba(255, 255, 255, 0.1); padding-top: 20px; }
+        .btn-reset { width: 100%; padding: 15px; background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+        .btn-reset:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(248, 113, 113, 0.4); }
         .save-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(59, 130, 246, 0.4); }
         .message { position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; border-radius: 10px; font-weight: 600; animation: slideIn 0.3s ease; z-index: 1000; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
@@ -83,10 +97,20 @@ const char index_html[] PROGMEM = R"rawliteral(
         </div>
         <div class="status-card">
             <div class="section-title">Licht Timer</div>
-            <div class="control-group"><label class="control-label">Einschaltzeit</label><div class="time-inputs"><input type="number" id="onHour" min="0" max="23" value="18" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
-            <div class="control-group"><label class="control-label">Ausschaltzeit</label><div class="time-inputs"><input type="number" id="offHour" min="0" max="23" value="14" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
-            <div style="margin: 15px 0; padding: 12px; background: rgba(74, 222, 128, 0.2); border-radius: 10px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.3);"><span style="color: #4ade80; font-weight: 600;">Lichtphase: <span id="lightDuration">20h</span></span></div>
-            <button class="save-btn" onclick="setLightTimer()">Timer speichern</button>
+            <div class="toggle-container">
+                <span class="toggle-label">Automatische Zeitschaltuhr</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="timerToggle" onchange="toggleTimer()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="toggle-status" id="timerStatus">Aktiv</div>
+            <div id="timerSettings">
+                <div class="control-group"><label class="control-label">Einschaltzeit</label><div class="time-inputs"><input type="number" id="onHour" min="0" max="23" value="18" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
+                <div class="control-group"><label class="control-label">Ausschaltzeit</label><div class="time-inputs"><input type="number" id="offHour" min="0" max="23" value="14" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
+                <div style="margin: 15px 0; padding: 12px; background: rgba(74, 222, 128, 0.2); border-radius: 10px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.3);"><span style="color: #4ade80; font-weight: 600;">Lichtphase: <span id="lightDuration">20h</span></span></div>
+                <button class="save-btn" onclick="setLightTimer()">Timer speichern</button>
+            </div>
         </div>
         <div class="status-card">
             <div class="section-title">🌱 Pflanzen Tracker</div>
@@ -109,6 +133,11 @@ const char index_html[] PROGMEM = R"rawliteral(
             <div class="section-title">Netzwerk Einstellungen</div>
             <div class="control-group"><label class="control-label">Geräte-Name (für growtower.local)</label><input type="text" id="hostnameInput" placeholder="growtower" maxlength="31"></div>
             <button class="save-btn" onclick="setHostname()">Namen speichern & Neustart</button>
+        </div>
+        <div class="status-card reset-section">
+            <div class="section-title">Werkseinstellungen</div>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px;">Alle Einstellungen zurücksetzen auf Standardwerte. Dies löscht alle Benutzereinstellungen und startet das Gerät neu.</p>
+            <button class="btn-reset" onclick="resetToDefaults()">Auf Werkseinstellungen zurücksetzen</button>
         </div>
         <div class="current-time">Letzte Aktualisierung: <span id="lastUpdate">-</span></div>
     </div>
@@ -135,6 +164,7 @@ const char index_html[] PROGMEM = R"rawliteral(
             if (document.activeElement !== document.getElementById('fanMaxSlider')) { document.getElementById('fanMaxSlider').value = status.fanMax; updateFanMaxLabel(status.fanMax); }
             if (document.activeElement !== document.getElementById('onHour')) { document.getElementById('onHour').value = status.lightOn; }
             if (document.activeElement !== document.getElementById('offHour')) { document.getElementById('offHour').value = status.lightOff; }
+            if (document.activeElement !== document.getElementById('timerToggle')) { document.getElementById('timerToggle').checked = status.timerEnabled; document.getElementById('timerStatus').textContent = status.timerEnabled ? 'Aktiv' : 'Deaktiviert'; document.getElementById('timerStatus').className = 'toggle-status ' + (status.timerEnabled ? 'active' : 'inactive'); document.getElementById('timerSettings').style.opacity = status.timerEnabled ? '1' : '0.5'; }
             updateLightDuration();
             if (document.activeElement !== document.getElementById('hostnameInput')) { document.getElementById('hostnameInput').value = status.hostname; }
             const now = new Date(); document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('de-DE');
@@ -144,6 +174,8 @@ const char index_html[] PROGMEM = R"rawliteral(
         async function setFan() { const value = document.getElementById('fanSlider').value; try { const response = await fetch(`/api/fan?speed=${value}`); const result = await response.json(); if (result.success) { showMessage(`Lüfter auf ${value}% eingestellt`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Einstellen', 'error'); } }
         async function setFanRange() { const min = document.getElementById('fanMinSlider').value; const max = document.getElementById('fanMaxSlider').value; try { const response = await fetch(`/api/fanrange?min=${min}&max=${max}`); const result = await response.json(); if (result.success) { showMessage(`Lüfter Bereich: ${min}%-${max}%`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
         async function setLightTimer() { const on = document.getElementById('onHour').value; const off = document.getElementById('offHour').value; try { const response = await fetch(`/api/timer?on=${on}&off=${off}`); const result = await response.json(); if (result.success) { showMessage(`Timer: ${String(on).padStart(2, '0')}:00 - ${String(off).padStart(2, '0')}:00`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
+        async function toggleTimer() { const enabled = document.getElementById('timerToggle').checked; try { const response = await fetch(`/api/timerenable?enabled=${enabled ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(enabled ? 'Timer aktiviert' : 'Timer deaktiviert'); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Schalten', 'error'); } }
+        async function resetToDefaults() { if (!confirm('Möchten Sie wirklich alle Einstellungen auf die Werkseinstellungen zurücksetzen? Das Gerät wird neu gestartet.')) { return; } try { const response = await fetch('/api/reset'); const result = await response.json(); if (result.success) { showMessage('Wird auf Werkseinstellungen zurückgesetzt...'); setTimeout(() => { window.location.href = 'http://growtower.local'; }, 5000); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Zurücksetzen', 'error'); } }
         async function setHostname() { const hostname = document.getElementById('hostnameInput').value.trim(); if (!hostname) { showMessage('Bitte einen Namen eingeben', 'error'); return; } if (!/^[a-zA-Z0-9-]+$/.test(hostname)) { showMessage('Nur Buchstaben, Zahlen und Bindestriche erlaubt', 'error'); return; } try { const response = await fetch(`/api/hostname?name=${encodeURIComponent(hostname)}`); const result = await response.json(); if (result.success) { showMessage('Gerät wird neu gestartet...'); setTimeout(() => { window.location.href = `http://${hostname}.local`; }, 5000); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
         let currentPhaseStatus = { seedling: {active:false}, veg: {active:false}, flower: {active:false} };
         async function setPhase(phase) { var phaseToSet = phase; if (phase === 'seedling' && currentPhaseStatus.seedling.active) phaseToSet = 'none'; else if (phase === 'veg' && currentPhaseStatus.veg.active) phaseToSet = 'none'; else if (phase === 'flower' && currentPhaseStatus.flower.active) phaseToSet = 'none'; try { const response = await fetch(`/api/phase?phase=${phaseToSet}`); const result = await response.json(); if (result.success) { const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Alle abgebrochen' }; showMessage(`${phaseNames[phaseToSet] || phaseToSet}`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Setzen der Phase', 'error'); } }

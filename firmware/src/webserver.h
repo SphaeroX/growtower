@@ -65,6 +65,22 @@ void initWebServer() {
         }
     });
 
+    server.on("/api/timerenable", HTTP_GET, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("enabled")) {
+            int enabled = request->getParam("enabled")->value().toInt();
+            saveTimerEnabled(enabled == 1);
+            request->send(200, "application/json", "{\"success\":true,\"enabled\":" + String(timerEnabled ? "true" : "false") + "}");
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing enabled param\"}");
+        }
+    });
+
+    server.on("/api/reset", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(200, "application/json", "{\"success\":true,\"message\":\"Resetting to factory defaults...\"}");
+        delay(500);
+        resetAllSettings();
+    });
+
     server.on("/api/hostname", HTTP_GET, [](AsyncWebServerRequest *request) {
         if (request->hasParam("name")) {
             String name = request->getParam("name")->value();

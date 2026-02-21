@@ -19,6 +19,7 @@ int fanMinPercent = 0;
 int fanMaxPercent = 100;
 int lightOnHour = 18;
 int lightOffHour = 14;
+bool timerEnabled = true;
 
 bool isLightOn = false;
 int currentFanSpeed = 30;
@@ -173,6 +174,7 @@ String getStatusJSON() {
   json += "\"fanMax\":" + String(fanMaxPercent) + ",";
   json += "\"lightOn\":" + String(lightOnHour) + ",";
   json += "\"lightOff\":" + String(lightOffHour) + ",";
+  json += "\"timerEnabled\":" + String(timerEnabled ? "true" : "false") + ",";
   json += "\"hostname\":\"" + String(currentHostname) + "\",";
   json += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
   json += "\"wifiConnected\":" + String(WiFi.status() == WL_CONNECTED ? "true" : "false") + ",";
@@ -194,6 +196,7 @@ void loadSettings() {
   fanMaxPercent = preferences.getInt("fanMax", 100);
   lightOnHour = preferences.getInt("onHour", 18);
   lightOffHour = preferences.getInt("offHour", 14);
+  timerEnabled = preferences.getBool("timerEnabled", true);
 
   String savedHostname = preferences.getString("hostname", DEFAULT_HOSTNAME);
   strncpy(currentHostname, savedHostname.c_str(), sizeof(currentHostname) - 1);
@@ -261,6 +264,36 @@ void saveLightOffHour(int hour) {
   checkTimer();
 }
 
+void saveTimerEnabled(bool enabled) {
+  timerEnabled = enabled;
+  preferences.begin("growtower", false);
+  preferences.putBool("timerEnabled", timerEnabled);
+  preferences.end();
+
+  Serial.printf("[CONFIG] Timer enabled: %s\n", timerEnabled ? "true" : "false");
+  checkTimer();
+}
+
+void resetAllSettings() {
+  Serial.println("[SYS] Resetting all settings to defaults...");
+  preferences.begin("growtower", false);
+  preferences.clear();
+  preferences.end();
+  
+  phases[PHASE_SEEDLING].startTime = 0;
+  phases[PHASE_SEEDLING].active = false;
+  phases[PHASE_VEG].startTime = 0;
+  phases[PHASE_VEG].active = false;
+  phases[PHASE_FLOWER].startTime = 0;
+  phases[PHASE_FLOWER].active = false;
+  currentPhase = PHASE_NONE;
+  savePhaseData();
+  
+  Serial.println("[SYS] Settings cleared. Rebooting...");
+  delay(1000);
+  ESP.restart();
+}
+
 void saveHostname(const char *hostname) {
   preferences.begin("growtower", false);
   preferences.putString("hostname", hostname);
@@ -311,6 +344,10 @@ void setFan(int percent) {
 }
 
 void checkTimer() {
+  if (!timerEnabled) {
+    return;
+  }
+
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
     return;
@@ -428,6 +465,16 @@ void processCommand(String command) {
     preferences.begin("growtower", false);
     preferences.clear();
     preferences.end();
+    
+    phases[PHASE_SEEDLING].startTime = 0;
+    phases[PHASE_SEEDLING].active = false;
+    phases[PHASE_VEG].startTime = 0;
+    phases[PHASE_VEG].active = false;
+    phases[PHASE_FLOWER].startTime = 0;
+    phases[PHASE_FLOWER].active = false;
+    currentPhase = PHASE_NONE;
+    savePhaseData();
+    
     Serial.println("[SYS] Settings cleared. Please restart device.");
   } else {
     Serial.printf("[CMD] Unknown command: '%s'\n", command.c_str());
