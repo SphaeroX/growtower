@@ -60,8 +60,19 @@ bool isLightOn = false;
 int currentFanSpeed = 30; // Default 30% (not off for safety)
 
 // =============================================================================
-// FORWARD DECLARATIONS
+// PHASE TRACKING
 // =============================================================================
+enum PlantPhase { PHASE_NONE, PHASE_SEEDLING, PHASE_VEG, PHASE_FLOWER };
+
+struct PhaseData {
+    time_t startTime;
+    bool active;
+};
+
+PhaseData phases[3] = {{0, false}, {0, false}, {0, false}};
+PlantPhase currentPhase = PHASE_NONE;
+
+// Forward declarations
 void loadSettings();
 void saveFanMin(int minVal);
 void saveFanMax(int maxVal);
@@ -71,7 +82,6 @@ void saveHostname(const char *hostname);
 void setLight(bool on);
 void setFan(int percent);
 void checkTimer();
-void printLocalTime();
 void processCommand(String command);
 void initWiFi();
 void initPWM();
@@ -79,6 +89,12 @@ void printStatus();
 void initOTA();
 void initWebServer();
 String getStatusJSON();
+void loadPhaseData();
+void savePhaseData();
+void setPhase(PlantPhase phase);
+void resetPhase(PlantPhase phase);
+String getPhaseJSON();
+void printLocalTime();
 
 // =============================================================================
 // HTML FRONTEND (Embedded)
@@ -510,6 +526,48 @@ const char index_html[] PROGMEM = R"rawliteral(
         </div>
         
         <div class="status-card">
+            <div class="section-title">🌱 Pflanzen Tracker</div>
+            <div class="control-group">
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button class="btn-seedling" onclick="setPhase('seedling')" style="flex:1; padding:12px; background:#8b5cf6; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌿 Seedling</button>
+                    <button class="btn-veg" onclick="setPhase('veg')" style="flex:1; padding:12px; background:#10b981; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌱 Veg</button>
+                    <button class="btn-flower" onclick="setPhase('flower')" style="flex:1; padding:12px; background:#f59e0b; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌸 Blüte</button>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                    <div style="background:rgba(139,92,246,0.2); padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:0.8rem; color:#94a3b8;">Seedling</div>
+                        <div id="seedlingDays" style="font-size:1.5rem; font-weight:bold; color:#8b5cf6;">0</div>
+                        <div style="font-size:0.75rem; color:#94a3b8;">Tage</div>
+                    </div>
+                    <div style="background:rgba(16,185,129,0.2); padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:0.8rem; color:#94a3b8;">Veg</div>
+                        <div id="vegDays" style="font-size:1.5rem; font-weight:bold; color:#10b981;">0</div>
+                        <div style="font-size:0.75rem; color:#94a3b8;">Tage</div>
+                    </div>
+                    <div style="background:rgba(245,158,11,0.2); padding:15px; border-radius:10px; text-align:center;">
+                        <div style="font-size:0.8rem; color:#94a3b8;">Blüte</div>
+                        <div id="flowerDays" style="font-size:1.5rem; font-weight:bold; color:#f59e0b;">0</div>
+                        <div style="font-size:0.75rem; color:#94a3b8;">Tage</div>
+                    </div>
+                </div>
+                <div style="background:rgba(74,222,128,0.2); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;">
+                    <div style="font-size:0.9rem; color:#94a3b8;">Gesamttage</div>
+                    <div id="totalDays" style="font-size:2rem; font-weight:bold; color:#4ade80;">0</div>
+                    <div style="font-size:0.8rem; color:#94a3b8;">Tage alt</div>
+                </div>
+                <div style="display:flex; gap: 10px;">
+                    <select id="resetPhaseSelect" style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:white;">
+                        <option value="seedling">Seedling</option>
+                        <option value="veg">Veg</option>
+                        <option value="flower">Blüte</option>
+                        <option value="all">Alle</option>
+                    </select>
+                    <button onclick="resetPhase()" style="padding:10px 20px; background:#ef4444; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">Zurücksetzen</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="status-card">
             <div class="section-title">Netzwerk Einstellungen</div>
             <div class="control-group">
                 <label class="control-label">Geräte-Name (für growtower.local)</label>
@@ -574,6 +632,9 @@ const char index_html[] PROGMEM = R"rawliteral(
             
             // Hostname
             document.getElementById('hostnameDisplay').textContent = status.hostname + '.local';
+            
+            // Phase data
+            updatePhaseUI(status);
             
             // Update controls if they haven't been touched
             if (document.activeElement !== document.getElementById('fanSlider')) {
@@ -701,6 +762,53 @@ const char index_html[] PROGMEM = R"rawliteral(
                 }
             } catch (error) {
                 showMessage('Fehler beim Speichern', 'error');
+            }
+        }
+        
+        async function setPhase(phase) {
+            try {
+                const response = await fetch(`/api/phase?phase=${phase}`);
+                const result = await response.json();
+                if (result.success) {
+                    const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Zurückgesetzt' };
+                    showMessage(`${phaseNames[phase] || phase} gestartet`);
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Setzen der Phase', 'error');
+            }
+        }
+        
+        async function resetPhase() {
+            const phase = document.getElementById('resetPhaseSelect').value;
+            try {
+                const response = await fetch(`/api/phasereset?phase=${phase}`);
+                const result = await response.json();
+                if (result.success) {
+                    showMessage(`${phase === 'all' ? 'Alle' : phase} zurückgesetzt`);
+                    fetchStatus();
+                } else {
+                    showMessage('Fehler: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Fehler beim Zurücksetzen', 'error');
+            }
+        }
+        
+        function updatePhaseUI(status) {
+            if (status.seedling !== undefined) {
+                document.getElementById('seedlingDays').textContent = status.seedling.days || 0;
+            }
+            if (status.veg !== undefined) {
+                document.getElementById('vegDays').textContent = status.veg.days || 0;
+            }
+            if (status.flower !== undefined) {
+                document.getElementById('flowerDays').textContent = status.flower.days || 0;
+            }
+            if (status.totalDays !== undefined) {
+                document.getElementById('totalDays').textContent = status.totalDays || 0;
             }
         }
         
@@ -967,6 +1075,66 @@ void initWebServer() {
     }
   });
 
+  // API: Set phase
+  server.on("/api/phase", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("phase")) {
+      String phaseStr = request->getParam("phase")->value();
+      phaseStr.toLowerCase();
+      
+      if (phaseStr == "seedling") {
+        setPhase(PHASE_SEEDLING);
+        request->send(200, "application/json", "{\"success\":true,\"phase\":\"seedling\"}");
+      } else if (phaseStr == "veg") {
+        setPhase(PHASE_VEG);
+        request->send(200, "application/json", "{\"success\":true,\"phase\":\"veg\"}");
+      } else if (phaseStr == "flower") {
+        setPhase(PHASE_FLOWER);
+        request->send(200, "application/json", "{\"success\":true,\"phase\":\"flower\"}");
+      } else if (phaseStr == "none" || phaseStr == "reset") {
+        setPhase(PHASE_NONE);
+        request->send(200, "application/json", "{\"success\":true,\"phase\":\"none\"}");
+      } else {
+        request->send(400, "application/json", "{\"success\":false,\"error\":\"Invalid phase\"}");
+      }
+    } else {
+      request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing phase param\"}");
+    }
+  });
+
+  // API: Get phase info
+  server.on("/api/phaseinfo", HTTP_GET, [](AsyncWebServerRequest *request) {
+    String json = "{" + getPhaseJSON() + "}";
+    request->send(200, "application/json", json);
+  });
+
+  // API: Reset specific phase
+  server.on("/api/phasereset", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (request->hasParam("phase")) {
+      String phaseStr = request->getParam("phase")->value();
+      phaseStr.toLowerCase();
+      
+      if (phaseStr == "seedling") {
+        resetPhase(PHASE_SEEDLING);
+        request->send(200, "application/json", "{\"success\":true}");
+      } else if (phaseStr == "veg") {
+        resetPhase(PHASE_VEG);
+        request->send(200, "application/json", "{\"success\":true}");
+      } else if (phaseStr == "flower") {
+        resetPhase(PHASE_FLOWER);
+        request->send(200, "application/json", "{\"success\":true}");
+      } else if (phaseStr == "all") {
+        resetPhase(PHASE_SEEDLING);
+        resetPhase(PHASE_VEG);
+        resetPhase(PHASE_FLOWER);
+        request->send(200, "application/json", "{\"success\":true}");
+      } else {
+        request->send(400, "application/json", "{\"success\":false,\"error\":\"Invalid phase\"}");
+      }
+    } else {
+      request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing phase param\"}");
+    }
+  });
+
   // 404 handler
   server.onNotFound(
       [](AsyncWebServerRequest *request) { request->send(404, "text/plain", "Not Found"); });
@@ -998,6 +1166,7 @@ String getStatusJSON() {
     strftime(timeStr, sizeof(timeStr), "%H:%M:%S", &timeinfo);
     json += ",\"currentTime\":\"" + String(timeStr) + "\"";
   }
+  json += "," + getPhaseJSON();
   json += "}";
   return json;
 }
@@ -1019,6 +1188,8 @@ void loadSettings() {
   currentHostname[sizeof(currentHostname) - 1] = '\0';
 
   preferences.end();
+
+  loadPhaseData();
 
   Serial.printf(
       "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, LightOff=%d:00, "
@@ -1275,4 +1446,138 @@ void processCommand(String command) {
     Serial.printf("[CMD] Unknown command: '%s'\n", command.c_str());
     Serial.println("[CMD] Type 'HELP' for available commands");
   }
+}
+
+// =============================================================================
+// PHASE TRACKING FUNCTIONS
+// =============================================================================
+void loadPhaseData() {
+  preferences.begin("growtower", true);
+  
+  phases[PHASE_SEEDLING].startTime = preferences.getLong("seedlingStart", 0);
+  phases[PHASE_VEG].startTime = preferences.getLong("vegStart", 0);
+  phases[PHASE_FLOWER].startTime = preferences.getLong("flowerStart", 0);
+  
+  phases[PHASE_SEEDLING].active = preferences.getBool("seedlingActive", false);
+  phases[PHASE_VEG].active = preferences.getBool("vegActive", false);
+  phases[PHASE_FLOWER].active = preferences.getBool("flowerActive", false);
+  
+  preferences.end();
+  
+  currentPhase = PHASE_NONE;
+  if (phases[PHASE_SEEDLING].active) currentPhase = PHASE_SEEDLING;
+  else if (phases[PHASE_VEG].active) currentPhase = PHASE_VEG;
+  else if (phases[PHASE_FLOWER].active) currentPhase = PHASE_FLOWER;
+  
+  Serial.printf("[PHASE] Loaded: Seedling=%d, Veg=%d, Flower=%d, Current=%d\n",
+                phases[PHASE_SEEDLING].active ? 1 : 0,
+                phases[PHASE_VEG].active ? 1 : 0,
+                phases[PHASE_FLOWER].active ? 1 : 0,
+                currentPhase);
+}
+
+void savePhaseData() {
+  preferences.begin("growtower", false);
+  
+  preferences.putLong("seedlingStart", phases[PHASE_SEEDLING].startTime);
+  preferences.putLong("vegStart", phases[PHASE_VEG].startTime);
+  preferences.putLong("flowerStart", phases[PHASE_FLOWER].startTime);
+  
+  preferences.putBool("seedlingActive", phases[PHASE_SEEDLING].active);
+  preferences.putBool("vegActive", phases[PHASE_VEG].active);
+  preferences.putBool("flowerActive", phases[PHASE_FLOWER].active);
+  
+  preferences.end();
+}
+
+void setPhase(PlantPhase phase) {
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    Serial.println("[PHASE] Cannot set phase: NTP time not available");
+    return;
+  }
+  
+  time_t now = mktime(&timeinfo);
+  
+  if (phase == PHASE_NONE) {
+    phases[PHASE_SEEDLING].active = false;
+    phases[PHASE_VEG].active = false;
+    phases[PHASE_FLOWER].active = false;
+    currentPhase = PHASE_NONE;
+    Serial.println("[PHASE] All phases reset");
+  } else {
+    phases[PHASE_SEEDLING].active = (phase == PHASE_SEEDLING);
+    phases[PHASE_VEG].active = (phase == PHASE_VEG);
+    phases[PHASE_FLOWER].active = (phase == PHASE_FLOWER);
+    
+    if (phase == PHASE_SEEDLING && phases[PHASE_SEEDLING].startTime == 0) {
+      phases[PHASE_SEEDLING].startTime = now;
+    } else if (phase == PHASE_VEG && phases[PHASE_VEG].startTime == 0) {
+      phases[PHASE_VEG].startTime = now;
+    } else if (phase == PHASE_FLOWER && phases[PHASE_FLOWER].startTime == 0) {
+      phases[PHASE_FLOWER].startTime = now;
+    }
+    
+    currentPhase = phase;
+    
+    const char* phaseNames[] = {"None", "Seedling", "Veg", "Flower"};
+    Serial.printf("[PHASE] Set to: %s\n", phaseNames[phase]);
+  }
+  
+  savePhaseData();
+}
+
+int getPhaseDays(PlantPhase phase) {
+  if (!phases[phase].active || phases[phase].startTime == 0) return 0;
+  
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) return 0;
+  
+  time_t now = mktime(&timeinfo);
+  double diffSeconds = difftime(now, phases[phase].startTime);
+  return (int)(diffSeconds / 86400.0);
+}
+
+int getTotalDays() {
+  int total = 0;
+  if (phases[PHASE_SEEDLING].active || phases[PHASE_SEEDLING].startTime > 0) {
+    total += getPhaseDays(PHASE_SEEDLING);
+  }
+  if (phases[PHASE_VEG].active || phases[PHASE_VEG].startTime > 0) {
+    total += getPhaseDays(PHASE_VEG);
+  }
+  if (phases[PHASE_FLOWER].active || phases[PHASE_FLOWER].startTime > 0) {
+    total += getPhaseDays(PHASE_FLOWER);
+  }
+  return total;
+}
+
+void resetPhase(PlantPhase phase) {
+  phases[phase].startTime = 0;
+  phases[phase].active = false;
+  
+  if (currentPhase == phase) {
+    currentPhase = PHASE_NONE;
+  }
+  
+  savePhaseData();
+  
+  const char* phaseNames[] = {"All", "Seedling", "Veg", "Flower"};
+  Serial.printf("[PHASE] Reset: %s\n", phaseNames[phase]);
+}
+
+String getPhaseJSON() {
+  const char* phaseNames[] = {"none", "seedling", "veg", "flower"};
+  
+  String json = "\"phase\":\"" + String(phaseNames[currentPhase]) + "\",";
+  json += "\"currentPhase\":" + String(currentPhase) + ",";
+  json += "\"totalDays\":" + String(getTotalDays()) + ",";
+  json += "\"seedling\":{\"active\":" + String(phases[PHASE_SEEDLING].active ? "true" : "false") + 
+          ",\"days\":" + String(getPhaseDays(PHASE_SEEDLING)) + "},";
+  json += "\"veg\":{\"active\":" + String(phases[PHASE_VEG].active ? "true" : "false") + 
+           ",\"days\":" + String(getPhaseDays(PHASE_VEG)) + "},";
+  json += "\"flower\":{\"active\":" + String(phases[PHASE_FLOWER].active ? "true" : "false") + 
+           ",\"days\":" + String(getPhaseDays(PHASE_FLOWER)) + "}";
+  
+  return json;
 }
