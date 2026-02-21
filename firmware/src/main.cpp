@@ -529,9 +529,9 @@ const char index_html[] PROGMEM = R"rawliteral(
             <div class="section-title">🌱 Pflanzen Tracker</div>
             <div class="control-group">
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button class="btn-seedling" onclick="setPhase('seedling')" style="flex:1; padding:12px; background:#8b5cf6; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌿 Seedling</button>
-                    <button class="btn-veg" onclick="setPhase('veg')" style="flex:1; padding:12px; background:#10b981; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌱 Veg</button>
-                    <button class="btn-flower" onclick="setPhase('flower')" style="flex:1; padding:12px; background:#f59e0b; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌸 Blüte</button>
+                    <button id="btnSeedling" onclick="setPhase('seedling')" style="flex:1; padding:12px; background:rgba(139,92,246,0.3); border:2px solid rgba(139,92,246,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌿 Seedling</button>
+                    <button id="btnVeg" onclick="setPhase('veg')" style="flex:1; padding:12px; background:rgba(16,185,129,0.3); border:2px solid rgba(16,185,129,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌱 Veg</button>
+                    <button id="btnFlower" onclick="setPhase('flower')" style="flex:1; padding:12px; background:rgba(245,158,11,0.3); border:2px solid rgba(245,158,11,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌸 Blüte</button>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
                     <div style="background:rgba(139,92,246,0.2); padding:15px; border-radius:10px; text-align:center;">
@@ -765,13 +765,20 @@ const char index_html[] PROGMEM = R"rawliteral(
             }
         }
         
+        let currentPhaseStatus = { seedling: {active:false}, veg: {active:false}, flower: {active:false} };
+        
         async function setPhase(phase) {
+            var phaseToSet = phase;
+            if (phase === 'seedling' && currentPhaseStatus.seedling.active) phaseToSet = 'none';
+            else if (phase === 'veg' && currentPhaseStatus.veg.active) phaseToSet = 'none';
+            else if (phase === 'flower' && currentPhaseStatus.flower.active) phaseToSet = 'none';
+            
             try {
-                const response = await fetch(`/api/phase?phase=${phase}`);
+                const response = await fetch(`/api/phase?phase=${phaseToSet}`);
                 const result = await response.json();
                 if (result.success) {
-                    const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Zurückgesetzt' };
-                    showMessage(`${phaseNames[phase] || phase} gestartet`);
+                    const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Alle abgebrochen' };
+                    showMessage(`${phaseNames[phaseToSet] || phaseToSet}`);
                     fetchStatus();
                 } else {
                     showMessage('Fehler: ' + result.error, 'error');
@@ -800,12 +807,45 @@ const char index_html[] PROGMEM = R"rawliteral(
         function updatePhaseUI(status) {
             if (status.seedling !== undefined) {
                 document.getElementById('seedlingDays').textContent = status.seedling.days || 0;
+                currentPhaseStatus.seedling = { active: status.seedling.active };
+                var btnS = document.getElementById('btnSeedling');
+                if (status.seedling.active) {
+                    btnS.style.background = '#8b5cf6';
+                    btnS.style.borderColor = '#a78bfa';
+                    btnS.style.boxShadow = '0 0 15px rgba(139,92,246,0.6)';
+                } else {
+                    btnS.style.background = 'rgba(139,92,246,0.3)';
+                    btnS.style.borderColor = 'rgba(139,92,246,0.5)';
+                    btnS.style.boxShadow = 'none';
+                }
             }
             if (status.veg !== undefined) {
                 document.getElementById('vegDays').textContent = status.veg.days || 0;
+                currentPhaseStatus.veg = { active: status.veg.active };
+                var btnV = document.getElementById('btnVeg');
+                if (status.veg.active) {
+                    btnV.style.background = '#10b981';
+                    btnV.style.borderColor = '#34d399';
+                    btnV.style.boxShadow = '0 0 15px rgba(16,185,129,0.6)';
+                } else {
+                    btnV.style.background = 'rgba(16,185,129,0.3)';
+                    btnV.style.borderColor = 'rgba(16,185,129,0.5)';
+                    btnV.style.boxShadow = 'none';
+                }
             }
             if (status.flower !== undefined) {
                 document.getElementById('flowerDays').textContent = status.flower.days || 0;
+                currentPhaseStatus.flower = { active: status.flower.active };
+                var btnF = document.getElementById('btnFlower');
+                if (status.flower.active) {
+                    btnF.style.background = '#f59e0b';
+                    btnF.style.borderColor = '#fbbf24';
+                    btnF.style.boxShadow = '0 0 15px rgba(245,158,11,0.6)';
+                } else {
+                    btnF.style.background = 'rgba(245,158,11,0.3)';
+                    btnF.style.borderColor = 'rgba(245,158,11,0.5)';
+                    btnF.style.boxShadow = 'none';
+                }
             }
             if (status.totalDays !== undefined) {
                 document.getElementById('totalDays').textContent = status.totalDays || 0;
