@@ -41,8 +41,8 @@ const char index_html[] PROGMEM = R"rawliteral(
         .time-input { flex: 1; }
         input[type="number"] { width: 100%; padding: 12px 15px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 1.1rem; text-align: center; transition: border-color 0.3s; }
         input[type="number"]:focus { outline: none; border-color: #4ade80; }
-        input[type="text"] { width: 100%; padding: 12px 15px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 1rem; transition: border-color 0.3s; }
-        input[type="text"]:focus { outline: none; border-color: #4ade80; }
+        input[type="text"], textarea { width: 100%; padding: 12px 15px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff; font-size: 1rem; transition: border-color 0.3s; font-family: inherit; }
+        input[type="text"]:focus, textarea:focus { outline: none; border-color: #4ade80; }
         .time-separator { color: #94a3b8; font-weight: 600; }
         .save-btn { margin-top: 15px; width: 100%; padding: 15px; background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-transform: uppercase; }
         .toggle-container { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; padding: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
@@ -66,6 +66,18 @@ const char index_html[] PROGMEM = R"rawliteral(
         .message.error { background: #f87171; color: white; }
         .current-time { text-align: center; color: #94a3b8; font-size: 0.9rem; margin-top: 20px; }
         .section-title { font-size: 1.3rem; color: #fff; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid rgba(255, 255, 255, 0.1); }
+        .log-entry { background: rgba(255, 255, 255, 0.05); border-radius: 10px; padding: 15px; margin-bottom: 10px; position: relative; }
+        .log-entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .log-entry-time { font-size: 0.8rem; color: #60a5fa; font-weight: 600; }
+        .log-entry-delete { background: transparent; border: none; color: #f87171; cursor: pointer; padding: 5px 10px; font-size: 1.2rem; opacity: 0.6; transition: opacity 0.2s; }
+        .log-entry-delete:hover { opacity: 1; }
+        .log-entry-text { color: #e2e8f0; font-size: 0.95rem; line-height: 1.4; }
+        .log-empty { text-align: center; color: #64748b; padding: 20px; font-style: italic; }
+        .log-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .log-input-group input { flex: 1; }
+        .log-input-group button { flex: 0 0 auto; padding: 12px 20px; }
+        .log-actions { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-clear-log { background: linear-gradient(135deg, #f87171 0%, #ef4444 100%); color: white; }
         @media (max-width: 480px) { h1 { font-size: 1.5rem; } .status-card { padding: 20px; } button { padding: 12px 20px; font-size: 0.9rem; } }
     </style>
 </head>
@@ -130,6 +142,17 @@ const char index_html[] PROGMEM = R"rawliteral(
             </div>
         </div>
         <div class="status-card">
+            <div class="section-title">📖 Grow Logbuch</div>
+            <div class="log-input-group" style="flex-direction: column;">
+                <textarea id="logInput" rows="3" placeholder="Was hast du gemacht? z.B. gegossen, Dünger gegeben..." maxlength="200" style="resize: vertical;" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();addLogEntry()}"></textarea>
+                <button class="save-btn" style="margin-top:0;" onclick="addLogEntry()">Eintrag hinzufügen</button>
+            </div>
+            <div id="logEntries"></div>
+            <div class="log-actions">
+                <button class="btn-clear-log" onclick="clearLogbook()" style="width:100%; padding:12px; background:linear-gradient(135deg,#f87171 0%,#ef4444 100%); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer;">Gesamtes Logbuch löschen</button>
+            </div>
+        </div>
+        <div class="status-card">
             <div class="section-title">Netzwerk Einstellungen</div>
             <div class="control-group"><label class="control-label">Geräte-Name (für growtower.local)</label><input type="text" id="hostnameInput" placeholder="growtower" maxlength="31"></div>
             <button class="save-btn" onclick="setHostname()">Namen speichern & Neustart</button>
@@ -180,13 +203,20 @@ const char index_html[] PROGMEM = R"rawliteral(
         let currentPhaseStatus = { seedling: {active:false}, veg: {active:false}, flower: {active:false} };
         async function setPhase(phase) { var phaseToSet = phase; if (phase === 'seedling' && currentPhaseStatus.seedling.active) phaseToSet = 'none'; else if (phase === 'veg' && currentPhaseStatus.veg.active) phaseToSet = 'none'; else if (phase === 'flower' && currentPhaseStatus.flower.active) phaseToSet = 'none'; try { const response = await fetch(`/api/phase?phase=${phaseToSet}`); const result = await response.json(); if (result.success) { const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Alle abgebrochen' }; showMessage(`${phaseNames[phaseToSet] || phaseToSet}`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Setzen der Phase', 'error'); } }
         async function resetPhase() { const phase = document.getElementById('resetPhaseSelect').value; try { const response = await fetch(`/api/phasereset?phase=${phase}`); const result = await response.json(); if (result.success) { showMessage(`${phase === 'all' ? 'Alle' : phase} zurückgesetzt`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Zurücksetzen', 'error'); } }
+        let logEntries = [];
+        async function fetchLogbook() { try { const response = await fetch('/api/logbook'); const data = await response.json(); logEntries = data.entries || []; renderLogEntries(); } catch (error) { console.error('Error fetching logbook:', error); } }
+        function renderLogEntries() { const container = document.getElementById('logEntries'); if (logEntries.length === 0) { container.innerHTML = '<div class="log-empty">Noch keine Einträge vorhanden</div>'; return; } let html = ''; for (const entry of logEntries) { html += `<div class="log-entry"><div class="log-entry-header"><span class="log-entry-time">${entry.time}</span><button class="log-entry-delete" onclick="deleteLogEntry(${entry.index})" title="Löschen">×</button></div><div class="log-entry-text">${escapeHtml(entry.text)}</div></div>`; } container.innerHTML = html; }
+        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        async function addLogEntry() { const input = document.getElementById('logInput'); const text = input.value.trim(); if (!text) { showMessage('Bitte Text eingeben', 'error'); return; } try { const response = await fetch('/api/logbook/add', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `text=${encodeURIComponent(text)}` }); const result = await response.json(); if (result.success) { input.value = ''; fetchLogbook(); showMessage('Eintrag hinzugefügt'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Hinzufügen', 'error'); } }
+        async function deleteLogEntry(index) { if (!confirm('Diesen Eintrag löschen?')) { return; } try { const response = await fetch('/api/logbook/delete', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `index=${index}` }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Eintrag gelöscht'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Löschen', 'error'); } }
+        async function clearLogbook() { if (!confirm('Gesamtes Logbuch löschen? Diese Aktion kann nicht rückgängig gemacht werden!')) { return; } try { const response = await fetch('/api/logbook/clear', { method: 'POST' }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Logbuch gelöscht'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Löschen', 'error'); } }
         function updatePhaseUI(status) {
             if (status.seedling !== undefined) { document.getElementById('seedlingDays').textContent = status.seedling.days || 0; currentPhaseStatus.seedling = { active: status.seedling.active }; var btnS = document.getElementById('btnSeedling'); if (status.seedling.active) { btnS.style.background = '#8b5cf6'; btnS.style.borderColor = '#a78bfa'; btnS.style.boxShadow = '0 0 15px rgba(139,92,246,0.6)'; } else { btnS.style.background = 'rgba(139,92,246,0.3)'; btnS.style.borderColor = 'rgba(139,92,246,0.5)'; btnS.style.boxShadow = 'none'; } }
             if (status.veg !== undefined) { document.getElementById('vegDays').textContent = status.veg.days || 0; currentPhaseStatus.veg = { active: status.veg.active }; var btnV = document.getElementById('btnVeg'); if (status.veg.active) { btnV.style.background = '#10b981'; btnV.style.borderColor = '#34d399'; btnV.style.boxShadow = '0 0 15px rgba(16,185,129,0.6)'; } else { btnV.style.background = 'rgba(16,185,129,0.3)'; btnV.style.borderColor = 'rgba(16,185,129,0.5)'; btnV.style.boxShadow = 'none'; } }
             if (status.flower !== undefined) { document.getElementById('flowerDays').textContent = status.flower.days || 0; currentPhaseStatus.flower = { active: status.flower.active }; var btnF = document.getElementById('btnFlower'); if (status.flower.active) { btnF.style.background = '#f59e0b'; btnF.style.borderColor = '#fbbf24'; btnF.style.boxShadow = '0 0 15px rgba(245,158,11,0.6)'; } else { btnF.style.background = 'rgba(245,158,11,0.3)'; btnF.style.borderColor = 'rgba(245,158,11,0.5)'; btnF.style.boxShadow = 'none'; } }
             if (status.totalDays !== undefined) { document.getElementById('totalDays').textContent = status.totalDays || 0; }
         }
-        fetchStatus(); setInterval(fetchStatus, 2000);
+        fetchStatus(); fetchLogbook(); setInterval(fetchStatus, 2000);
     </script>
 </body>
 </html>

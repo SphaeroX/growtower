@@ -27,6 +27,13 @@ int currentFanSpeed = 30;
 PhaseData phases[3] = {{0, false}, {0, false}, {0, false}};
 PlantPhase currentPhase = PHASE_NONE;
 
+void loadLogbook();
+void saveLogbook();
+void addLogEntry(String text);
+void deleteLogEntry(int index);
+void clearLogbook();
+String getLogbookJSON();
+
 AsyncWebServer server(80);
 
 void setup() {
@@ -205,6 +212,7 @@ void loadSettings() {
   preferences.end();
 
   loadPhaseData();
+  loadLogbook();
 
   Serial.printf(
       "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, LightOff=%d:00, "
@@ -288,6 +296,7 @@ void resetAllSettings() {
   phases[PHASE_FLOWER].active = false;
   currentPhase = PHASE_NONE;
   savePhaseData();
+  clearLogbook();
   
   Serial.println("[SYS] Settings cleared. Rebooting...");
   delay(1000);
@@ -610,5 +619,153 @@ String getPhaseJSON() {
   json += "\"flower\":{\"active\":" + String(phases[PHASE_FLOWER].active ? "true" : "false") + 
            ",\"days\":" + String(getPhaseDays(PHASE_FLOWER)) + "}";
   
+  return json;
+}
+
+#define MAX_LOG_ENTRIES 50
+#define MAX_LOG_TEXT_LENGTH 200
+
+struct LogEntry {
+  time_t timestamp;
+  String text;
+};
+
+LogEntry logEntries[MAX_LOG_ENTRIES];
+int logEntryCount = 0;
+
+void loadLogbook() {
+  preferences.begin("growtower", true);
+  String logJson = preferences.getString("logbook", "[]");
+  preferences.end();
+  
+  logEntryCount = 0;
+  
+  int jsonLen = logJson.length();
+  if (jsonLen < 2) return;
+  
+  int entryStart = -1;
+  int braceCount = 0;
+  for (int i = 0; i < jsonLen; i++) {
+    if (logJson[i] == '{') {
+      if (braceCount == 0) entryStart = i;
+      braceCount++;
+    } else if (logJson[i] == '}') {
+      braceCount--;
+      if (braceCount == 0 && entryStart >= 0) {
+        String entryStr = logJson.substring(entryStart, i + 1);
+        int tsIndex = entryStr.indexOf("\"ts\":");
+        int txtIndex = entryStr.indexOf("\"text\":\"");
+        if (tsIndex >= 0 && txtIndex >= 0) {
+          tsIndex += 5;
+          int tsEnd = entryStr.indexOf(",", tsIndex);
+          if (tsEnd < 0) tsEnd = entryStr.indexOf("}", tsIndex);
+          if (tsEnd > tsIndex) {
+            String tsStr = entryStr.substring(tsIndex, tsEnd);
+            logEntries[logEntryCount].timestamp = tsStr.toInt();
+            
+            txtIndex += 8;
+            int txtEnd = entryStr.indexOf("\"", txtIndex);
+            if (txtEnd > txtIndex) {
+              logEntries[logEntryCount].text = entryStr.substring(txtIndex, txtEnd);
+              logEntryCount++;
+              if (logEntryCount >= MAX_LOG_ENTRIES) break;
+            }
+          }
+        }
+        entryStart = -1;
+      }
+    }
+  }
+  
+  Serial.printf("[LOG] Loaded %d log entries\n", logEntryCount);
+}
+
+void saveLogbook() {
+  preferences.begin("growtower", false);
+  
+  String logJson = "[";
+  for (int i = 0; i < logEntryCount; i++) {
+    if (i > 0) logJson += ",";
+    logJson += "{\"ts\":" + String(logEntries[i].timestamp) + ",\"text\":\"" + logEntries[i].text + "\"}";
+  }
+  logJson += "]";
+  
+  preferences.putString("logbook", logJson);
+  preferences.end();
+  
+  Serial.printf("[LOG] Saved %d log entries\n", logEntryCount);
+}
+
+void addLogEntry(String text) {
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    Serial.println("[LOG] Cannot add entry: NTP time not available");
+    return;
+  }
+  
+  text.trim();
+  if (text.length() == 0) return;
+  if (text.length() > MAX_LOG_TEXT_LENGTH) {
+    text = text.substring(0, MAX_LOG_TEXT_LENGTH);
+  }
+  
+  text.replace("\"", "'");
+  text.replace("\\", "/");
+  
+  for (int i = MAX_LOG_ENTRIES - 1; i > 0; i--) {
+    logEntries[i] = logEntries[i - 1];
+  }
+  
+  logEntries[0].timestamp = mktime(&timeinfo);
+  logEntries[0].text = text;
+  
+  if (logEntryCount < MAX_LOG_ENTRIES) {
+    logEntryCount++;
+  }
+  
+  saveLogbook();
+  Serial.printf("[LOG] Added entry: %s\n", text.c_str());
+}
+
+void deleteLogEntry(int index) {
+  if (index < 0 || index >= logEntryCount) return;
+  
+  for (int i = index; i < logEntryCount - 1; i++) {
+    logEntries[i] = logEntries[i + 1];
+  }
+  logEntryCount--;
+  
+  saveLogbook();
+  Serial.printf("[LOG] Deleted entry at index %d\n", index);
+}
+
+void clearLogbook() {
+  logEntryCount = 0;
+  preferences.begin("growtower", false);
+  preferences.remove("logbook");
+  preferences.end();
+  Serial.println("[LOG] Logbook cleared");
+}
+
+String getLogbookJSON() {
+  String json = "{\"entries\":[";
+  for (int i = 0; i < logEntryCount; i++) {
+    if (i > 0) json += ",";
+    
+    char timeStr[20];
+    struct tm *timeinfo = localtime(&logEntries[i].timestamp);
+    strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M", timeinfo);
+    
+    String escapedText = logEntries[i].text;
+    escapedText.replace("\\", "\\\\");
+    escapedText.replace("\"", "\\\"");
+    escapedText.replace("\n", "\\n");
+    escapedText.replace("\r", "\\r");
+    escapedText.replace("\t", "\\t");
+    
+    json += "{\"index\":" + String(i) + ",\"ts\":" + String(logEntries[i].timestamp) + 
+            ",\"time\":\"" + String(timeStr) + "\",\"text\":\"" + escapedText + "\"}";
+  }
+  json += "],\"count\":" + String(logEntryCount) + "}";
   return json;
 }

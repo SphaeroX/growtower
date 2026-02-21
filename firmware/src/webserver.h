@@ -7,6 +7,11 @@
 
 extern AsyncWebServer server;
 
+extern void addLogEntry(String text);
+extern void deleteLogEntry(int index);
+extern void clearLogbook();
+extern String getLogbookJSON();
+
 void initWebServer() {
     if (WiFi.status() != WL_CONNECTED) {
         Serial.println("[WEB] WiFi not connected, Web Server disabled");
@@ -124,6 +129,35 @@ void initWebServer() {
         } else {
             request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing phase param\"}");
         }
+    });
+
+    server.on("/api/logbook", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(200, "application/json", getLogbookJSON());
+    });
+
+    server.on("/api/logbook/add", HTTP_POST, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("text", true)) {
+            String text = request->getParam("text", true)->value();
+            addLogEntry(text);
+            request->send(200, "application/json", "{\"success\":true}");
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing text param\"}");
+        }
+    });
+
+    server.on("/api/logbook/delete", HTTP_POST, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("index", true)) {
+            int index = request->getParam("index", true)->value().toInt();
+            deleteLogEntry(index);
+            request->send(200, "application/json", "{\"success\":true}");
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing index param\"}");
+        }
+    });
+
+    server.on("/api/logbook/clear", HTTP_POST, [](AsyncWebServerRequest *request) {
+        clearLogbook();
+        request->send(200, "application/json", "{\"success\":true}");
     });
 
     server.onNotFound([](AsyncWebServerRequest *request) {
