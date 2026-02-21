@@ -509,7 +509,7 @@ const char index_html[] PROGMEM = R"rawliteral(
             <div class="control-group">
                 <label class="control-label">Einschaltzeit</label>
                 <div class="time-inputs">
-                    <input type="number" id="onHour" min="0" max="23" value="18" class="time-input">
+                    <input type="number" id="onHour" min="0" max="23" value="18" class="time-input" oninput="updateLightDuration()">
                     <span class="time-separator">:</span>
                     <input type="number" value="00" disabled class="time-input" style="opacity: 0.5;">
                 </div>
@@ -517,10 +517,13 @@ const char index_html[] PROGMEM = R"rawliteral(
             <div class="control-group">
                 <label class="control-label">Ausschaltzeit</label>
                 <div class="time-inputs">
-                    <input type="number" id="offHour" min="0" max="23" value="14" class="time-input">
+                    <input type="number" id="offHour" min="0" max="23" value="14" class="time-input" oninput="updateLightDuration()">
                     <span class="time-separator">:</span>
                     <input type="number" value="00" disabled class="time-input" style="opacity: 0.5;">
                 </div>
+            </div>
+            <div style="margin: 15px 0; padding: 12px; background: rgba(74, 222, 128, 0.2); border-radius: 10px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.3);">
+                <span style="color: #4ade80; font-weight: 600;">Lichtphase: <span id="lightDuration">20h</span></span>
             </div>
             <button class="save-btn" onclick="setLightTimer()">Timer speichern</button>
         </div>
@@ -607,6 +610,22 @@ const char index_html[] PROGMEM = R"rawliteral(
             document.getElementById('fanMaxDisplay').textContent = value + '%';
         }
         
+        function updateLightDuration() {
+            const onHour = parseInt(document.getElementById('onHour').value) || 0;
+            const offHour = parseInt(document.getElementById('offHour').value) || 0;
+            let duration;
+            
+            if (onHour === offHour) {
+                duration = 24;
+            } else if (offHour > onHour) {
+                duration = offHour - onHour;
+            } else {
+                duration = 24 - onHour + offHour;
+            }
+            
+            document.getElementById('lightDuration').textContent = duration + 'h';
+        }
+        
         function updateUI(status) {
             currentStatus = status;
             
@@ -655,6 +674,7 @@ const char index_html[] PROGMEM = R"rawliteral(
             if (document.activeElement !== document.getElementById('offHour')) {
                 document.getElementById('offHour').value = status.lightOff;
             }
+            updateLightDuration();
             if (document.activeElement !== document.getElementById('hostnameInput')) {
                 document.getElementById('hostnameInput').value = status.hostname;
             }
