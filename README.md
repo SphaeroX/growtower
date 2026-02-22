@@ -97,8 +97,8 @@ For the second grow, I will implement the One-Bud technique with an improved set
 
 ### Technique
 
-- **Strain Type:** Feminized seed (Photoperiod), NOT Automatic
-- **Approach:** Completely skip the vegetative phase. The plant will be placed directly into the flowering light cycle (12/12) immediately after germination
+- **Strain:** Purple Bud (Feminized Photoperiod)
+- **Approach:** Completely skip the vegetative phase. Both plants will be placed directly into the flowering light cycle (12/12) immediately after germination
 - **Goal:** Produce a single main cola (One-Bud). This minimizes lateral growth, saves significant space, and reduces the total cultivation time. The GrowTower's vertical design is exceptionally well-suited for this technique.
 
 ### Setup Changes for Grow #2
@@ -106,6 +106,29 @@ For the second grow, I will implement the One-Bud technique with an improved set
 - **Growing Medium:** Composana Qualitätsblumenerde mixed with **40-50% Perlite**
 
 - **Fertilizer:** Use **mineral Compo Blüte** fertilizer 
+
+### Parallel Experiment: Two Towers Comparison
+
+For Grow #2, I will run **two GrowTowers simultaneously** with Purple Bud (Photoperiod) to compare two different watering setups:
+
+| Tower A | Tower B |
+|---------|---------|
+| Composana + 50% Perlite | **LECA** (Expanded Clay) + Wick |
+| Bottom watering only | Water reservoir with wick system |
+| Purple Bud | Purple Bud |
+
+**Tower A (No Wick):**
+- Classic bottom watering approach
+- Direct control over water/nutrient delivery
+- No risk of overwatering from reservoir
+
+**Tower B (With Wick + LECA):**
+- Bottom section (feet): Completely filled with LECA, no soil
+- Wick embedded in the LECA layer for passive water transport
+- Tests if LECA + wick provides the right moisture balance
+- LECA ensures excellent drainage and aeration around the roots
+
+This comparison will help determine which method works best for the GrowTower semi-hydroponic setup. 
 
 ### Fertilizer Schedule (Micro-Grow)
 
