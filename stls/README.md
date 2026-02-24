@@ -80,6 +80,11 @@ The remaining parts (Inner Shell, Outer Shell, Outer Shell Bottom, Shell Connect
 
 The outer shell consists of **3x Outer Shell** + **1x Outer Shell Bottom**, connected with **3x Shell Connector**:
 
+**Printing Options:**
+- **Standard Print:** Print with normal settings (15-20% infill, walls as normal)
+- **Vase Mode (Faster):** Print in vase/spiralize mode for faster printing. Note: You'll need to orient the LED strips carefully after printing to ensure even light distribution.
+
+**Assembly:**
 1. **Print:** Print 3x Outer Shell and 1x Outer Shell Bottom, plus 3x Shell Connector
 2. **First Connector:** 
    - Apply a small amount of glue to the connector and position it on the first Outer Shell section
