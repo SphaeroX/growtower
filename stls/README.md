@@ -17,11 +17,21 @@ This directory contains all STL files for the GrowTower project.
 
 ## Plant Pot Printing Instructions
 
-For optimal results without supports, the plant pot can be cut in the slicer and glued together after printing:
+The plant pot is 100mm tall. For optimal results without supports, the pot can either be printed **solid in one piece** or **cut at 49.7mm** and glued together:
 
-1. **Cut the Pot:** In your slicer, use the cut tool to split the pot horizontally into two parts.
-2. **Print Both Parts:** Print both halves without supports, flat side down.
-3. **Glue Together:** After printing, glue the two halves together using super glue or epoxy.
+### Option 1: Print Solid (Recommended for seamless result)
+- Print the entire pot in one piece
+- No cutting or gluing required
+- May require minimal support for the rim
+
+### Option 2: Cut and Glue (Saves support material)
+1. **Cut the Pot:** In your slicer, use the cut tool to split the pot horizontally at **49.7mm** (exactly half).
+2. **Print Both Parts:** 
+   - **Upper part:** Print as oriented in the STL (no change needed)
+   - **Lower part:** Rotate so the cut face sits flat on the print bed
+3. **Glue Together:** After printing, glue the two halves together using super glue or epoxy. Align the seams carefully for a clean joint.
+
+The cut method saves support material since each half prints flat without supports.
 
 ---
 
@@ -65,6 +75,25 @@ The remaining parts (Inner Shell, Outer Shell, Outer Shell Bottom, Shell Connect
 - **Infill:** 15-20%
 - **Supports:** Not required
 - **Orientation:** Print as oriented in the STL file
+
+### Outer Shell Assembly
+
+The outer shell consists of **3x Outer Shell** + **1x Outer Shell Bottom**, connected with **3x Shell Connector**:
+
+1. **Print:** Print 3x Outer Shell and 1x Outer Shell Bottom, plus 3x Shell Connector
+2. **First Connector:** 
+   - Apply a small amount of glue to the connector and position it on the first Outer Shell section
+   - Apply glue all around the connector where it overlaps with the shell
+   - Push the connector down so it slides onto the glue - this ensures the 50% overlap
+3. **First Shell Section Complete:** Let the glue fully cure before continuing (otherwise it will slip)
+4. **Add Second Shell:**
+   - Apply a small amount of glue to the connector and pre-mount the next Outer Shell section
+   - Apply glue all around the connector
+   - Push the second shell down onto the connector
+5. **Repeat:** Continue the same process for all remaining Outer Shell sections
+6. **Attach Bottom:** Finally, attach the Outer Shell Bottom at the base using the same method
+
+The Shell Connector is a ring that overlaps 50% with each shell, creating a secure slip-fit joint between sections.
 
 ---
 
