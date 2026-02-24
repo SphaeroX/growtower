@@ -82,7 +82,7 @@ The outer shell consists of **3x Outer Shell** + **1x Outer Shell Bottom**, conn
 
 **Printing Options:**
 - **Standard Print:** Print with normal settings (15-20% infill, walls as normal)
-- **Vase Mode (Faster):** Print in vase/spiralize mode for faster printing. Note: You'll need to orient the LED strips carefully after printing to ensure even light distribution. When printed in vase mode, a small bump remains visible on the inside - use this as your orientation marker for LED strip alignment. See `outer_shell_vase.png` for reference.
+- **Vase Mode (Faster):** Print in vase/spiralize mode for faster printing. Note: You'll need to orient the LED strips carefully after printing to ensure even light distribution. When printed in vase mode, a small bump remains visible on the inside - use this as your orientation marker for LED strip alignment. See [outer_shell_vase.png](../images/outer_shell_vase.png) for reference.
 
 **Assembly:**
 1. **Print:** Print 3x Outer Shell and 1x Outer Shell Bottom, plus 3x Shell Connector
@@ -108,4 +108,4 @@ See the main [README.md](../README.md) for slicer screenshots and assembly photo
 
 | | |
 |:---:|:---:|
-| ![Outer Shell Vase](images/outer_shell_vase.png) | *Visible bump for LED orientation* |
+| ![Outer Shell Vase](../images/outer_shell_vase.png) | *Visible bump for LED orientation* |
