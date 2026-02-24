@@ -33,6 +33,11 @@ The plant pot is 100mm tall. For optimal results without supports, the pot can e
 
 The cut method saves support material since each half prints flat without supports.
 
+| | |
+|:---:|:---:|
+| ![Plant Pot Cut 1](../images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](../images/plant_pot_slicer_2.png) |
+| *Plant Pot Upper* | *Plant Pot Lower* |
+
 ---
 
 ## Internal Sieve Printing Instructions
@@ -41,6 +46,11 @@ The Internal Sieve model is intentionally designed to be "closed". To print it c
 
 1.  **Open the Sieve:** In your slicer, use a modifier to remove the top and bottom solid layers.
 2.  **Create the Mesh:** Set the infill density to approximately **30%** and use a **Rectilinear** pattern. This generates the necessary mesh structure for the filter.
+
+| | |
+|:---:|:---:|
+| ![Slicer View 1](../images/sieve_slicer_1.png) | ![Slicer View 2](../images/sieve_slicer_2.png) |
+| *Sieve View 1* | *Sieve View 2* |
 
 ---
 
@@ -82,7 +92,11 @@ The outer shell consists of **3x Outer Shell** + **1x Outer Shell Bottom**, conn
 
 **Printing Options:**
 - **Standard Print:** Print with normal settings (15-20% infill, walls as normal)
-- **Vase Mode (Faster):** Print in vase/spiralize mode for faster printing. Note: You'll need to orient the LED strips carefully after printing to ensure even light distribution. When printed in vase mode, a small bump remains visible on the inside - use this as your orientation marker for LED strip alignment. See [outer_shell_vase.png](../images/outer_shell_vase.png) for reference.
+- **Vase Mode (Faster):** Print in vase/spiralize mode for faster printing. Note: You'll need to orient the LED strips carefully after printing to ensure even light distribution. When printed in vase mode, a small bump remains visible on the inside - use this as your orientation marker for LED strip alignment.
+
+| | |
+|:---:|:---:|
+| ![Outer Shell Vase](../images/outer_shell_vase.png) | *Visible bump for LED orientation* |
 
 **Assembly:**
 1. **Print:** Print 3x Outer Shell and 1x Outer Shell Bottom, plus 3x Shell Connector
@@ -99,16 +113,3 @@ The outer shell consists of **3x Outer Shell** + **1x Outer Shell Bottom**, conn
 6. **Attach Bottom:** Finally, attach the Outer Shell Bottom at the base using the same method
 
 The Shell Connector is a ring that overlaps 50% with each shell, creating a secure slip-fit joint between sections.
-
----
-
-## Images
-
-| | | | |
-|:---:|:---:|:---:|:---:|
-| ![Plant Pot Cut 1](../images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](../images/plant_pot_slicer_2.png) | ![Slicer View 1](../images/sieve_slicer_1.png) | ![Slicer View 2](../images/sieve_slicer_2.png) |
-| *Plant Pot Upper* | *Plant Pot Lower* | *Sieve View 1* | *Sieve View 2* |
-
-| | |
-|:---:|:---:|
-| ![Outer Shell Vase](../images/outer_shell_vase.png) | *Visible bump for LED orientation* |
