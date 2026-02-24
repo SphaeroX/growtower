@@ -104,7 +104,10 @@ The Shell Connector is a ring that overlaps 50% with each shell, creating a secu
 
 ## Images
 
-See the main [README.md](../README.md) for slicer screenshots and assembly photos.
+| | | | |
+|:---:|:---:|:---:|:---:|
+| ![Plant Pot Cut 1](../images/plant_pot_slicer_1.png) | ![Plant Pot Cut 2](../images/plant_pot_slicer_2.png) | ![Slicer View 1](../images/sieve_slicer_1.png) | ![Slicer View 2](../images/sieve_slicer_2.png) |
+| *Plant Pot Upper* | *Plant Pot Lower* | *Sieve View 1* | *Sieve View 2* |
 
 | | |
 |:---:|:---:|
