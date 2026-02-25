@@ -31,6 +31,7 @@ growtower/
 - **Framework**: Arduino (PlatformIO)
 - **Communication**: WiFi (Web server)
 - **Features**: PWM fan control, relay light control, OTA updates
+- **Web Interface**: Embedded in `src/frontend.h`, served directly by the ESP32
 
 ## Build Commands
 
