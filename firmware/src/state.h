@@ -10,7 +10,7 @@ extern char currentHostname[32];
 extern int fanMinPercent;
 extern int fanMaxPercent;
 extern int lightOnHour;
-extern int lightOffHour;
+extern int lightDuration;
 extern bool timerEnabled;
 
 extern bool isLightOn;
@@ -30,7 +30,7 @@ void loadSettings();
 void saveFanMin(int minVal);
 void saveFanMax(int maxVal);
 void saveLightOnHour(int hour);
-void saveLightOffHour(int hour);
+void saveLightDuration(int hours);
 void saveTimerEnabled(bool enabled);
 void saveHostname(const char *hostname);
 void setLight(bool on);

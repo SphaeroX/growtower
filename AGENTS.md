@@ -12,14 +12,15 @@ growtower/
 ├── AGENTS.md              # This file
 ├── images/                # Project photos
 ├── stls/                  # 3D printable STL files
-├── firmware/              # ESP32 firmware
-│   ├── src/main.cpp       # Main firmware code
-│   ├── platformio.ini     # PlatformIO configuration
-│   ├── lib/GrowTowerBLE/  # Custom BLE library
-│   └── .env               # WiFi credentials (gitignored)
-└── web-app/               # BLE web controller
-    ├── index.html         # Single-page web interface
-    └── js/modules/        # JS modules
+└── firmware/              # ESP32 firmware
+    ├── src/               # Source code
+    │   ├── main.cpp       # Main firmware code
+    │   ├── frontend.h     # Web interface (embedded)
+    │   ├── webserver.h    # Web server routes
+    │   ├── state.h        # State management
+    │   └── config.h       # Configuration
+    ├── platformio.ini     # PlatformIO configuration
+    └── .env               # WiFi credentials (gitignored)
 
 ```
 
@@ -28,14 +29,8 @@ growtower/
 ### Firmware
 - **Platform**: ESP32-C3 (Seeed Studio XIAO)
 - **Framework**: Arduino (PlatformIO)
-- **Communication**: BLE (Bluetooth Low Energy)
+- **Communication**: WiFi (Web server)
 - **Features**: PWM fan control, relay light control, OTA updates
-
-### Web Application
-- **Type**: Single-page HTML/JS application
-- **Protocol**: Web Bluetooth API
-- **Language**: English UI
-- **Features**: Real-time device control, logging, scheduling
 
 ## Build Commands
 
@@ -57,17 +52,9 @@ pio device monitor
 pio run -t upload --upload-port growtower.local
 ```
 
-### Web Application
-- No build required - serve `index.html` directly
-- Requires HTTPS or localhost for Web Bluetooth
-- Use Chrome or Edge browser
-
 ## Key Hardware Pins
 - **Fan PWM**: GPIO 3
 - **Light Relay**: GPIO 2
-
-## BLE Service UUID
-`4fafc201-1fb5-459e-8fcc-c5c9c331914b`
 
 ## Development Notes
 
@@ -91,17 +78,10 @@ pio run -t upload --upload-port growtower.local
 - Use `camelCase` for functions and variables
 - Use `ALL_CAPS` for constants and defines
 - Pin definitions in `main.cpp`
-- BLE UUIDs in `GrowTowerBLE.h`
-
-### Web App (JavaScript)
-- ES6+ class-based architecture
-- Async/await for BLE operations
-- English language for UI strings
-- CSS variables for theming
 
 ## Testing
-- Firmware: Use serial monitor commands (ON, OFF, FAN 0-100, TIME)
-- Web App: Connect via Chrome/Edge, check browser console for logs
+- Firmware: Use serial monitor commands (ON, OFF, FAN 0-100, LIGHTON, LIGHTTIME, TIME)
+- Web Interface: Open http://growtower.local in browser
 
 ## Git Ignore Patterns
 - `firmware/.env` - WiFi credentials
@@ -110,6 +90,5 @@ pio run -t upload --upload-port growtower.local
 
 ## Common Issues
 
-1. **BLE Connection Fails**: Remove "TOWER" from Windows Bluetooth settings first
-2. **Upload Fails**: Check COM port, try manual bootloader mode
-3. **Web Bluetooth Not Working**: Use Chrome/Edge, ensure HTTPS or localhost
+1. **Upload Fails**: Check COM port, try manual bootloader mode
+2. **Web Interface Not Loading**: Check WiFi connection, verify IP address

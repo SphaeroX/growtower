@@ -18,7 +18,7 @@ char currentHostname[32] = "growtower";
 int fanMinPercent = 0;
 int fanMaxPercent = 100;
 int lightOnHour = 18;
-int lightOffHour = 14;
+int lightDuration = 18;
 bool timerEnabled = true;
 
 bool isLightOn = false;
@@ -180,7 +180,7 @@ String getStatusJSON() {
   json += "\"fanMin\":" + String(fanMinPercent) + ",";
   json += "\"fanMax\":" + String(fanMaxPercent) + ",";
   json += "\"lightOn\":" + String(lightOnHour) + ",";
-  json += "\"lightOff\":" + String(lightOffHour) + ",";
+  json += "\"lightDuration\":" + String(lightDuration) + ",";
   json += "\"timerEnabled\":" + String(timerEnabled ? "true" : "false") + ",";
   json += "\"hostname\":\"" + String(currentHostname) + "\",";
   json += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
@@ -202,7 +202,7 @@ void loadSettings() {
   fanMinPercent = preferences.getInt("fanMin", 0);
   fanMaxPercent = preferences.getInt("fanMax", 100);
   lightOnHour = preferences.getInt("onHour", 18);
-  lightOffHour = preferences.getInt("offHour", 14);
+  lightDuration = preferences.getInt("duration", 18);
   timerEnabled = preferences.getBool("timerEnabled", true);
 
   String savedHostname = preferences.getString("hostname", DEFAULT_HOSTNAME);
@@ -215,9 +215,9 @@ void loadSettings() {
   loadLogbook();
 
   Serial.printf(
-      "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, LightOff=%d:00, "
+      "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, Duration=%dh, "
       "Hostname=%s\n",
-      fanMinPercent, fanMaxPercent, lightOnHour, lightOffHour, currentHostname);
+      fanMinPercent, fanMaxPercent, lightOnHour, lightDuration, currentHostname);
 }
 
 void saveFanMin(int minVal) {
@@ -259,16 +259,16 @@ void saveLightOnHour(int hour) {
   checkTimer();
 }
 
-void saveLightOffHour(int hour) {
-  if (hour < 0) hour = 0;
-  if (hour > 23) hour = 23;
+void saveLightDuration(int hours) {
+  if (hours < 1) hours = 1;
+  if (hours > 24) hours = 24;
 
-  lightOffHour = hour;
+  lightDuration = hours;
   preferences.begin("growtower", false);
-  preferences.putInt("offHour", lightOffHour);
+  preferences.putInt("duration", lightDuration);
   preferences.end();
 
-  Serial.printf("[CONFIG] Light Off Hour saved: %d:00\n", lightOffHour);
+  Serial.printf("[CONFIG] Light Duration saved: %dh\n", lightDuration);
   checkTimer();
 }
 
@@ -365,6 +365,9 @@ void checkTimer() {
   int currentHour = timeinfo.tm_hour;
   bool shouldBeOn = false;
 
+  int lightOffHour = lightOnHour + lightDuration;
+  if (lightOffHour >= 24) lightOffHour -= 24;
+
   if (lightOnHour > lightOffHour) {
     shouldBeOn = (currentHour >= lightOnHour || currentHour < lightOffHour);
   } else {
@@ -372,8 +375,8 @@ void checkTimer() {
   }
 
   if (shouldBeOn != isLightOn) {
-    Serial.printf("[TIMER] Time: %02d:%02d | Auto-switching light %s\n",
-                  currentHour, timeinfo.tm_min, shouldBeOn ? "ON" : "OFF");
+    Serial.printf("[TIMER] Time: %02d:%02d | Light: %02d:00-%02d:00 | Auto-switching light %s\n",
+                  currentHour, timeinfo.tm_min, lightOnHour, lightOffHour, shouldBeOn ? "ON" : "OFF");
     setLight(shouldBeOn);
   }
 }
@@ -391,11 +394,13 @@ void printLocalTime() {
 }
 
 void printStatus() {
+  int lightOffHour = lightOnHour + lightDuration;
+  if (lightOffHour >= 24) lightOffHour -= 24;
   Serial.println("\n═══════════════ CURRENT STATUS ═══════════════");
   Serial.printf("  Light:        %s\n", isLightOn ? "ON ✓" : "OFF ✗");
   Serial.printf("  Fan Speed:    %d%%\n", currentFanSpeed);
   Serial.printf("  Fan Range:    %d%% - %d%%\n", fanMinPercent, fanMaxPercent);
-  Serial.printf("  Light Timer:  %02d:00 - %02d:00\n", lightOnHour, lightOffHour);
+  Serial.printf("  Light Timer:  %02d:00 - %02d:00 (%dh)\n", lightOnHour, lightOffHour, lightDuration);
   Serial.printf("  Hostname:     %s.local\n", currentHostname);
   Serial.printf("  IP Address:   %s\n", WiFi.localIP().toString().c_str());
   Serial.printf("  Web Server:   %s\n",
@@ -418,8 +423,8 @@ void processCommand(String command) {
     Serial.println("║  FAN <0-100>     - Set fan speed (percent)    ║");
     Serial.println("║  FANMIN <0-100>  - Set fan minimum speed      ║");
     Serial.println("║  FANMAX <0-100>  - Set fan maximum speed      ║");
-    Serial.println("║  LIGHTON <0-23>  - Set light ON hour          ║");
-    Serial.println("║  LIGHTOFF <0-23> - Set light OFF hour         ║");
+    Serial.println("║  LIGHTON <0-23>  - Set light ON hour           ║");
+    Serial.println("║  LIGHTTIME <1-24>- Set light duration (hours) ║");
     Serial.println("║  HOST <name>     - Set hostname               ║");
     Serial.println("║  TIME            - Show current time          ║");
     Serial.println("║  STATUS          - Show system status         ║");
@@ -450,11 +455,11 @@ void processCommand(String command) {
     valueStr.trim();
     int value = valueStr.toInt();
     saveLightOnHour(value);
-  } else if (command.startsWith("LIGHTOFF ")) {
-    String valueStr = command.substring(9);
+  } else if (command.startsWith("LIGHTTIME ")) {
+    String valueStr = command.substring(10);
     valueStr.trim();
     int value = valueStr.toInt();
-    saveLightOffHour(value);
+    saveLightDuration(value);
   } else if (command.startsWith("HOST ")) {
     String valueStr = command.substring(5);
     valueStr.trim();

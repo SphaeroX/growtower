@@ -59,12 +59,14 @@ void initWebServer() {
     });
 
     server.on("/api/timer", HTTP_GET, [](AsyncWebServerRequest *request) {
-        if (request->hasParam("on") && request->hasParam("off")) {
+        if (request->hasParam("on") && request->hasParam("duration")) {
             int on = request->getParam("on")->value().toInt();
-            int off = request->getParam("off")->value().toInt();
+            int duration = request->getParam("duration")->value().toInt();
             saveLightOnHour(on);
-            saveLightOffHour(off);
-            request->send(200, "application/json", "{\"success\":true}");
+            saveLightDuration(duration);
+            int offHour = on + duration;
+            if (offHour >= 24) offHour -= 24;
+            request->send(200, "application/json", "{\"success\":true,\"offHour\":" + String(offHour) + "}");
         } else {
             request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing params\"}");
         }

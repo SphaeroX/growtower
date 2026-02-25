@@ -3,7 +3,7 @@
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -85,91 +85,91 @@ const char index_html[] PROGMEM = R"rawliteral(
     <div class="container">
         <h1>🌱 GrowTower Controller</h1>
         <div class="status-card">
-            <div class="status-title">Aktueller Status</div>
-            <div class="status-value"><span class="status-label">Licht:</span><span class="status-indicator" id="lightStatus"><span class="dot"></span><span id="lightText">-</span></span></div>
-            <div class="status-value"><span class="status-label">Lüfter:</span><span class="status-indicator"><span id="fanValue">-</span>%</span></div>
-            <div class="status-value"><span class="status-label">Lüfter Bereich:</span><span class="status-indicator"><span id="fanMin">-</span>% - <span id="fanMax">-</span>%</span></div>
-            <div class="status-value"><span class="status-label">Licht Timer:</span><span class="status-indicator"><span id="lightOn">-</span>:00 - <span id="lightOff">-</span>:00</span></div>
-            <div class="status-value"><span class="status-label">Geräte-Name:</span><span class="status-indicator" id="hostnameDisplay">-</span></div>
+            <div class="status-title">Current Status</div>
+            <div class="status-value"><span class="status-label">Light:</span><span class="status-indicator" id="lightStatus"><span class="dot"></span><span id="lightText">-</span></span></div>
+            <div class="status-value"><span class="status-label">Fan:</span><span class="status-indicator"><span id="fanValue">-</span>%</span></div>
+            <div class="status-value"><span class="status-label">Fan Range:</span><span class="status-indicator"><span id="fanMin">-</span>% - <span id="fanMax">-</span>%</span></div>
+            <div class="status-value"><span class="status-label">Light Timer:</span><span class="status-indicator"><span id="lightOn">-</span>:00 - <span id="lightOff">-</span>:00</span></div>
+            <div class="status-value"><span class="status-label">Device:</span><span class="status-indicator" id="hostnameDisplay">-</span></div>
         </div>
         <div class="status-card">
-            <div class="section-title">Licht Steuerung</div>
-            <div class="button-group"><button class="btn-on" onclick="setLight(true)">Licht AN</button><button class="btn-off" onclick="setLight(false)">Licht AUS</button></div>
+            <div class="section-title">Light Control</div>
+            <div class="button-group"><button class="btn-on" onclick="setLight(true)">ON</button><button class="btn-off" onclick="setLight(false)">OFF</button></div>
         </div>
         <div class="status-card">
-            <div class="section-title">Lüfter Steuerung</div>
-            <div class="control-group"><label class="control-label">Geschwindigkeit: <span id="fanPercent">30</span>%</label><div class="slider-container"><input type="range" id="fanSlider" min="0" max="100" value="30" oninput="updateFanLabel(this.value)"><span class="slider-value" id="fanDisplay">30%</span></div></div>
-            <button class="save-btn" onclick="setFan()">Lüfter einstellen</button>
+            <div class="section-title">Fan Control</div>
+            <div class="control-group"><label class="control-label">Speed: <span id="fanPercent">30</span>%</label><div class="slider-container"><input type="range" id="fanSlider" min="0" max="100" value="30" oninput="updateFanLabel(this.value)"><span class="slider-value" id="fanDisplay">30%</span></div></div>
+            <button class="save-btn" onclick="setFan()">Set Fan</button>
         </div>
         <div class="status-card">
-            <div class="section-title">Lüfter Bereich</div>
+            <div class="section-title">Fan Range</div>
             <div class="control-group"><label class="control-label">Minimum: <span id="fanMinLabel">0</span>%</label><div class="slider-container"><input type="range" id="fanMinSlider" min="0" max="100" value="0" oninput="updateFanMinLabel(this.value)"><span class="slider-value" id="fanMinDisplay">0%</span></div></div>
             <div class="control-group"><label class="control-label">Maximum: <span id="fanMaxLabel">100</span>%</label><div class="slider-container"><input type="range" id="fanMaxSlider" min="0" max="100" value="100" oninput="updateFanMaxLabel(this.value)"><span class="slider-value" id="fanMaxDisplay">100%</span></div></div>
-            <button class="save-btn" onclick="setFanRange()">Bereich speichern</button>
+            <button class="save-btn" onclick="setFanRange()">Save Range</button>
         </div>
         <div class="status-card">
-            <div class="section-title">Licht Timer</div>
+            <div class="section-title">Light Timer</div>
             <div class="toggle-container">
-                <span class="toggle-label">Automatische Zeitschaltuhr</span>
+                <span class="toggle-label">Automatic Timer</span>
                 <label class="toggle-switch">
                     <input type="checkbox" id="timerToggle" onchange="toggleTimer()">
                     <span class="toggle-slider"></span>
                 </label>
             </div>
-            <div class="toggle-status" id="timerStatus">Aktiv</div>
+            <div class="toggle-status" id="timerStatus">Active</div>
             <div id="timerSettings">
-                <div class="control-group"><label class="control-label">Einschaltzeit</label><div class="time-inputs"><input type="number" id="onHour" min="0" max="23" value="18" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
-                <div class="control-group"><label class="control-label">Ausschaltzeit</label><div class="time-inputs"><input type="number" id="offHour" min="0" max="23" value="14" class="time-input" oninput="updateLightDuration()"><span class="time-separator">:</span><input type="number" value="00" disabled class="time-input" style="opacity: 0.5;"></div></div>
-                <div style="margin: 15px 0; padding: 12px; background: rgba(74, 222, 128, 0.2); border-radius: 10px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.3);"><span style="color: #4ade80; font-weight: 600;">Lichtphase: <span id="lightDuration">20h</span></span></div>
-                <button class="save-btn" onclick="setLightTimer()">Timer speichern</button>
+                <div class="control-group"><label class="control-label">On Time</label><div class="time-inputs"><input type="number" id="onHour" min="0" max="23" value="18" class="time-input" oninput="updateLightDuration()"></div></div>
+                <div class="control-group"><label class="control-label">Duration (hours)</label><div class="time-inputs"><input type="number" id="durationHours" min="1" max="24" value="18" class="time-input" oninput="updateLightDuration()"></div></div>
+                <div style="margin: 15px 0; padding: 12px; background: rgba(74, 222, 128, 0.2); border-radius: 10px; text-align: center; border: 1px solid rgba(74, 222, 128, 0.3);"><span style="color: #4ade80; font-weight: 600;">Light Period: <span id="lightOnCalc">-</span>:00 - <span id="lightOffCalc">-</span>:00 (<span id="lightDuration">-</span>h)</span></div>
+                <button class="save-btn" onclick="setLightTimer()">Save Timer</button>
             </div>
         </div>
         <div class="status-card">
-            <div class="section-title">🌱 Pflanzen Tracker</div>
+            <div class="section-title">Plant Tracker</div>
             <div class="control-group">
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button id="btnSeedling" onclick="setPhase('seedling')" style="flex:1; padding:12px; background:rgba(139,92,246,0.3); border:2px solid rgba(139,92,246,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌿 Seedling</button>
-                    <button id="btnVeg" onclick="setPhase('veg')" style="flex:1; padding:12px; background:rgba(16,185,129,0.3); border:2px solid rgba(16,185,129,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌱 Veg</button>
-                    <button id="btnFlower" onclick="setPhase('flower')" style="flex:1; padding:12px; background:rgba(245,158,11,0.3); border:2px solid rgba(245,158,11,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">🌸 Blüte</button>
+                    <button id="btnSeedling" onclick="setPhase('seedling')" style="flex:1; padding:12px; background:rgba(139,92,246,0.3); border:2px solid rgba(139,92,246,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">Seedling</button>
+                    <button id="btnVeg" onclick="setPhase('veg')" style="flex:1; padding:12px; background:rgba(16,185,129,0.3); border:2px solid rgba(16,185,129,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">Veg</button>
+                    <button id="btnFlower" onclick="setPhase('flower')" style="flex:1; padding:12px; background:rgba(245,158,11,0.3); border:2px solid rgba(245,158,11,0.5); border-radius:8px; color:white; cursor:pointer; font-weight:600;">Flower</button>
                 </div>
                 <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
-                    <div style="background:rgba(139,92,246,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Seedling</div><div id="seedlingDays" style="font-size:1.5rem; font-weight:bold; color:#8b5cf6;">0</div><div style="font-size:0.75rem; color:#94a3b8;">Tage</div></div>
-                    <div style="background:rgba(16,185,129,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Veg</div><div id="vegDays" style="font-size:1.5rem; font-weight:bold; color:#10b981;">0</div><div style="font-size:0.75rem; color:#94a3b8;">Tage</div></div>
-                    <div style="background:rgba(245,158,11,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Blüte</div><div id="flowerDays" style="font-size:1.5rem; font-weight:bold; color:#f59e0b;">0</div><div style="font-size:0.75rem; color:#94a3b8;">Tage</div></div>
+                    <div style="background:rgba(139,92,246,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Seedling</div><div id="seedlingDays" style="font-size:1.5rem; font-weight:bold; color:#8b5cf6;">0</div><div style="font-size:0.75rem; color:#94a3b8;">days</div></div>
+                    <div style="background:rgba(16,185,129,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Veg</div><div id="vegDays" style="font-size:1.5rem; font-weight:bold; color:#10b981;">0</div><div style="font-size:0.75rem; color:#94a3b8;">days</div></div>
+                    <div style="background:rgba(245,158,11,0.2); padding:15px; border-radius:10px; text-align:center;"><div style="font-size:0.8rem; color:#94a3b8;">Flower</div><div id="flowerDays" style="font-size:1.5rem; font-weight:bold; color:#f59e0b;">0</div><div style="font-size:0.75rem; color:#94a3b8;">days</div></div>
                 </div>
-                <div style="background:rgba(74,222,128,0.2); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;"><div style="font-size:0.9rem; color:#94a3b8;">Gesamttage</div><div id="totalDays" style="font-size:2rem; font-weight:bold; color:#4ade80;">0</div><div style="font-size:0.8rem; color:#94a3b8;">Tage alt</div></div>
-                <div style="display:flex; gap: 10px;"><select id="resetPhaseSelect" style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:white;"><option value="seedling">Seedling</option><option value="veg">Veg</option><option value="flower">Blüte</option><option value="all">Alle</option></select><button onclick="resetPhase()" style="padding:10px 20px; background:#ef4444; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">Zurücksetzen</button></div>
+                <div style="background:rgba(74,222,128,0.2); padding:15px; border-radius:10px; text-align:center; margin-bottom:15px;"><div style="font-size:0.9rem; color:#94a3b8;">Total Days</div><div id="totalDays" style="font-size:2rem; font-weight:bold; color:#4ade80;">0</div><div style="font-size:0.8rem; color:#94a3b8;">days old</div></div>
+                <div style="display:flex; gap: 10px;"><select id="resetPhaseSelect" style="flex:1; padding:10px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:white;"><option value="seedling">Seedling</option><option value="veg">Veg</option><option value="flower">Flower</option><option value="all">All</option></select><button onclick="resetPhase()" style="padding:10px 20px; background:#ef4444; border:none; border-radius:8px; color:white; cursor:pointer; font-weight:600;">Reset</button></div>
             </div>
         </div>
         <div class="status-card">
-            <div class="section-title">💧 Gießen</div>
+            <div class="section-title">Watering</div>
             <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                <input type="text" id="waterNote" placeholder="Optional: Bemerkung..." maxlength="100" style="flex: 1;">
-                <button onclick="waterPlant()" style="padding: 12px 20px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; white-space: nowrap;">Gießen</button>
+                <input type="text" id="waterNote" placeholder="Optional: Note..." maxlength="100" style="flex: 1;">
+                <button onclick="waterPlant()" style="padding: 12px 20px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border: none; border-radius: 10px; color: white; font-weight: 600; cursor: pointer; white-space: nowrap;">Water</button>
             </div>
         </div>
         <div class="status-card">
-            <div class="section-title">📖 Grow Logbuch</div>
+            <div class="section-title">Grow Logbook</div>
             <div class="log-input-group" style="flex-direction: column;">
-                <textarea id="logInput" rows="3" placeholder="Was hast du gemacht? z.B. gegossen, Dünger gegeben..." maxlength="200" style="resize: vertical;" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();addLogEntry()}"></textarea>
-                <button class="save-btn" style="margin-top:0;" onclick="addLogEntry()">Eintrag hinzufügen</button>
+                <textarea id="logInput" rows="3" placeholder="What did you do? e.g. watered, gave nutrients..." maxlength="200" style="resize: vertical;" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();addLogEntry()}"></textarea>
+                <button class="save-btn" style="margin-top:0;" onclick="addLogEntry()">Add Entry</button>
             </div>
             <div id="logEntries"></div>
             <div class="log-actions">
-                <button class="btn-clear-log" onclick="clearLogbook()" style="width:100%; padding:12px; background:linear-gradient(135deg,#f87171 0%,#ef4444 100%); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer;">Gesamtes Logbuch löschen</button>
+                <button class="btn-clear-log" onclick="clearLogbook()" style="width:100%; padding:12px; background:linear-gradient(135deg,#f87171 0%,#ef4444 100%); border:none; border-radius:10px; color:white; font-weight:600; cursor:pointer;">Clear Logbook</button>
             </div>
         </div>
         <div class="status-card">
-            <div class="section-title">Netzwerk Einstellungen</div>
-            <div class="control-group"><label class="control-label">Geräte-Name (für growtower.local)</label><input type="text" id="hostnameInput" placeholder="growtower" maxlength="31"></div>
-            <button class="save-btn" onclick="setHostname()">Namen speichern & Neustart</button>
+            <div class="section-title">Network Settings</div>
+            <div class="control-group"><label class="control-label">Device Name (for growtower.local)</label><input type="text" id="hostnameInput" placeholder="growtower" maxlength="31"></div>
+            <button class="save-btn" onclick="setHostname()">Save & Restart</button>
         </div>
         <div class="status-card reset-section">
-            <div class="section-title">Werkseinstellungen</div>
-            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px;">Alle Einstellungen zurücksetzen auf Standardwerte. Dies löscht alle Benutzereinstellungen und startet das Gerät neu.</p>
-            <button class="btn-reset" onclick="resetToDefaults()">Auf Werkseinstellungen zurücksetzen</button>
+            <div class="section-title">Factory Settings</div>
+            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px;">Reset all settings to default values. This will erase all user settings and restart the device.</p>
+            <button class="btn-reset" onclick="resetToDefaults()">Reset to Factory Settings</button>
         </div>
-        <div class="current-time">Letzte Aktualisierung: <span id="lastUpdate">-</span></div>
+        <div class="current-time">Last Update: <span id="lastUpdate">-</span></div>
     </div>
     <script>
         let currentStatus = {};
@@ -177,47 +177,49 @@ const char index_html[] PROGMEM = R"rawliteral(
         function updateFanLabel(value) { document.getElementById('fanPercent').textContent = value; document.getElementById('fanDisplay').textContent = value + '%'; }
         function updateFanMinLabel(value) { document.getElementById('fanMinLabel').textContent = value; document.getElementById('fanMinDisplay').textContent = value + '%'; }
         function updateFanMaxLabel(value) { document.getElementById('fanMaxLabel').textContent = value; document.getElementById('fanMaxDisplay').textContent = value + '%'; }
-        function updateLightDuration() { const onHour = parseInt(document.getElementById('onHour').value) || 0; const offHour = parseInt(document.getElementById('offHour').value) || 0; let duration; if (onHour === offHour) { duration = 24; } else if (offHour > onHour) { duration = offHour - onHour; } else { duration = 24 - onHour + offHour; } document.getElementById('lightDuration').textContent = duration + 'h'; }
+        function updateLightDuration() { const onHour = parseInt(document.getElementById('onHour').value) || 0; const duration = parseInt(document.getElementById('durationHours').value) || 1; let offHour = onHour + duration; if (offHour >= 24) offHour -= 24; document.getElementById('lightOnCalc').textContent = String(onHour).padStart(2, '0'); document.getElementById('lightOffCalc').textContent = String(offHour).padStart(2, '0'); document.getElementById('lightDuration').textContent = duration; }
         function updateUI(status) {
             currentStatus = status;
             const lightStatus = document.getElementById('lightStatus'); const lightText = document.getElementById('lightText');
-            if (status.light) { lightStatus.className = 'status-indicator on'; lightText.textContent = 'AN'; } else { lightStatus.className = 'status-indicator off'; lightText.textContent = 'AUS'; }
+            if (status.light) { lightStatus.className = 'status-indicator on'; lightText.textContent = 'ON'; } else { lightStatus.className = 'status-indicator off'; lightText.textContent = 'OFF'; }
             document.getElementById('fanValue').textContent = status.fan;
             document.getElementById('fanMin').textContent = status.fanMin;
             document.getElementById('fanMax').textContent = status.fanMax;
             document.getElementById('lightOn').textContent = String(status.lightOn).padStart(2, '0');
-            document.getElementById('lightOff').textContent = String(status.lightOff).padStart(2, '0');
+            let calculatedOff = status.lightOn + status.lightDuration;
+            if (calculatedOff >= 24) calculatedOff -= 24;
+            document.getElementById('lightOff').textContent = String(calculatedOff).padStart(2, '0');
             document.getElementById('hostnameDisplay').textContent = status.hostname + '.local';
             updatePhaseUI(status);
             if (document.activeElement !== document.getElementById('fanSlider')) { document.getElementById('fanSlider').value = status.fan; updateFanLabel(status.fan); }
             if (document.activeElement !== document.getElementById('fanMinSlider')) { document.getElementById('fanMinSlider').value = status.fanMin; updateFanMinLabel(status.fanMin); }
             if (document.activeElement !== document.getElementById('fanMaxSlider')) { document.getElementById('fanMaxSlider').value = status.fanMax; updateFanMaxLabel(status.fanMax); }
             if (document.activeElement !== document.getElementById('onHour')) { document.getElementById('onHour').value = status.lightOn; }
-            if (document.activeElement !== document.getElementById('offHour')) { document.getElementById('offHour').value = status.lightOff; }
-            if (document.activeElement !== document.getElementById('timerToggle')) { document.getElementById('timerToggle').checked = status.timerEnabled; document.getElementById('timerStatus').textContent = status.timerEnabled ? 'Aktiv' : 'Deaktiviert'; document.getElementById('timerStatus').className = 'toggle-status ' + (status.timerEnabled ? 'active' : 'inactive'); document.getElementById('timerSettings').style.opacity = status.timerEnabled ? '1' : '0.5'; }
+            if (document.activeElement !== document.getElementById('durationHours')) { document.getElementById('durationHours').value = status.lightDuration; updateLightDuration(); }
+            if (document.activeElement !== document.getElementById('timerToggle')) { document.getElementById('timerToggle').checked = status.timerEnabled; document.getElementById('timerStatus').textContent = status.timerEnabled ? 'Active' : 'Disabled'; document.getElementById('timerStatus').className = 'toggle-status ' + (status.timerEnabled ? 'active' : 'inactive'); document.getElementById('timerSettings').style.opacity = status.timerEnabled ? '1' : '0.5'; }
             updateLightDuration();
             if (document.activeElement !== document.getElementById('hostnameInput')) { document.getElementById('hostnameInput').value = status.hostname; }
-            const now = new Date(); document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('de-DE');
+            const now = new Date(); document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('en-US');
         }
         async function fetchStatus() { try { const response = await fetch('/api/status'); const status = await response.json(); updateUI(status); } catch (error) { console.error('Error fetching status:', error); } }
-        async function setLight(on) { try { const response = await fetch(`/api/light?state=${on ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(on ? 'Licht eingeschaltet' : 'Licht ausgeschaltet'); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Schalten', 'error'); } }
-        async function setFan() { const value = document.getElementById('fanSlider').value; try { const response = await fetch(`/api/fan?speed=${value}`); const result = await response.json(); if (result.success) { showMessage(`Lüfter auf ${value}% eingestellt`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Einstellen', 'error'); } }
-        async function setFanRange() { const min = document.getElementById('fanMinSlider').value; const max = document.getElementById('fanMaxSlider').value; try { const response = await fetch(`/api/fanrange?min=${min}&max=${max}`); const result = await response.json(); if (result.success) { showMessage(`Lüfter Bereich: ${min}%-${max}%`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
-        async function setLightTimer() { const on = document.getElementById('onHour').value; const off = document.getElementById('offHour').value; try { const response = await fetch(`/api/timer?on=${on}&off=${off}`); const result = await response.json(); if (result.success) { showMessage(`Timer: ${String(on).padStart(2, '0')}:00 - ${String(off).padStart(2, '0')}:00`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
-        async function toggleTimer() { const enabled = document.getElementById('timerToggle').checked; try { const response = await fetch(`/api/timerenable?enabled=${enabled ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(enabled ? 'Timer aktiviert' : 'Timer deaktiviert'); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Schalten', 'error'); } }
-        async function resetToDefaults() { if (!confirm('Möchten Sie wirklich alle Einstellungen auf die Werkseinstellungen zurücksetzen? Das Gerät wird neu gestartet.')) { return; } try { const response = await fetch('/api/reset'); const result = await response.json(); if (result.success) { showMessage('Wird auf Werkseinstellungen zurückgesetzt...'); setTimeout(() => { window.location.href = 'http://growtower.local'; }, 5000); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Zurücksetzen', 'error'); } }
-        async function setHostname() { const hostname = document.getElementById('hostnameInput').value.trim(); if (!hostname) { showMessage('Bitte einen Namen eingeben', 'error'); return; } if (!/^[a-zA-Z0-9-]+$/.test(hostname)) { showMessage('Nur Buchstaben, Zahlen und Bindestriche erlaubt', 'error'); return; } try { const response = await fetch(`/api/hostname?name=${encodeURIComponent(hostname)}`); const result = await response.json(); if (result.success) { showMessage('Gerät wird neu gestartet...'); setTimeout(() => { window.location.href = `http://${hostname}.local`; }, 5000); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Speichern', 'error'); } }
+        async function setLight(on) { try { const response = await fetch(`/api/light?state=${on ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(on ? 'Light turned on' : 'Light turned off'); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error switching light', 'error'); } }
+        async function setFan() { const value = document.getElementById('fanSlider').value; try { const response = await fetch(`/api/fan?speed=${value}`); const result = await response.json(); if (result.success) { showMessage(`Fan set to ${value}%`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error setting fan', 'error'); } }
+        async function setFanRange() { const min = document.getElementById('fanMinSlider').value; const max = document.getElementById('fanMaxSlider').value; try { const response = await fetch(`/api/fanrange?min=${min}&max=${max}`); const result = await response.json(); if (result.success) { showMessage(`Fan range: ${min}%-${max}%`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving', 'error'); } }
+        async function setLightTimer() { const on = document.getElementById('onHour').value; const duration = document.getElementById('durationHours').value; try { const response = await fetch(`/api/timer?on=${on}&duration=${duration}`); const result = await response.json(); if (result.success) { showMessage(`Timer: ${String(on).padStart(2, '0')}:00 - ${result.offHour}:00 (${duration}h)`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving', 'error'); } }
+        async function toggleTimer() { const enabled = document.getElementById('timerToggle').checked; try { const response = await fetch(`/api/timerenable?enabled=${enabled ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(enabled ? 'Timer enabled' : 'Timer disabled'); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error toggling timer', 'error'); } }
+        async function resetToDefaults() { if (!confirm('Reset all settings to factory defaults? The device will restart.')) { return; } try { const response = await fetch('/api/reset'); const result = await response.json(); if (result.success) { showMessage('Resetting to factory defaults...'); setTimeout(() => { window.location.href = 'http://growtower.local'; }, 5000); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error resetting', 'error'); } }
+        async function setHostname() { const hostname = document.getElementById('hostnameInput').value.trim(); if (!hostname) { showMessage('Please enter a name', 'error'); return; } if (!/^[a-zA-Z0-9-]+$/.test(hostname)) { showMessage('Only letters, numbers and hyphens allowed', 'error'); return; } try { const response = await fetch(`/api/hostname?name=${encodeURIComponent(hostname)}`); const result = await response.json(); if (result.success) { showMessage('Device restarting...'); setTimeout(() => { window.location.href = `http://${hostname}.local`; }, 5000); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving', 'error'); } }
         let currentPhaseStatus = { seedling: {active:false}, veg: {active:false}, flower: {active:false} };
-        async function setPhase(phase) { var phaseToSet = phase; if (phase === 'seedling' && currentPhaseStatus.seedling.active) phaseToSet = 'none'; else if (phase === 'veg' && currentPhaseStatus.veg.active) phaseToSet = 'none'; else if (phase === 'flower' && currentPhaseStatus.flower.active) phaseToSet = 'none'; try { const response = await fetch(`/api/phase?phase=${phaseToSet}`); const result = await response.json(); if (result.success) { const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Blüte', none: 'Alle abgebrochen' }; showMessage(`${phaseNames[phaseToSet] || phaseToSet}`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Setzen der Phase', 'error'); } }
-        async function resetPhase() { const phase = document.getElementById('resetPhaseSelect').value; try { const response = await fetch(`/api/phasereset?phase=${phase}`); const result = await response.json(); if (result.success) { showMessage(`${phase === 'all' ? 'Alle' : phase} zurückgesetzt`); fetchStatus(); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Zurücksetzen', 'error'); } }
+        async function setPhase(phase) { var phaseToSet = phase; if (phase === 'seedling' && currentPhaseStatus.seedling.active) phaseToSet = 'none'; else if (phase === 'veg' && currentPhaseStatus.veg.active) phaseToSet = 'none'; else if (phase === 'flower' && currentPhaseStatus.flower.active) phaseToSet = 'none'; try { const response = await fetch(`/api/phase?phase=${phaseToSet}`); const result = await response.json(); if (result.success) { const phaseNames = { seedling: 'Seedling', veg: 'Veg', flower: 'Flowering', none: 'All cancelled' }; showMessage(`${phaseNames[phaseToSet] || phaseToSet}`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error setting phase', 'error'); } }
+        async function resetPhase() { const phase = document.getElementById('resetPhaseSelect').value; try { const response = await fetch(`/api/phasereset?phase=${phase}`); const result = await response.json(); if (result.success) { showMessage(`${phase === 'all' ? 'All' : phase} reset`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error resetting', 'error'); } }
         let logEntries = [];
         async function fetchLogbook() { try { const response = await fetch('/api/logbook'); const data = await response.json(); logEntries = data.entries || []; renderLogEntries(); } catch (error) { console.error('Error fetching logbook:', error); } }
-        function renderLogEntries() { const container = document.getElementById('logEntries'); if (logEntries.length === 0) { container.innerHTML = '<div class="log-empty">Noch keine Einträge vorhanden</div>'; return; } let html = ''; for (const entry of logEntries) { html += `<div class="log-entry"><div class="log-entry-header"><span class="log-entry-time">${entry.time}</span><button class="log-entry-delete" onclick="deleteLogEntry(${entry.index})" title="Löschen">×</button></div><div class="log-entry-text">${escapeHtml(entry.text)}</div></div>`; } container.innerHTML = html; }
+        function renderLogEntries() { const container = document.getElementById('logEntries'); if (logEntries.length === 0) { container.innerHTML = '<div class="log-empty">No entries yet</div>'; return; } let html = ''; for (const entry of logEntries) { html += `<div class="log-entry"><div class="log-entry-header"><span class="log-entry-time">${entry.time}</span><button class="log-entry-delete" onclick="deleteLogEntry(${entry.index})" title="Delete">×</button></div><div class="log-entry-text">${escapeHtml(entry.text)}</div></div>`; } container.innerHTML = html; }
         function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
-        async function addLogEntry() { const input = document.getElementById('logInput'); const text = input.value.trim(); if (!text) { showMessage('Bitte Text eingeben', 'error'); return; } try { const response = await fetch('/api/logbook/add', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `text=${encodeURIComponent(text)}` }); const result = await response.json(); if (result.success) { input.value = ''; fetchLogbook(); showMessage('Eintrag hinzugefügt'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Hinzufügen', 'error'); } }
-        async function deleteLogEntry(index) { if (!confirm('Diesen Eintrag löschen?')) { return; } try { const response = await fetch('/api/logbook/delete', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `index=${index}` }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Eintrag gelöscht'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Löschen', 'error'); } }
-        async function clearLogbook() { if (!confirm('Gesamtes Logbuch löschen? Diese Aktion kann nicht rückgängig gemacht werden!')) { return; } try { const response = await fetch('/api/logbook/clear', { method: 'POST' }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Logbuch gelöscht'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Löschen', 'error'); } }
-        async function waterPlant() { const note = document.getElementById('waterNote').value.trim(); const text = note ? `Gegossen: ${note}` : 'Gegossen'; try { const response = await fetch('/api/logbook/add', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `text=${encodeURIComponent(text)}` }); const result = await response.json(); if (result.success) { document.getElementById('waterNote').value = ''; fetchLogbook(); showMessage('Gegossen! ✨'); } else { showMessage('Fehler: ' + result.error, 'error'); } } catch (error) { showMessage('Fehler beim Gießen', 'error'); } }
+        async function addLogEntry() { const input = document.getElementById('logInput'); const text = input.value.trim(); if (!text) { showMessage('Please enter text', 'error'); return; } try { const response = await fetch('/api/logbook/add', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `text=${encodeURIComponent(text)}` }); const result = await response.json(); if (result.success) { input.value = ''; fetchLogbook(); showMessage('Entry added'); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error adding entry', 'error'); } }
+        async function deleteLogEntry(index) { if (!confirm('Delete this entry?')) { return; } try { const response = await fetch('/api/logbook/delete', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `index=${index}` }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Entry deleted'); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error deleting', 'error'); } }
+        async function clearLogbook() { if (!confirm('Clear entire logbook? This cannot be undone!')) { return; } try { const response = await fetch('/api/logbook/clear', { method: 'POST' }); const result = await response.json(); if (result.success) { fetchLogbook(); showMessage('Logbook cleared'); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error clearing', 'error'); } }
+        async function waterPlant() { const note = document.getElementById('waterNote').value.trim(); const text = note ? `Watered: ${note}` : 'Watered'; try { const response = await fetch('/api/logbook/add', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: `text=${encodeURIComponent(text)}` }); const result = await response.json(); if (result.success) { document.getElementById('waterNote').value = ''; fetchLogbook(); showMessage('Watered!'); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error watering', 'error'); } }
         function updatePhaseUI(status) {
             if (status.seedling !== undefined) { document.getElementById('seedlingDays').textContent = status.seedling.days || 0; currentPhaseStatus.seedling = { active: status.seedling.active }; var btnS = document.getElementById('btnSeedling'); if (status.seedling.active) { btnS.style.background = '#8b5cf6'; btnS.style.borderColor = '#a78bfa'; btnS.style.boxShadow = '0 0 15px rgba(139,92,246,0.6)'; } else { btnS.style.background = 'rgba(139,92,246,0.3)'; btnS.style.borderColor = 'rgba(139,92,246,0.5)'; btnS.style.boxShadow = 'none'; } }
             if (status.veg !== undefined) { document.getElementById('vegDays').textContent = status.veg.days || 0; currentPhaseStatus.veg = { active: status.veg.active }; var btnV = document.getElementById('btnVeg'); if (status.veg.active) { btnV.style.background = '#10b981'; btnV.style.borderColor = '#34d399'; btnV.style.boxShadow = '0 0 15px rgba(16,185,129,0.6)'; } else { btnV.style.background = 'rgba(16,185,129,0.3)'; btnV.style.borderColor = 'rgba(16,185,129,0.5)'; btnV.style.boxShadow = 'none'; } }
