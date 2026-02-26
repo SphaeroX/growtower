@@ -21,7 +21,7 @@ Here is the list of parts required to build the GrowTower.
 | :--- | :---: | :--- | :---: | :--- |
 | **Filament** | ~1 kg | PETG White | 22.00€ | Recommended for durability and light reflection. |
 | **Activated Carbon** | 1 kg | Pellets (3-4mm), CTC > 65% | 16.80€ | eBay (helo24) | High absorption. |
-| **Black Acrylic Paint** | 1 Can | Spray Paint | ~6.00€ | Amazon/Hardware Store | For light blocking/aesthetics. |
+| **Black Spray Foil** | 1 Can | Liquid Rubber / PlastiDip | ~15.00€ | Amazon/Hardware Store | For perfect light blocking and gap filling. |
 
 ## 3D Printed Parts
 
