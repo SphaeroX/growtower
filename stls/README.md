@@ -76,6 +76,15 @@ For optimal printing results and watertightness, use these settings:
 - **Common Issue:** Pay special attention to the transition from the bottom to the walls, as this is where leaks most commonly occur.
 - **Repair:** If leaks are found at the bottom-wall transition, they can often be fixed by welding the spots with a soldering iron. Don't give up - somehow it can always be made watertight!
 
+## Dryer Module Printing Instructions
+
+The Dryer Module (Trocknungsmodul) is an optional insert used after harvest. It allows you to hang the harvested plant inside the tower for drying.
+
+- **Function:** Fastening points are provided to tie the plant securely for drying.
+- **Placement:** Insert the module simply between the top Inner Shell and the Filter Housing.
+- **Printing:** Standard settings (15-20% infill). Can be printed in any color, though Black or White PETG is recommended to match the tower.
+- **Benefit:** By drying inside the GrowTower, the active carbon filter continues to neutralize all odors during the drying process.
+
 ---
 
 ## Other Parts

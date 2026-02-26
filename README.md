@@ -12,6 +12,7 @@ A minimalist, vertical grow tower designed for home cannabis cultivation. This p
 - **Minimalist Design:** clean aesthetics that blend into a modern home environment.
 - **Beginner Friendly:**  Simple assembly and maintenance. Hard to make mistakes.
 - **3D Printable:**  Most structural components are designed to be 3D printed.
+- **Odor-Free Drying:** Convert the tower into a drying chamber after harvest using the included Dryer Module, utilizing the carbon filter.
 
 ## Gallery
 
@@ -41,6 +42,10 @@ For optimal results and to prevent root rot in this semi-hydroponic setup, we hi
 - This 1:1 mixture ensures excellent drainage and aeration
 - The high perlite content prevents waterlogging and root rot, which is crucial when working with a drip system
 - Avoid using regular potting soil without amendments, as it retains too much moisture
+
+## Drying after Harvest
+
+With the included **Dryer Module** (STL), the GrowTower can easily be converted into an odor-free drying chamber. The module is simply inserted between the top Inner Shell and the Filter Housing. You can hang and tie your harvested plant directly to this module. The active carbon filter ensures that the entire drying process remains completely odorless.
 
 ## Getting Started
 

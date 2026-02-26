@@ -45,6 +45,9 @@ The 4-level structure is built from the following parts:
 - **Internal Sieve:** Sieve insert for inside the filter housing.
 - **Fan Adapter:** Connects the 140mm fan to the filter housing.
 
+### Accessories
+- **Dryer Module:** An optional insert placed between the top Inner Shell and the Filter Housing. Used to hang and tie the plant for drying within the tower after harvest, utilizing the tower's active carbon filter for odor control.
+
 *Note: STL files are located in the `stls/` directory (placeholder).*
 
 ## Tools Required
