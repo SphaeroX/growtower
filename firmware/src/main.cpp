@@ -17,8 +17,8 @@ char currentHostname[32] = "growtower";
 
 int fanMinPercent = 0;
 int fanMaxPercent = 100;
-int lightOnHour = 18;
-int lightDuration = 18;
+int lightOnHour = 10; // One Bud Method only Flower
+int lightDuration = 12; // One Bud Method only Flower
 bool timerEnabled = true;
 
 bool isLightOn = false;
@@ -201,8 +201,8 @@ void loadSettings() {
 
   fanMinPercent = preferences.getInt("fanMin", 0);
   fanMaxPercent = preferences.getInt("fanMax", 100);
-  lightOnHour = preferences.getInt("onHour", 18);
-  lightDuration = preferences.getInt("duration", 18);
+  lightOnHour = preferences.getInt("onHour", 10);
+  lightDuration = preferences.getInt("duration", 12);
   timerEnabled = preferences.getBool("timerEnabled", true);
 
   String savedHostname = preferences.getString("hostname", DEFAULT_HOSTNAME);
