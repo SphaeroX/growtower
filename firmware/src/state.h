@@ -36,6 +36,7 @@ void saveHostname(const char *hostname);
 void setLight(bool on);
 void setFan(int percent);
 void checkTimer();
+void checkWiFi();
 void processCommand(String command);
 void initWiFi();
 void initPWM();

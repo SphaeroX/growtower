@@ -15,6 +15,8 @@ const uint16_t OTA_PORT = 3232;
 
 const char *DEFAULT_HOSTNAME = "growtower";
 
+const unsigned long WIFI_RECONNECT_INTERVAL = 30000; // 30 seconds
+
 const char *NTP_SERVER = "pool.ntp.org";
 const long GMT_OFFSET_SEC = 3600;
 const int DAYLIGHT_OFFSET_SEC = 3600;

@@ -27,12 +27,16 @@ int currentFanSpeed = 30;
 PhaseData phases[3] = {{0, false}, {0, false}, {0, false}};
 PlantPhase currentPhase = PHASE_NONE;
 
+unsigned long lastWiFiCheck = 0;
+bool wasConnected = true;
+
 void loadLogbook();
 void saveLogbook();
 void addLogEntry(String text);
 void deleteLogEntry(int index);
 void clearLogbook();
 String getLogbookJSON();
+void checkWiFi();
 
 AsyncWebServer server(80);
 
@@ -60,6 +64,7 @@ void setup() {
 
   Serial.println("[SYS] Initializing WiFi...");
   initWiFi();
+  wasConnected = (WiFi.status() == WL_CONNECTED);
 
   Serial.println("[SYS] Initializing OTA...");
   initOTA();
@@ -76,6 +81,7 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   checkTimer();
+  checkWiFi();
 
   if (Serial.available() > 0) {
     String input = Serial.readStringUntil('\n');
@@ -86,6 +92,40 @@ void loop() {
   }
 
   delay(100);
+}
+
+void checkWiFi() {
+  if (WiFi.status() != WL_CONNECTED) {
+    if (wasConnected) {
+      Serial.println("[WIFI] Connection lost!");
+      wasConnected = false;
+      lastWiFiCheck = millis();
+    }
+
+    unsigned long now = millis();
+    if (now - lastWiFiCheck >= WIFI_RECONNECT_INTERVAL) {
+      lastWiFiCheck = now;
+      Serial.println("[WIFI] Attempting to reconnect...");
+
+#ifdef WIFI_SSID
+#ifdef WIFI_PASS
+      WiFi.begin(WIFI_SSID, WIFI_PASS);
+#else
+      WiFi.begin(WIFI_SSID);
+#endif
+#endif
+    }
+  } else {
+    if (!wasConnected) {
+      Serial.printf("[WIFI] Connection restored! IP: %s\n",
+                    WiFi.localIP().toString().c_str());
+      wasConnected = true;
+
+      // Re-initialize NTP on reconnection
+      Serial.println("[NTP] Re-synchronizing time...");
+      configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER);
+    }
+  }
 }
 
 void initPWM() {
