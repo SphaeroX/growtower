@@ -123,7 +123,7 @@ void checkWiFi() {
 
       // Re-initialize NTP on reconnection
       Serial.println("[NTP] Re-synchronizing time...");
-      configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER);
+      configTzTime(TZ_INFO, NTP_SERVER);
     }
   }
 }
@@ -159,7 +159,7 @@ void initWiFi() {
                   WiFi.localIP().toString().c_str());
 
     Serial.println("[NTP] Initializing time synchronization...");
-    configTime(GMT_OFFSET_SEC, DAYLIGHT_OFFSET_SEC, NTP_SERVER);
+    configTzTime(TZ_INFO, NTP_SERVER);
     printLocalTime();
   } else {
     Serial.println("[WIFI] Connection failed!");
