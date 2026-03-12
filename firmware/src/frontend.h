@@ -125,6 +125,18 @@ const char index_html[] PROGMEM = R"rawliteral(
             </div>
         </div>
         <div class="status-card">
+            <div class="section-title">Timezone</div>
+            <div class="control-group">
+                <label class="control-label">Mode</label>
+                <select id="tzModeSelect" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 10px; color: white; font-size: 1rem;">
+                    <option value="0">Automatic (Europe/Berlin)</option>
+                    <option value="1">Winter Time (CET)</option>
+                    <option value="2">Summer Time (CEST)</option>
+                </select>
+            </div>
+            <button class="save-btn" onclick="setTzMode()">Save Timezone</button>
+        </div>
+        <div class="status-card">
             <div class="section-title">Plant Tracker</div>
             <div class="control-group">
                 <div style="display: flex; gap: 10px; margin-bottom: 15px;">
@@ -199,9 +211,11 @@ const char index_html[] PROGMEM = R"rawliteral(
             if (document.activeElement !== document.getElementById('timerToggle')) { document.getElementById('timerToggle').checked = status.timerEnabled; document.getElementById('timerStatus').textContent = status.timerEnabled ? 'Active' : 'Disabled'; document.getElementById('timerStatus').className = 'toggle-status ' + (status.timerEnabled ? 'active' : 'inactive'); document.getElementById('timerSettings').style.opacity = status.timerEnabled ? '1' : '0.5'; }
             updateLightDuration();
             if (document.activeElement !== document.getElementById('hostnameInput')) { document.getElementById('hostnameInput').value = status.hostname; }
+            if (document.activeElement !== document.getElementById('tzModeSelect')) { document.getElementById('tzModeSelect').value = status.tzMode; }
             const now = new Date(); document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('en-US');
         }
         async function fetchStatus() { try { const response = await fetch('/api/status'); const status = await response.json(); updateUI(status); } catch (error) { console.error('Error fetching status:', error); } }
+        async function setTzMode() { const mode = document.getElementById('tzModeSelect').value; try { const response = await fetch(`/api/tz?mode=${mode}`); const result = await response.json(); if (result.success) { showMessage('Timezone mode saved'); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving timezone', 'error'); } }
         async function setLight(on) { try { const response = await fetch(`/api/light?state=${on ? 1 : 0}`); const result = await response.json(); if (result.success) { showMessage(on ? 'Light turned on' : 'Light turned off'); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error switching light', 'error'); } }
         async function setFan() { const value = document.getElementById('fanSlider').value; try { const response = await fetch(`/api/fan?speed=${value}`); const result = await response.json(); if (result.success) { showMessage(`Fan set to ${value}%`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error setting fan', 'error'); } }
         async function setFanRange() { const min = document.getElementById('fanMinSlider').value; const max = document.getElementById('fanMaxSlider').value; try { const response = await fetch(`/api/fanrange?min=${min}&max=${max}`); const result = await response.json(); if (result.success) { showMessage(`Fan range: ${min}%-${max}%`); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving', 'error'); } }

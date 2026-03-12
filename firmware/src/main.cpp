@@ -23,6 +23,7 @@ bool timerEnabled = true;
 
 bool isLightOn = false;
 int currentFanSpeed = 30;
+TimezoneMode currentTzMode = TZ_AUTO;
 
 PhaseData phases[3] = {{0, false}, {0, false}, {0, false}};
 PlantPhase currentPhase = PHASE_NONE;
@@ -37,6 +38,26 @@ void deleteLogEntry(int index);
 void clearLogbook();
 String getLogbookJSON();
 void checkWiFi();
+
+void applyTimezone() {
+  const char* tz;
+  switch (currentTzMode) {
+    case TZ_WINTER:
+      tz = "CET-1";
+      Serial.println("[TIME] Mode: Winter (CET-1)");
+      break;
+    case TZ_SUMMER:
+      tz = "CEST-2";
+      Serial.println("[TIME] Mode: Summer (CEST-2)");
+      break;
+    case TZ_AUTO:
+    default:
+      tz = TZ_INFO;
+      Serial.println("[TIME] Mode: Auto (Europe/Berlin)");
+      break;
+  }
+  configTzTime(tz, NTP_SERVER);
+}
 
 AsyncWebServer server(80);
 
@@ -123,7 +144,7 @@ void checkWiFi() {
 
       // Re-initialize NTP on reconnection
       Serial.println("[NTP] Re-synchronizing time...");
-      configTzTime(TZ_INFO, NTP_SERVER);
+      applyTimezone();
     }
   }
 }
@@ -159,7 +180,7 @@ void initWiFi() {
                   WiFi.localIP().toString().c_str());
 
     Serial.println("[NTP] Initializing time synchronization...");
-    configTzTime(TZ_INFO, NTP_SERVER);
+    applyTimezone();
     printLocalTime();
   } else {
     Serial.println("[WIFI] Connection failed!");
@@ -222,6 +243,7 @@ String getStatusJSON() {
   json += "\"lightOn\":" + String(lightOnHour) + ",";
   json += "\"lightDuration\":" + String(lightDuration) + ",";
   json += "\"timerEnabled\":" + String(timerEnabled ? "true" : "false") + ",";
+  json += "\"tzMode\":" + String((int)currentTzMode) + ",";
   json += "\"hostname\":\"" + String(currentHostname) + "\",";
   json += "\"ip\":\"" + WiFi.localIP().toString() + "\",";
   json += "\"wifiConnected\":" + String(WiFi.status() == WL_CONNECTED ? "true" : "false") + ",";
@@ -244,6 +266,7 @@ void loadSettings() {
   lightOnHour = preferences.getInt("onHour", 10);
   lightDuration = preferences.getInt("duration", 12);
   timerEnabled = preferences.getBool("timerEnabled", true);
+  currentTzMode = (TimezoneMode)preferences.getInt("tzMode", (int)TZ_AUTO);
 
   String savedHostname = preferences.getString("hostname", DEFAULT_HOSTNAME);
   strncpy(currentHostname, savedHostname.c_str(), sizeof(currentHostname) - 1);
@@ -256,8 +279,8 @@ void loadSettings() {
 
   Serial.printf(
       "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, Duration=%dh, "
-      "Hostname=%s\n",
-      fanMinPercent, fanMaxPercent, lightOnHour, lightDuration, currentHostname);
+      "Hostname=%s, TzMode=%d\n",
+      fanMinPercent, fanMaxPercent, lightOnHour, lightDuration, currentHostname, (int)currentTzMode);
 }
 
 void saveFanMin(int minVal) {
@@ -320,6 +343,16 @@ void saveTimerEnabled(bool enabled) {
 
   Serial.printf("[CONFIG] Timer enabled: %s\n", timerEnabled ? "true" : "false");
   checkTimer();
+}
+
+void saveTzMode(TimezoneMode mode) {
+  currentTzMode = mode;
+  preferences.begin("growtower", false);
+  preferences.putInt("tzMode", (int)currentTzMode);
+  preferences.end();
+
+  Serial.printf("[CONFIG] Timezone mode saved: %d\n", (int)currentTzMode);
+  applyTimezone();
 }
 
 void resetAllSettings() {
@@ -515,21 +548,7 @@ void processCommand(String command) {
   } else if (command == "STATUS") {
     printStatus();
   } else if (command == "RESET") {
-    Serial.println("[SYS] Resetting all settings to defaults...");
-    preferences.begin("growtower", false);
-    preferences.clear();
-    preferences.end();
-    
-    phases[PHASE_SEEDLING].startTime = 0;
-    phases[PHASE_SEEDLING].active = false;
-    phases[PHASE_VEG].startTime = 0;
-    phases[PHASE_VEG].active = false;
-    phases[PHASE_FLOWER].startTime = 0;
-    phases[PHASE_FLOWER].active = false;
-    currentPhase = PHASE_NONE;
-    savePhaseData();
-    
-    Serial.println("[SYS] Settings cleared. Please restart device.");
+    resetAllSettings();
   } else {
     Serial.printf("[CMD] Unknown command: '%s'\n", command.c_str());
     Serial.println("[CMD] Type 'HELP' for available commands");

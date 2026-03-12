@@ -82,6 +82,16 @@ void initWebServer() {
         }
     });
 
+    server.on("/api/tz", HTTP_GET, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("mode")) {
+            int mode = request->getParam("mode")->value().toInt();
+            saveTzMode((TimezoneMode)mode);
+            request->send(200, "application/json", "{\"success\":true}");
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing mode param\"}");
+        }
+    });
+
     server.on("/api/reset", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(200, "application/json", "{\"success\":true,\"message\":\"Resetting to factory defaults...\"}");
         delay(500);

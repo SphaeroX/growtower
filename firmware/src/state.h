@@ -17,6 +17,7 @@ extern bool isLightOn;
 extern int currentFanSpeed;
 
 enum PlantPhase { PHASE_NONE, PHASE_SEEDLING, PHASE_VEG, PHASE_FLOWER };
+enum TimezoneMode { TZ_AUTO, TZ_WINTER, TZ_SUMMER };
 
 struct PhaseData {
     time_t startTime;
@@ -25,6 +26,7 @@ struct PhaseData {
 
 extern PhaseData phases[3];
 extern PlantPhase currentPhase;
+extern TimezoneMode currentTzMode;
 
 void loadSettings();
 void saveFanMin(int minVal);
@@ -33,6 +35,8 @@ void saveLightOnHour(int hour);
 void saveLightDuration(int hours);
 void saveTimerEnabled(bool enabled);
 void saveHostname(const char *hostname);
+void saveTzMode(TimezoneMode mode);
+void applyTimezone();
 void setLight(bool on);
 void setFan(int percent);
 void checkTimer();
