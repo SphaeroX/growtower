@@ -165,9 +165,8 @@ This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perl
 
 #### Week 6 to 8 (Day 36 to 56): Flowering Phase (Nutrients)
 - **Development:** Vertical stretch stops. Energy shifts entirely into bud production.
-- **Action (Fertilizer):** Start adding **Compo Blüte** to the reservoir. Begin with **25% to max. 50%** of the manufacturer's recommendation. 
+- **Action (Fertilizer):** Start adding **Compo Blüte** to the reservoir. Begin with **25% to max. 50%** of the manufacturer's recommendation.
   - *Observation:* If leaves turn very dark green or show "clawing," reduce the dosage immediately.
-- **Mandatory Task (Salt Flush):** Once in Week 6 and once in Week 8, water from above with pure water until significant runoff occurs. This washes out fertilizer salts that have accumulated at the surface due to capillary action. Discard the drainage water.
 
 #### Week 9 to Harvest (Day 57 to End): Ripening & Final Flush
 - **Development:** Buds swell, and resin glands (trichomes) become milky/cloudy.
@@ -178,12 +177,16 @@ This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perl
 
 **NEVER water from above later in the grow!**
 
-When bottom watering with mineral fertilizer, water moves up through the soil and evaporates at the surface. The fertilizer salts accumulate in the top soil layer (often visible as white crust).
+When bottom watering with mineral fertilizer, water moves up through the soil and evaporates at the surface. The fertilizer salts accumulate in the top soil layer (often visible as white crust). 
 
-If you suddenly water from above, you flush these highly concentrated salts directly down into the roots - causing immediate, fatal nutrient shock.
+**If you suddenly water from above, you flush these highly concentrated salts directly down into the roots - causing immediate, fatal nutrient shock (osmotic stress).**
+
+**Solution for Salt Crust:**
+- Leave the salt crust alone; it's a normal side effect of bottom watering.
+- If it becomes too thick: Carefully scrape off the top 1-2 cm of soil with a spoon and replace it with fresh soil/perlite.
+- **Never flush from above** unless you are performing a complete substrate reset (e.g., in a shower with 10+ liters of water to thoroughly wash everything out).
 
 **Always water from below throughout the entire grow.**
-
 ### pH Management
 
 - Use proper pH-down products (e.g., Canna pH- Bloom)
