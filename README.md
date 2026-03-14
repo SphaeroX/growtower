@@ -130,21 +130,49 @@ For Grow #2, I will run **two GrowTowers simultaneously** with Purple Bud (Photo
 
 This comparison will help determine which method works best for the GrowTower semi-hydroponic setup. 
 
-### Fertilizer Schedule (Micro-Grow)
+### Optimized 12/12 Semi-Hydro Timeplan (One-Bud Method)
 
-**Week 1 - Week 3 (Germination to first white pistils):**
-- Pure water only - no fertilizer
-- The nutrients in the 50% Compo Sana soil are sufficient
-- The plant will grow large and green on soil nutrients alone
+This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perlite mix and the One-Bud technique (12/12 from seed).
 
-**Week 3/4 onwards (Flowering begins):**
-- Start adding **Compo Blüte** to the water (bottom watering)
-- Start with **25-50% of the recommended dose** - the soil still has residual nutrients
-- Only increase if the plant shows signs of hunger (light green/yellowing)
+#### Phase 0: Pre-Grow (Germination & Underground Growth)
+**Duration:** Approx. 3 to 7 days (not counted as weeks).
+- **Action:** 
+  1. Soak seed in water for **24–36 hours**.
+  2. Plant seed in 50/50 Soil-Perlite mix and water with **30 ml**.
+  3. Carefully add **3 ml** with a pipette twice daily (morning and evening) directly onto the seed's position to keep it moist (not soaked).
+- **Light:** Set to **12/12 cycle** immediately so the seedling adapts from day one.
+- **Goal:** Phase 0 ends as soon as the seedling breaks the surface and stands upright (Day 1).
 
-**Last 10-14 days before harvest:**
-- Pure water only (flushing)
-- Allows the plant to use up remaining nutrient salts from the leaves
+#### Week 1 (Day 1 to 7): Establishment (Seedling Phase)
+- **Development:** Seedling stands up, cotyledons open, and the first pair of true (serrated) leaves forms.
+- **Action:** Continue adding water only drop by drop (pipette) if the surface around the stem is extremely dry. The root is already searching for its way down into the 50/50 mix.
+- **Nutrients:** Pure water only.
+
+#### Week 2 (Day 8 to 14): First Flushing & Root Stretch
+- **Development:** The first pair of true leaves is fully formed.
+- **Action (Day 8-10):** Perform the first **full watering from above** until water runs out the bottom (**runoff**). The substrate must be completely saturated once.
+- **Critical:** After this flushing, **do not water at all** until the pot feels significantly lighter. This drying period forces the roots to stretch to the bottom of the pot in search of moisture.
+
+#### Week 3 (Day 15 to 21): Switch to Semi-Hydro (Bottom Watering)
+- **Development:** Roots should now have reached the bottom.
+- **The "Reservoir Test":** Fill the reservoir to approx. 20-30% with pure water. If the water level drops after 24–48 hours, the capillary action is working perfectly.
+- **Action:** **Stop all top-watering.** From now on, only fill the bottom tank with pure water.
+- **Nutrients:** Still pure water only! The nutrients in the 50% Compo Sana soil are sufficient.
+
+#### Week 4 to 5 (Day 22 to 35): Pre-Flowering & Stretch
+- **Development:** Despite the 12/12 cycle from Day 1, the plant needed this time to reach hormonal maturity. It will now begin to stretch rapidly and show the first white pistils.
+- **Action:** Continue filling the reservoir with pure water. Water consumption will increase significantly.
+
+#### Week 6 to 8 (Day 36 to 56): Flowering Phase (Nutrients)
+- **Development:** Vertical stretch stops. Energy shifts entirely into bud production.
+- **Action (Fertilizer):** Start adding **Compo Blüte** to the reservoir. Begin with **25% to max. 50%** of the manufacturer's recommendation. 
+  - *Observation:* If leaves turn very dark green or show "clawing," reduce the dosage immediately.
+- **Mandatory Task (Salt Flush):** Once in Week 6 and once in Week 8, water from above with pure water until significant runoff occurs. This washes out fertilizer salts that have accumulated at the surface due to capillary action. Discard the drainage water.
+
+#### Week 9 to Harvest (Day 57 to End): Ripening & Final Flush
+- **Development:** Buds swell, and resin glands (trichomes) become milky/cloudy.
+- **Action (Final Flush):** Stop all fertilizer **10 to 14 days before harvest**. Fill the reservoir with pure water only.
+- **Goal:** The plant will consume its remaining nutrient reserves from its leaves (leaves will yellow and fall off). This is intentional and ensures clean, smooth-tasting buds without harshness.
 
 ### Critical Watering Warning
 
