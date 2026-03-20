@@ -91,6 +91,9 @@ For detailed printing instructions including material recommendations, light-pro
    - **Expected Harvest:** Beginning of March 2026 (if it survives that long).
    - **Lesson learned:** The wick system with regular soil without perlite was the problem. Too much moisture at the roots blocks nutrient uptake. If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
 
+2. **Purple Bud (One-Bud Method - Experiment 2):**
+   - **Week 2:** First flushing with 800ml per pot from above (no fertilizer).
+
 ## Grow #2 - One-Bud Method with Improved Setup
 
 For the second grow, I will implement the One-Bud technique with an improved setup based on lessons learned from the first grow and forum feedback.
@@ -150,7 +153,7 @@ This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perl
 
 #### Week 2 (Day 8 to 14): First Flushing & Root Stretch
 - **Development:** The first pair of true leaves is fully formed.
-- **Action (Day 8-10):** Perform the first **full watering from above** until water runs out the bottom (**runoff**). The substrate must be completely saturated once.
+- **Action (Day 8-10):** Perform the first **full watering from above** (approx. **800ml per pot**) without fertilizer until water runs out the bottom (**runoff**). The substrate must be completely saturated once.
 - **Critical:** After this flushing, **do not water at all** until the pot feels significantly lighter. This drying period forces the roots to stretch to the bottom of the pot in search of moisture.
 
 #### Week 3 (Day 15 to 21): Switch to Semi-Hydro (Bottom Watering)
