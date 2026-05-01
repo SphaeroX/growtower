@@ -133,6 +133,21 @@ For Grow #2, I will run **two GrowTowers simultaneously** with Purple Bud (Photo
 
 This comparison will help determine which method works best for the GrowTower semi-hydroponic setup. 
 
+### Test #3: Full Hydroponic Wick System (Planned)
+
+In this third test, the GrowTower will be converted into a fully mineral, soilless hydroponic system to maximize growth and minimize root issues.
+
+**Setup Details:**
+- **Growing Medium:** A combination of **Rockwool (Steinwolle)** cubes/flock and **Pumice (Bimssteingranulat)** from Compo Sana.
+- **Irrigation:** Passive **Wick System (Dochte)** to transport nutrient solution from the reservoir.
+- **pH Target:** **5.8** (strictly regulated for soilless growing).
+- **Fertilizer:** Mineral **Compo Grow Blüte** (Standard fertilizer from previous tests).
+
+**Critical Preparation & Management:**
+- **Rockwool Pre-Soaking:** Rockwool is naturally alkaline. It MUST be soaked for 24 hours in pH-adjusted water (pH 5.2–5.5) before use to stabilize the root zone at the target pH of 5.8.
+- **Fertilizer Dosage:** Since there is no soil to buffer nutrients, start with **50% of the manufacturer's recommended dosage** (Deckel-Stufe I on 2 liters instead of 1 liter) and adjust based on plant reaction.
+- **Salt Management:** Mineral substrates like Pumice tend to accumulate salts. The system should be flushed with pure, pH-adjusted water every 14 days.
+
 ### Optimized 12/12 Semi-Hydro Timeplan (One-Bud Method)
 
 This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perlite mix and the One-Bud technique (12/12 from seed).

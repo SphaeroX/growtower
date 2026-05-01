@@ -11,6 +11,7 @@ extern void addLogEntry(String text);
 extern void deleteLogEntry(int index);
 extern void clearLogbook();
 extern String getLogbookJSON();
+extern void saveFanSpeed(int percent);
 
 void initWebServer() {
     if (WiFi.status() != WL_CONNECTED) {
@@ -39,7 +40,7 @@ void initWebServer() {
     server.on("/api/fan", HTTP_GET, [](AsyncWebServerRequest *request) {
         if (request->hasParam("speed")) {
             int speed = request->getParam("speed")->value().toInt();
-            setFan(speed);
+            saveFanSpeed(speed);
             request->send(200, "application/json", "{\"success\":true}");
         } else {
             request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing speed param\"}");

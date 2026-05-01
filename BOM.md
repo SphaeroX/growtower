@@ -23,6 +23,20 @@ Here is the list of parts required to build the GrowTower.
 | **Activated Carbon** | 1 kg | Pellets (3-4mm), CTC > 65% | 16.80€ | eBay (helo24) | High absorption. |
 | **Black Spray Foil** | 1 Can | Liquid Rubber / PlastiDip | ~15.00€ | Amazon/Hardware Store | For perfect light blocking and gap filling. |
 
+## Growing Mediums & Nutrients
+
+These materials depend on the specific grow method being tested (Soil vs. Hydroponic).
+
+| Component | Description | Price (Est.) | Notes |
+| :--- | :--- | :---: | :--- |
+| **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Main medium for Grow #1 and #2. |
+| **Perlite** | 5-10L bag | ~8.00€ | For 50/50 mix with soil. |
+| **Rockwool (Steinwolle)** | Cubes or flock | ~10.00€ | Inert medium for Test #3 (Hydro). |
+| **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Used for drainage and aeration in Test #3. |
+| **Wick System (Dochte)** | Nylon or Cotton Wicks | ~5.00€ | Passive irrigation for reservoir setups. |
+| **Fertilizer** | Compo Grow Blüte (Mineral) | ~14.00€ | Main nutrient source for all tests. |
+| **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro (Test #3) and Soil setups. |
+
 ## 3D Printed Parts
 
 Most parts need to be printed in **PETG White** to ensure maximum light reflection inside the tower. However, to prevent light leaks and algae, specific parts (Filter, Plant Pot, Reservoir) should be printed in black, and the white outer shell must be post-processed to be light-proof from the outside. For detailed printing instructions and color choices, see [`stls/README.md`](stls/README.md).

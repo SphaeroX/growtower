@@ -263,6 +263,7 @@ void loadSettings() {
 
   fanMinPercent = preferences.getInt("fanMin", 0);
   fanMaxPercent = preferences.getInt("fanMax", 100);
+  currentFanSpeed = preferences.getInt("fanSpeed", 30);
   lightOnHour = preferences.getInt("onHour", 10);
   lightDuration = preferences.getInt("duration", 12);
   timerEnabled = preferences.getBool("timerEnabled", true);
@@ -278,9 +279,22 @@ void loadSettings() {
   loadLogbook();
 
   Serial.printf(
-      "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, LightOn=%d:00, Duration=%dh, "
+      "[CONFIG] Loaded: FanMin=%d%%, FanMax=%d%%, FanSpeed=%d%%, LightOn=%d:00, Duration=%dh, "
       "Hostname=%s, TzMode=%d\n",
-      fanMinPercent, fanMaxPercent, lightOnHour, lightDuration, currentHostname, (int)currentTzMode);
+      fanMinPercent, fanMaxPercent, currentFanSpeed, lightOnHour, lightDuration, currentHostname, (int)currentTzMode);
+}
+
+void saveFanSpeed(int percent) {
+  if (percent < 0) percent = 0;
+  if (percent > 100) percent = 100;
+
+  currentFanSpeed = percent;
+  preferences.begin("growtower", false);
+  preferences.putInt("fanSpeed", currentFanSpeed);
+  preferences.end();
+
+  Serial.printf("[CONFIG] Fan Speed saved: %d%%\n", currentFanSpeed);
+  setFan(currentFanSpeed);
 }
 
 void saveFanMin(int minVal) {
@@ -512,7 +526,7 @@ void processCommand(String command) {
     String valueStr = command.substring(4);
     valueStr.trim();
     int value = valueStr.toInt();
-    setFan(value);
+    saveFanSpeed(value);
   } else if (command.startsWith("FANMIN ")) {
     String valueStr = command.substring(7);
     valueStr.trim();
