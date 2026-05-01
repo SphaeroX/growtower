@@ -30,18 +30,11 @@ A minimalist, vertical grow tower designed for home cannabis cultivation. This p
 
 The GrowTower utilizes a forced-air system where the Arctic P14 fan pulls air through the tower, ensuring fresh CO2 for the plant and maintaining optimal temperatures. The air is then pushed through an activated carbon filter before exiting, neutralizing any odors. The vertical stacking design allows for modularity and easy height adjustment as the plant grows.
 
-## Semi-Hydroponic Growing System
+## Growing System
 
-The GrowTower operates as a **semi-hydroponic system** using a drip irrigation method. Water is delivered directly to the plant's root zone through a drip system, providing precise moisture control while maintaining some of the benefits of traditional soil growing.
+The GrowTower is designed for a **Full-Hydroponic Wick System** (using Pumice) or a **Semi-Hydroponic** setup. It utilizes passive irrigation to provide precise moisture control while maintaining high aeration for the roots.
 
-### Recommended Growing Medium
-
-For optimal results and to prevent root rot in this semi-hydroponic setup, we highly recommend:
-
-- **Composana Qualitätsblumenerde** mixed with **40% Perlite**
-- This 1:1 mixture ensures excellent drainage and aeration
-- The high perlite content prevents waterlogging and root rot, which is crucial when working with a drip system
-- Avoid using regular potting soil without amendments, as it retains too much moisture
+For detailed, step-by-step instructions on the recommended **12/12 One-Bud method**, please refer to the [**GROW_GUIDE.md**](GROW_GUIDE.md).
 
 ## Drying after Harvest
 
@@ -49,7 +42,9 @@ With the included **Dryer Module** (STL), the GrowTower can easily be converted 
 
 ## Getting Started
 
-See [BOM.md](BOM.md) for a full list of materials required to build your own GrowTower.
+1. **Build your Tower:** See [BOM.md](BOM.md) for a full list of materials required.
+2. **Follow the Grow Guide:** Use the [**GROW_GUIDE.md**](GROW_GUIDE.md) as your primary resource for successful cultivation. It contains the complete timeline, nutrient dosages, and substrate setup.
+3. **Setup Controller:** Flash the ESP32 with the firmware from the `firmware/` directory. See [firmware/README.md](firmware/README.md) for details.
 
 ## Web Controller
 
@@ -64,151 +59,6 @@ The GrowTower includes a built-in web server for easy control via WiFi:
   - Configurable device hostname (e.g., `mytower.local`)
   - REST API for custom integrations
 
-### Quick Start
-
-1. Flash the ESP32 with the firmware from the `firmware/` directory
-2. Configure WiFi credentials in `firmware/.env` (see [firmware/README.md](firmware/README.md))
-3. Connect to power - the device will automatically connect to WiFi
-4. Open `http://growtower.local` in your browser
-5. Control your GrowTower from anywhere on your network!
-
-For detailed firmware documentation, see [firmware/README.md](firmware/README.md).
-
 ## 3D Printing Instructions
 
-All STL files and detailed printing instructions are located in the [`stls/`](stls/) directory. This includes material recommendations, slicer settings, and assembly instructions.
-
-For detailed printing instructions including material recommendations, light-proofing steps, and slicer settings for the Plant Pot, Internal Sieve, and Reservoir, please see [`stls/README.md`](stls/README.md).
-
-## Current Experiments
-
-1. **Stress Killer CBD (Automatic):**
-   - Currently testing with an automatic strain.
-   - *Note:* While autoflowers can be counterproductive in restricted spaces due to lack of control over size/timing, this run serves primarily as a system stress test.
-   - **Results so far:** The wick system with no-name soil (without perlite) created too much moisture at the roots, which blocked nutrient uptake. The leaves are very yellow, and although the plant is flowering, it shouldn't be this harsh already. 
-   - **The Good:** The buds are beautiful—large and dense!
-   - **The Not-So-Good:** The lower part of the plant is bushy, which hopefully won't happen with the One-Bud method.
-   - **Expected Harvest:** Beginning of March 2026 (if it survives that long).
-   - **Lesson learned:** The wick system with regular soil without perlite was the problem. Too much moisture at the roots blocks nutrient uptake. If using the water reservoir, only add as much water as you would normally water with, OR mix in 50% perlite with the soil to maintain the reservoir feature without creating a swamp.
-
-2. **Purple Bud (One-Bud Method - Experiment 2):**
-   - **Week 2:** First flushing with 800ml per pot from above (no fertilizer).
-
-## Grow #2 - One-Bud Method with Improved Setup
-
-For the second grow, I will implement the One-Bud technique with an improved setup based on lessons learned from the first grow and forum feedback.
-
-### Technique
-
-- **Strain:** Purple Bud (Feminized Photoperiod)
-- **Approach:** Completely skip the vegetative phase. Both plants will be placed directly into the flowering light cycle (12/12) immediately after germination
-- **Goal:** Produce a single main cola (One-Bud). This minimizes lateral growth, saves significant space, and reduces the total cultivation time. The GrowTower's vertical design is exceptionally well-suited for this technique.
-
-### Setup Changes for Grow #2
-
-- **Growing Medium:** Composana Qualitätsblumenerde mixed with **40-50% Perlite**
-
-- **Fertilizer:** Use **mineral Compo Blüte** fertilizer 
-
-### Parallel Experiment: Two Towers Comparison
-
-For Grow #2, I will run **two GrowTowers simultaneously** with Purple Bud (Photoperiod) to compare two different watering setups:
-
-| Tower A | Tower B |
-|---------|---------|
-| Composana + 50% Perlite | **LECA** (Expanded Clay) + Wick |
-| Bottom watering only | Water reservoir with wick system |
-| Purple Bud | Purple Bud |
-
-**Tower A (No Wick):**
-- Classic bottom watering approach
-- Direct control over water/nutrient delivery
-- No risk of overwatering from reservoir
-
-**Tower B (With Wick + LECA):**
-- Bottom section (feet): Completely filled with LECA, no soil
-- Wick embedded in the LECA layer for passive water transport
-- Tests if LECA + wick provides the right moisture balance
-- LECA ensures excellent drainage and aeration around the roots
-
-This comparison will help determine which method works best for the GrowTower semi-hydroponic setup. 
-
-### Test #3: Full Hydroponic Wick System (Planned)
-
-In this third test, the GrowTower will be converted into a fully mineral, soilless hydroponic system to maximize growth and minimize root issues.
-
-**Setup Details:**
-- **Growing Medium:** A combination of **Rockwool (Steinwolle)** cubes/flock and **Pumice (Bimssteingranulat)** from Compo Sana.
-- **Irrigation:** Passive **Wick System (Dochte)** to transport nutrient solution from the reservoir.
-- **pH Target:** **5.8** (strictly regulated for soilless growing). Experience shows that **~2.3ml pH-Down per 800ml water** is a good starting point, though this depends on your local tap water's hardness.
-- **Fertilizer:** Mineral **Compo Grow Blüte**. **Crucial:** Do not over-fertilize. Directly at the start of the flowering phase, a dosage of **~1.8ml per 800ml water** is recommended.
-- **Precision:** Using a **pipette** is highly recommended for these precise measurements.
-
-**Critical Preparation & Management:**
-- **Rockwool Pre-Soaking:** Rockwool is naturally alkaline. It MUST be soaked for 24 hours in pH-adjusted water (pH 5.2–5.5) before use to stabilize the root zone at the target pH of 5.8.
-- **Fertilizer Dosage:** Since there is no soil to buffer nutrients, start with **50% of the manufacturer's recommended dosage** (Deckel-Stufe I on 2 liters instead of 1 liter) and adjust based on plant reaction.
-- **Salt Management:** Mineral substrates like Pumice tend to accumulate salts. The system should be flushed with pure, pH-adjusted water every 14 days.
-
-### Optimized 12/12 Semi-Hydro Timeplan (One-Bud Method)
-
-This schedule is specifically designed for the GrowTower using a 50/50 Soil-Perlite mix and the One-Bud technique (12/12 from seed).
-
-#### Phase 0: Pre-Grow (Germination & Underground Growth)
-**Duration:** Approx. 3 to 7 days (not counted as weeks).
-- **Action:** 
-  1. Soak seed in water for **24–36 hours**.
-  2. Plant seed in 50/50 Soil-Perlite mix and water with **30 ml**.
-  3. Carefully add **3 ml** with a pipette twice daily (morning and evening) directly onto the seed's position to keep it moist (not soaked).
-- **Light:** Set to **12/12 cycle** immediately so the seedling adapts from day one.
-- **Goal:** Phase 0 ends as soon as the seedling breaks the surface and stands upright (Day 1).
-
-#### Week 1 (Day 1 to 7): Establishment (Seedling Phase)
-- **Development:** Seedling stands up, cotyledons open, and the first pair of true (serrated) leaves forms.
-- **Action:** Continue adding water only drop by drop (pipette) if the surface around the stem is extremely dry. The root is already searching for its way down into the 50/50 mix.
-- **Nutrients:** Pure water only.
-
-#### Week 2 (Day 8 to 14): First Flushing & Root Stretch
-- **Development:** The first pair of true leaves is fully formed.
-- **Action (Day 8-10):** Perform the first **full watering from above** (approx. **800ml per pot**) without fertilizer until water runs out the bottom (**runoff**). The substrate must be completely saturated once.
-- **Critical:** After this flushing, **do not water at all** until the pot feels significantly lighter. This drying period forces the roots to stretch to the bottom of the pot in search of moisture.
-
-#### Week 3 (Day 15 to 21): Switch to Semi-Hydro (Bottom Watering)
-- **Development:** Roots should now have reached the bottom.
-- **The "Reservoir Test":** Fill the reservoir to approx. 20-30% with pure water. If the water level drops after 24–48 hours, the capillary action is working perfectly.
-- **Action:** **Stop all top-watering.** From now on, only fill the bottom tank with pure water.
-- **Nutrients:** Still pure water only! The nutrients in the 50% Compo Sana soil are sufficient.
-
-#### Week 4 to 5 (Day 22 to 35): Pre-Flowering & Stretch
-- **Development:** Despite the 12/12 cycle from Day 1, the plant needed this time to reach hormonal maturity. It will now begin to stretch rapidly and show the first white pistils.
-- **Action:** Continue filling the reservoir with pure water. Water consumption will increase significantly.
-
-#### Week 6 to 8 (Day 36 to 56): Flowering Phase (Nutrients)
-- **Development:** Vertical stretch stops. Energy shifts entirely into bud production.
-- **Action (Fertilizer):** Start adding **Compo Blüte** to the reservoir. Begin with **25% to max. 50%** of the manufacturer's recommendation.
-  - *Observation:* If leaves turn very dark green or show "clawing," reduce the dosage immediately.
-
-#### Week 9 to Harvest (Day 57 to End): Ripening & Final Flush
-- **Development:** Buds swell, and resin glands (trichomes) become milky/cloudy.
-- **Action (Final Flush):** Stop all fertilizer **10 to 14 days before harvest**. Fill the reservoir with pure water only.
-- **Goal:** The plant will consume its remaining nutrient reserves from its leaves (leaves will yellow and fall off). This is intentional and ensures clean, smooth-tasting buds without harshness.
-
-### Critical Watering Warning
-
-**NEVER water from above later in the grow!**
-
-When bottom watering with mineral fertilizer, water moves up through the soil and evaporates at the surface. The fertilizer salts accumulate in the top soil layer (often visible as white crust). 
-
-**If you suddenly water from above, you flush these highly concentrated salts directly down into the roots - causing immediate, fatal nutrient shock (osmotic stress).**
-
-**Solution for Salt Crust:**
-- Leave the salt crust alone; it's a normal side effect of bottom watering.
-- If it becomes too thick: Carefully scrape off the top 1-2 cm of soil with a spoon and replace it with fresh soil/perlite.
-- **Never flush from above** unless you are performing a complete substrate reset (e.g., in a shower with 10+ liters of water to thoroughly wash everything out).
-
-**Always water from below throughout the entire grow.**
-### pH Management
-
-- Use proper pH-down products (e.g., Canna pH- Bloom)
-- Avoid pH-down with citric acid for pH correction
-- Target pH range: 6.0-6.3
-
+All STL files and detailed printing instructions are located in the [`stls/`](stls/) directory. This includes material recommendations, slicer settings, and assembly instructions. For detailed post-processing (light-proofing), see [`stls/README.md`](stls/README.md).
