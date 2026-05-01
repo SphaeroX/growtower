@@ -1,68 +1,61 @@
-# GrowTower: The Ultimate Wick-System Guide (One-Bud Method)
+# GrowTower: Der ultimative Guide (12/12 One-Bud Methode)
 
-This guide explains how to set up and manage your GrowTower using a high-performance wick system. This method is optimized for the **12/12 One-Bud technique**, skipping the vegetative phase to grow a single, large main flower.
+Dieser Guide beschreibt den Anbau im GrowTower mit einem semi-hydroponischen Dochtsystem. Die Methode ist auf die **12/12 One-Bud Technik** optimiert, bei der die vegetative Phase übersprungen wird, um eine einzige, große Hauptblüte zu züchten.
 
-## 1. Preparation & Materials
+## 1. Vorbereitung & Materialien
 
-### Nutrient Solution (The "Sweet Spot" Recipe)
-Precision is key. Always use a **pipette** for measurement.
-*   **Water Volume:** 800 ml (Standard reservoir refill).
-*   **Fertilizer:** **~1.8 ml** Compo Grow Blüte (Mineral). *Do not exceed this at the start of flowering.*
-*   **pH Regulation:** **~2.3 ml** Canna pH- Bloom.
-    *   *Note:* The exact amount of pH-down depends on your local tap water. Aim for a **pH of 5.8 to 6.2**.
-*   **Mixing:** Always mix the fertilizer first, then adjust the pH.
+### Substrat-Mischung
+*   **Mischverhältnis:** 50% Erde (z.B. Compo Sana Qualitäts-Blumenerde) und 50% Perlit.
+*   **Vorteil:** Diese Mischung bietet eine hervorragende Belüftung der Wurzeln bei gleichzeitig guter Kapillarwirkung für das Dochtsystem.
 
-### Growing Mediums
-*   **Option A (Full Hydro):** Pumice (Bimsstein) as the main medium + Rockwool (Steinwolle) for the seed.
-*   **Option B (Hybrid):** Pumice as the main medium + a small amount of Soil (Erde) on top for the seed.
+### Equipment & Werkzeuge
+*   **Pipette:** Zwingend erforderlich für die präzise Bewässerung in der Anfangsphase und die Dosierung von Dünger/pH-Korrektur.
+*   **Dochte:** Vier Dochte (einer pro Fuß des Topfes), die bis zum Boden des Reservoirs reichen und spiralförmig nach oben in das Substrat eingearbeitet sind.
 
 ---
 
-## 2. Setting Up the Wick System
+## 2. Der Grow-Zyklus (Timeline)
 
-The wick system ensures your plant is automatically watered from the reservoir.
+### Phase 0: Vorphase (Keimung & Etablierung)
+*   **Dauer:** Ca. 3 bis 7 Tage.
+*   **Maßnahme:** Samen für 24 bis 36 Stunden in Wasser einweichen. Danach in die 50/50 Mischung pflanzen und einmalig mit **30 ml** gießen.
+*   **Tägliche Pflege:** Zweimal täglich (morgens/abends) vorsichtig **3 ml** mit der Pipette direkt auf die Samenstelle geben (feucht halten, nicht durchnässen).
+*   **Licht:** Sofort auf **12/12 Zyklus** (12h AN / 12h AUS) einstellen.
+*   **Lüfter:** **30% Leistung**. Dies sorgt für eine hohe Luftfeuchtigkeit, die für den jungen Keimling essenziell ist.
+*   **Ziel:** Phase 0 endet, wenn der Sämling die Oberfläche durchbricht (Tag 1).
 
-1.  **Wick Installation:**
-    *   Place **one wick into each of the four feet** of the plant pot.
-    *   Ensure the wicks are long enough to reach the very bottom of the reservoir.
-2.  **Braiding/Weaving:**
-    *   As you fill the pot with **Pumice (Bimsstein)**, weave/braid the wicks upwards through the medium.
-    *   Do not just leave them at the bottom; they should reach high up into the pot to ensure even moisture.
-3.  **The Seed Zone:**
-    *   Fill the pot with Pumice until about 2-3 cm from the top.
-    *   In the center, place your **Rockwool cube** or a small amount of **Soil**.
-    *   **Crucial:** Position the upper ends of the wicks directly around the Rockwool or Soil area where the seed will sit. This ensures the young seedling gets moisture immediately.
+### Woche 1 (Tag 1–7): Etablierung
+*   **Entwicklung:** Keimblätter öffnen sich, das erste echte Blattpaar bildet sich.
+*   **Bewässerung:** Nur tropfenweise (Pipette), falls die Oberfläche extrem trocken ist. Die Wurzel sucht aktiv den Weg nach unten.
+*   **Nährstoffe:** Nur reines Wasser.
 
----
+### Woche 2 (Tag 8–14): Die erste Spülung
+*   **Maßnahme (Tag 8–10):** Einmalige vollständige Bewässerung von oben ("Spülen"), bis unten Wasser austritt (Drain). Das Substrat muss einmal komplett gesättigt sein.
+*   **Wichtig:** Danach absolut **nicht mehr gießen**, bis der Topf deutlich leichter ist. Diese Trockenperiode zwingt die Wurzeln, bis zum Boden des Topfes zu wachsen.
 
-## 3. The Grow Cycle (12/12 from Seed)
+### Woche 3 (Tag 15–21): Wechsel auf Semi-Hydro
+*   **Der Reservoir-Test:** Das Reservoir zu 20–30% mit reinem Wasser füllen. Sinkt der Wasserstand nach 24–48h, funktioniert die Kapillarwirkung der Dochte.
+*   **Maßnahme:** Bewässerung von oben komplett einstellen. Ab jetzt nur noch den unteren Tank füllen.
+*   **Nährstoffe:** Weiterhin nur reines Wasser (die Vordüngung der Erde reicht aus).
 
-### Step 1: Germination (Phase 0)
-*   Plant the seed directly into the moist Rockwool/Soil.
-*   Set your GrowTower light timer to **12 hours ON / 12 hours OFF** from Day 1.
-*   **Fan Setting:** Set your fan to **30%**. This keeps the humidity higher, which is beneficial for young seedlings.
-*   Keep the seed zone moist using a pipette (approx. 3ml water twice a day) until the seedling is established.
+### Woche 4–5 (Tag 22–35): Vorblüte & Stretch
+*   **Entwicklung:** Die Pflanze erreicht die hormonelle Reife, streckt sich ("Stretch") und zeigt erste weiße Blütenstempel.
+*   **Pflege:** Reservoir regelmäßig mit reinem Wasser füllen (Verbrauch steigt stark an).
 
-### Step 2: Activating the Reservoir (Week 3)
-*   Once the plant has developed its first true leaves and the roots have started to stretch, fill the reservoir with your prepared nutrient solution.
-*   **Stop watering from above.** The wicks will now pull the solution upwards.
+### Woche 6–8 (Tag 36–56): Blütephase & Düngung
+*   **Entwicklung:** Der Stretch stoppt, die Energie fließt in die Blütenproduktion.
+*   **Lüfter:** Erhöhung auf **46% Leistung**. Da die Blätter dichter werden und die Blüten Feuchtigkeit abgeben, wird mehr Luftstrom benötigt, um Schimmel zu vermeiden.
+*   **Düngung:** "Compo Blüte" Dünger in das Reservoir geben. Mit 25% bis maximal 50% der Herstellerempfehlung starten.
+*   **Beobachtung:** Bei sehr dunkelgrünen Blättern oder "Adlerkrallen" die Dosis sofort reduzieren.
 
-### Step 3: Flowering & Maintenance
-*   Refill the reservoir as needed (usually every 2-4 days depending on plant size).
-*   **Fan Setting:** Increase the fan speed to **46%**. While this is louder, the denser foliage during the flowering stage requires much more airflow to prevent mold and ensure fresh CO2 exchange.
-*   Monitor leaf color:
-    *   *Light Green/Yellow:* Increase fertilizer slightly.
-    *   *Dark Green/Curled Tips:* Decrease fertilizer (use more pure water).
-
-### Step 4: Ripening & Final Flush (Week 9 to Harvest)
-*   **Action:** 10 to 14 days before the expected harvest, stop adding any fertilizer. 
-*   **Watering:** Fill the reservoir with **pure, pH-adjusted water only**. 
-*   **Development:** The buds will swell, and the resin glands (trichomes) will turn milky or amber.
-*   **Goal:** The plant will consume its remaining nutrient reserves from its leaves (which will turn yellow and fall off). This is intentional and ensures clean, smooth-tasting buds without any harshness or throat irritation.
+### Woche 9 bis Ernte: Reifung & Finaler Flush
+*   **Maßnahme:** 10 bis 14 Tage vor der Ernte jeglichen Dünger absetzen. Das Reservoir nur noch mit reinem Wasser füllen.
+*   **Ziel:** Die Pflanze verbraucht ihre Reserven (Blätter werden gelb). Dies sorgt für einen sauberen, milden Geschmack der Blüten.
 
 ---
 
-## Critical Warnings
-*   **NEVER water from above** once the wick system is active. This will flush accumulated salts from the surface into the roots, causing "nutrient shock."
-*   **Check pH regularly.** In a hydroponic/pumice setup, the plant cannot buffer pH changes as well as in soil.
-*   **Use the Pipette!** Guessing dosages will lead to unstable conditions and plant stress.
+## 3. Kritische Erfolgfaktoren
+
+*   **Dochtsystem:** Die Dochte dürfen niemals austrocknen, sobald das System aktiv ist.
+*   **Lichtdichtheit:** Stellen Sie sicher, dass während der 12-stündigen Dunkelphase absolut kein Störlicht in den Tower dringt.
+*   **Kein Gießen von oben:** Sobald das Dochtsystem aktiv ist, niemals mehr von oben gießen! Dies würde Salze nach unten spülen und die Wurzeln schädigen ("Nährstoff-Schock").
