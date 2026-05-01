@@ -71,4 +71,4 @@ The 4-level structure is built from the following parts:
 
 ## Total Estimated Cost
 
-**Approx. ~111.90€** (plus misc. items like potting soil, seeds, etc.)
+**Approx. ~93.90€** (plus misc. items like seeds, etc.)
