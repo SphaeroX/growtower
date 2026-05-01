@@ -7,7 +7,7 @@ Dieser Guide beschreibt den Anbau im GrowTower mit einem voll-hydroponischen Doc
 ### Substrat & Dochtsystem
 *   **Hauptmedium:** Bimsstein (Bimssteingranulat, z.B. von Compo Sana).
 *   **Samen-Behälter:** Oben mittig wird eine kleine Kuhle mit **Steinwolle** oder einer Handvoll **Erde** gefüllt, um den Samen zu halten und die Keimung zu erleichtern.
-*   **Dochte:** Drei Dochte insgesamt. In **jeden der drei Füße** des Pflanztopfes wird jeweils ein Docht eingezogen.
+*   **Dochte:** Drei 6mm Dochte insgesamt. In **jeden der drei Füße** des Pflanztopfes wird jeweils ein Docht eingezogen.
 *   **Installation:** Die Dochte müssen bis zum Boden des Reservoirs reichen und im Topf spiralförmig nach oben durch den Bimsstein bis direkt an/unter den Samen-Behälter (Steinwolle/Erde) geführt werden.
 
 ### Nährstofflösung (Das 800ml Rezept)
@@ -42,8 +42,9 @@ Präzision ist entscheidend. Nutze immer eine **Pipette** für die Dosierung im 
 *   **Nährstoffe:** Da Bimsstein inert ist, kann bei Bedarf bereits eine minimale Dosis Dünger (25% Schema) beigefügt werden, falls die Pflanze hellgrün wird.
 
 ### Woche 4–5 (Tag 22–35): Vorblüte & Stretch
-*   **Entwicklung:** Die Pflanze erreicht die hormonelle Reife und beginnt sich zu strecken. Erste weiße Härchen (Stempel) erscheinen.
-*   **Pflege:** Reservoir regelmäßig füllen. Wasserverbrauch steigt.
+*   **Entwicklung:** Die Pflanze erreicht die hormonelle Reife und beginnt sich schlagartig zu strecken. Erste weiße Härchen (Stempel) erscheinen.
+*   **Düngung:** Da der Nährstoffbedarf durch den Stretch massiv ansteigt, bereits jetzt **50% der Düngerdosis** (~0,9 ml auf 800 ml) beigeben. Dies verhindert, dass die Pflanze Nährstoffe aus den unteren Blättern abzieht und diese gelb werden.
+*   **Pflege:** Reservoir regelmäßig füllen. Wasserverbrauch steigt stark an.
 
 ### Woche 6–8 (Tag 36–56): Blütephase & Düngung
 *   **Entwicklung:** Der Stretch stoppt, die Blütenbildung steht im Fokus.
