@@ -32,7 +32,6 @@ These materials depend on the specific grow method being tested (Soil vs. Hydrop
 | :--- | :--- | :---: | :--- |
 | **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Main medium for Grow #1 and #2. |
 | **Perlite** | 5-10L bag | ~8.00€ | For 50/50 mix with soil. |
-| **Rockwool (Steinwolle)** | Cubes or flock | ~10.00€ | Inert medium for Test #3 (Hydro). |
 | **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Used for drainage and aeration in Test #3. |
 | **Wick System (Dochte)** | Nylon or Cotton Wicks | ~5.00€ | Passive irrigation for reservoir setups. |
 | **Fertilizer** | Compo Grow Blüte (Mineral) | ~14.00€ | Main nutrient source. Dosage: ~1.8ml per 800ml water at the start of flowering. Use a pipette for precision. |
