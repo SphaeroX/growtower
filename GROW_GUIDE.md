@@ -40,6 +40,7 @@ The wick system ensures your plant is automatically watered from the reservoir.
 ### Step 1: Germination (Phase 0)
 *   Plant the seed directly into the moist Rockwool/Soil.
 *   Set your GrowTower light timer to **12 hours ON / 12 hours OFF** from Day 1.
+*   **Fan Setting:** Set your fan to **30%**. This keeps the humidity higher, which is beneficial for young seedlings.
 *   Keep the seed zone moist using a pipette (approx. 3ml water twice a day) until the seedling is established.
 
 ### Step 2: Activating the Reservoir (Week 3)
@@ -48,13 +49,16 @@ The wick system ensures your plant is automatically watered from the reservoir.
 
 ### Step 3: Flowering & Maintenance
 *   Refill the reservoir as needed (usually every 2-4 days depending on plant size).
+*   **Fan Setting:** Increase the fan speed to **46%**. While this is louder, the denser foliage during the flowering stage requires much more airflow to prevent mold and ensure fresh CO2 exchange.
 *   Monitor leaf color:
     *   *Light Green/Yellow:* Increase fertilizer slightly.
     *   *Dark Green/Curled Tips:* Decrease fertilizer (use more pure water).
 
-### Step 4: Final Flush (10 Days before Harvest)
-*   Stop adding fertilizer. 
-*   Fill the reservoir with **pure, pH-adjusted water only**. This flushes out remaining salts and improves the final taste of your harvest.
+### Step 4: Ripening & Final Flush (Week 9 to Harvest)
+*   **Action:** 10 to 14 days before the expected harvest, stop adding any fertilizer. 
+*   **Watering:** Fill the reservoir with **pure, pH-adjusted water only**. 
+*   **Development:** The buds will swell, and the resin glands (trichomes) will turn milky or amber.
+*   **Goal:** The plant will consume its remaining nutrient reserves from its leaves (which will turn yellow and fall off). This is intentional and ensures clean, smooth-tasting buds without any harshness or throat irritation.
 
 ---
 
