@@ -140,8 +140,9 @@ In this third test, the GrowTower will be converted into a fully mineral, soille
 **Setup Details:**
 - **Growing Medium:** A combination of **Rockwool (Steinwolle)** cubes/flock and **Pumice (Bimssteingranulat)** from Compo Sana.
 - **Irrigation:** Passive **Wick System (Dochte)** to transport nutrient solution from the reservoir.
-- **pH Target:** **5.8** (strictly regulated for soilless growing).
-- **Fertilizer:** Mineral **Compo Grow Blüte** (Standard fertilizer from previous tests).
+- **pH Target:** **5.8** (strictly regulated for soilless growing). Experience shows that **~2.3ml pH-Down per 800ml water** is a good starting point, though this depends on your local tap water's hardness.
+- **Fertilizer:** Mineral **Compo Grow Blüte**. **Crucial:** Do not over-fertilize. Directly at the start of the flowering phase, a dosage of **~1.8ml per 800ml water** is recommended.
+- **Precision:** Using a **pipette** is highly recommended for these precise measurements.
 
 **Critical Preparation & Management:**
 - **Rockwool Pre-Soaking:** Rockwool is naturally alkaline. It MUST be soaked for 24 hours in pH-adjusted water (pH 5.2–5.5) before use to stabilize the root zone at the target pH of 5.8.

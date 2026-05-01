@@ -22,6 +22,7 @@ Here is the list of parts required to build the GrowTower.
 | **Filament** | ~1 kg | PETG White | 22.00€ | Recommended for durability and light reflection. |
 | **Activated Carbon** | 1 kg | Pellets (3-4mm), CTC > 65% | 16.80€ | eBay (helo24) | High absorption. |
 | **Black Spray Foil** | 1 Can | Liquid Rubber / PlastiDip | ~15.00€ | Amazon/Hardware Store | For perfect light blocking and gap filling. |
+| **Pipettes** | 5-10 pcs | 3ml Plastic Pipettes | ~3.00€ | Amazon/Pharmacy | Essential for precise dosage of pH-Down and fertilizer. |
 
 ## Growing Mediums & Nutrients
 
@@ -34,9 +35,8 @@ These materials depend on the specific grow method being tested (Soil vs. Hydrop
 | **Rockwool (Steinwolle)** | Cubes or flock | ~10.00€ | Inert medium for Test #3 (Hydro). |
 | **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Used for drainage and aeration in Test #3. |
 | **Wick System (Dochte)** | Nylon or Cotton Wicks | ~5.00€ | Passive irrigation for reservoir setups. |
-| **Fertilizer** | Compo Grow Blüte (Mineral) | ~14.00€ | Main nutrient source for all tests. |
-| **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro (Test #3) and Soil setups. |
-
+| **Fertilizer** | Compo Grow Blüte (Mineral) | ~14.00€ | Main nutrient source. Dosage: ~1.8ml per 800ml water at the start of flowering. Use a pipette for precision. |
+| **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro and Soil. Recommended: ~2.3ml per 800ml water (depends on local tap water). Use a pipette. |  
 ## 3D Printed Parts
 
 Most parts need to be printed in **PETG White** to ensure maximum light reflection inside the tower. However, to prevent light leaks and algae, specific parts (Filter, Plant Pot, Reservoir) should be printed in black, and the white outer shell must be post-processed to be light-proof from the outside. For detailed printing instructions and color choices, see [`stls/README.md`](stls/README.md).
