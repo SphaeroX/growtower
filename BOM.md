@@ -71,4 +71,7 @@ The 4-level structure is built from the following parts:
 
 ## Total Estimated Cost
 
-**Approx. ~93.90€** (plus misc. items like seeds, etc.)
+- **GrowTower Construction:** Approx. **~125.00€** (Hardware, Electronics, Filament, and Filter materials).
+- **Consumables & Growing:** Approx. **~50.00€** (Pumice, Soil, Fertilizer, pH-Down, and Pipettes).
+
+**Total Project Estimate: ~175.00€** (excluding seeds).
