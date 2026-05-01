@@ -6,7 +6,8 @@ This guide describes how to grow in the GrowTower using a full-hydroponic wick s
 
 ### Substrate & Wick System
 *   **Main Medium:** Pumice (Pumice granules, e.g., from Compo Sana).
-*   **Seed Container:** A small indentation at the top center is filled with **Rockwool** or a handful of **Soil** to hold the seed and facilitate germination.
+*   **Seed Container:** A small indentation at the top center is filled with **Compo Sana Quality Potting Soil** (recommended) or Rockwool. 
+    *   *Note:* Using soil provides essential initial nutrients (like CalMag). If you choose Rockwool, you must add a minimal dose of fertilizer from day one, as Rockwool is completely inert.
 *   **Wicks:** Three wicks in total. One wick is pulled into **each of the three feet** of the plant pot.
 *   **Installation:** The wicks must reach the bottom of the reservoir and be guided spirally upwards through the pumice inside the pot, ending directly at/under the seed container (Rockwool/Soil).
 
