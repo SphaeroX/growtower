@@ -206,6 +206,7 @@ void initOTA() {
 
   ArduinoOTA.setHostname(currentHostname);
   ArduinoOTA.setPort(OTA_PORT);
+  ArduinoOTA.setPassword(OTA_PASSWORD);
 
   ArduinoOTA.onStart([]() {
     String type = ArduinoOTA.getCommand() == U_FLASH ? "sketch" : "filesystem";
