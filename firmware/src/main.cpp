@@ -646,7 +646,7 @@ void setPhase(PlantPhase phase) {
 }
 
 int getPhaseDays(PlantPhase phase) {
-  if (!phases[phase].active || phases[phase].startTime == 0) return 0;
+  if (phases[phase].startTime == 0) return 0;
   
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) return 0;
