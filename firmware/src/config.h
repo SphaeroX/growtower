@@ -10,6 +10,7 @@ const int PWM_CHANNEL = 0;
 const int MAX_DUTY_CYCLE = 255;
 const int HARDWARE_FAN_MIN_DUTY = 13;
 
+const char *OTA_PASSWORD = "growtower123";
 const uint16_t OTA_PORT = 3232;
 
 const char *DEFAULT_HOSTNAME = "growtower";
