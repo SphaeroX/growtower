@@ -27,11 +27,12 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Action:** Soak seed in water for 24 to 36 hours. Then plant in the seed container (Rockwool/Soil) and water once with **30 ml** of pH-adjusted water.
 *   **Care:** Carefully add **3 ml** with the pipette directly onto the seed spot twice a day (keep moist, do not soak).
 *   **Light:** Set to **12/12 cycle** (12h ON / 12h OFF) immediately.
-*   **Fan:** **30% power** (high humidity for the seedling).
+*   **Fan:** **0% power** (high humidity for the seedling).
 
 ### Week 1 (Day 1–7): Establishment
 *   **Development:** Cotyledons open, the first true pair of leaves forms.
 *   **Watering:** Only drop by drop (pipette) if the seed container is extremely dry. The root actively searches its way down into the moist pumice.
+*  **Fan:** **30% power** (high humidity for the seedling).
 
 ### Week 2 (Day 8–14): First Flush & Root Stretching
 *   **Action (Day 8–10):** Single full watering from above with **800 ml** of pH-adjusted water (without fertilizer) until water runs out the bottom (drain).
