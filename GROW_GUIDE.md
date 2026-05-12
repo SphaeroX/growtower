@@ -43,20 +43,23 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Action:** Stop all top-watering. The three wicks now take over the supply.
 *   **Nutrients:** Since pumice is inert, a minimal dose of fertilizer (25% schedule) can be added if needed if the plant turns light green.
 
-### Week 4–5 (Day 22–35): Pre-Flowering & Stretch
+### Week 4–5 (Day 22–35): Pre-Flowering, Stretch & Flowering Start
 *   **Development:** The plant reaches hormonal maturity and begins to stretch suddenly. First white hairs (pistils) appear.
+*   **Mark Flowering Day:** Note the exact day the first pistils appear — this is **Day 1 of flowering**! If your grow controller supports switching to a flowering timer, set it to this day. If unsure, assume **Day 30** as a rule of thumb.
 *   **Fertilization:** Since nutrient demand increases massively during the stretch, add **50% of the fertilizer dose** (~0.9 ml per 800 ml) now. This prevents the plant from pulling nutrients from the lower leaves, which would cause them to turn yellow.
 *   **Care:** Refill the reservoir regularly. Water consumption increases sharply.
 
-### Week 6–8 (Day 36–56): Flowering Phase & Dosing
-*   **Development:** Vertical stretch stops, focus shifts to bud formation.
+### Flowering Phase (Flower Day 1 to End of Strain's Flowering Time)
+*   **Duration:** Depends on the strain. Check the breeder's info (e.g., Purple Bud ~60 days flowering time). **Total grow time ≈ 30 days (pre/veg) + strain's flowering time**.
+*   **Development:** Vertical stretch stops after the first half of flowering, focus shifts entirely to bud formation.
 *   **Fan:** Increase to **46% power**. As leaves become denser, more airflow is needed to remove moisture and prevent mold.
 *   **Fertilization:** Fill the reservoir with the nutrient solution (**~1.8 ml fertilizer + ~2.3 ml pH-Down per 800 ml**).
 *   **Observation:** If leaves become very dark, reduce the fertilizer dose.
 
-### Week 9 to Harvest: Ripening & Final Flush
-*   **Action:** Stop all fertilizer 10 to 14 days before harvest. Fill the reservoir only with **pure, pH-adjusted water**.
+### Final Ripening & Flush (Last 10–14 Days Before Harvest)
+*   **Action:** Stop all fertilizer **10 to 14 days before the end of the stated flowering time**. Fill the reservoir only with **pure, pH-adjusted water**.
 *   **Goal:** The plant consumes its internal reserves. This ensures a clean taste without harshness.
+*   **Example:** For a 60-day flowering strain, begin flushing on flower day 46–50.
 
 ---
 
