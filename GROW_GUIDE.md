@@ -40,6 +40,7 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 
 ### Week 3 (Day 15–21): Activating the Reservoir
 *   **The Reservoir Test:** Fill the reservoir to 20–30% with pure, pH-adjusted water.
+    *   *Important:* If there is still water from the First Flush (Week 2) in the reservoir, **pour it out completely** before adding the fresh reservoir water. The old flush water may contain unwanted runoff and is not suitable for the wick system.
 *   **Action:** Stop all top-watering. The three wicks now take over the supply.
 *   **Nutrients:** Since pumice is inert, a minimal dose of fertilizer (25% schedule) can be added if needed if the plant turns light green.
 
