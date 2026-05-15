@@ -16,6 +16,10 @@ extern bool timerEnabled;
 extern bool isLightOn;
 extern int currentFanSpeed;
 
+extern bool isAPMode;
+extern char wifiSSID[32];
+extern char wifiPass[64];
+
 enum PlantPhase { PHASE_NONE, PHASE_SEEDLING, PHASE_VEG, PHASE_FLOWER };
 enum TimezoneMode { TZ_AUTO, TZ_WINTER, TZ_SUMMER };
 
@@ -35,10 +39,12 @@ void saveLightOnHour(int hour);
 void saveLightDuration(int hours);
 void saveTimerEnabled(bool enabled);
 void saveHostname(const char *hostname);
+void saveWiFiCredentials(const char *ssid, const char *pass);
 void saveTzMode(TimezoneMode mode);
 void applyTimezone();
 void setLight(bool on);
 void setFan(int percent);
+void setSystemTime(long epoch);
 void checkTimer();
 void checkWiFi();
 void processCommand(String command);

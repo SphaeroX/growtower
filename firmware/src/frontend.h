@@ -84,6 +84,11 @@ const char index_html[] PROGMEM = R"rawliteral(
 <body>
     <div class="container">
         <h1>🌱 GrowTower Controller</h1>
+        <div id="timeWarning" class="status-card" style="display: none; background: rgba(248, 113, 113, 0.2); border-color: #f87171;">
+            <div class="section-title" style="color: #f87171;">⚠️ No Time Sync</div>
+            <p style="margin-bottom: 15px; color: #cbd5e1;">The controller has no valid time. The light timer will not work and the light is currently blinking.</p>
+            <button class="save-btn" style="background: #f87171; margin-top: 0;" onclick="setManualTime()">Sync Time from Browser</button>
+        </div>
         <div class="status-card">
             <div class="status-title">Current Status</div>
             <div class="status-value"><span class="status-label">Light:</span><span class="status-indicator" id="lightStatus"><span class="dot"></span><span id="lightText">-</span></span></div>
@@ -176,6 +181,12 @@ const char index_html[] PROGMEM = R"rawliteral(
             <div class="control-group"><label class="control-label">Device Name (for growtower.local)</label><input type="text" id="hostnameInput" placeholder="growtower" maxlength="31"></div>
             <button class="save-btn" onclick="setHostname()">Save & Restart</button>
         </div>
+        <div class="status-card">
+            <div class="section-title">WiFi Setup</div>
+            <div class="control-group"><label class="control-label">SSID</label><input type="text" id="wifiSSID" placeholder="Your WiFi Name"></div>
+            <div class="control-group"><label class="control-label">Password</label><input type="password" id="wifiPass" placeholder="Your WiFi Password" style="width: 100%; padding: 12px 15px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: #fff;"></div>
+            <button class="save-btn" onclick="setWiFi()">Save WiFi & Restart</button>
+        </div>
         <div class="status-card reset-section">
             <div class="section-title">Factory Settings</div>
             <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 15px;">Reset all settings to default values. This will erase all user settings and restart the device.</p>
@@ -192,6 +203,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         function updateLightDuration() { const onHour = parseInt(document.getElementById('onHour').value) || 0; const duration = parseInt(document.getElementById('durationHours').value) || 1; let offHour = onHour + duration; if (offHour >= 24) offHour -= 24; document.getElementById('lightOnCalc').textContent = String(onHour).padStart(2, '0'); document.getElementById('lightOffCalc').textContent = String(offHour).padStart(2, '0'); document.getElementById('lightDuration').textContent = duration; }
         function updateUI(status) {
             currentStatus = status;
+            document.getElementById('timeWarning').style.display = status.hasTime ? 'none' : 'block';
             const lightStatus = document.getElementById('lightStatus'); const lightText = document.getElementById('lightText');
             if (status.light) { lightStatus.className = 'status-indicator on'; lightText.textContent = 'ON'; } else { lightStatus.className = 'status-indicator off'; lightText.textContent = 'OFF'; }
             document.getElementById('fanValue').textContent = status.fan;
@@ -213,6 +225,28 @@ const char index_html[] PROGMEM = R"rawliteral(
             if (document.activeElement !== document.getElementById('hostnameInput')) { document.getElementById('hostnameInput').value = status.hostname; }
             if (document.activeElement !== document.getElementById('tzModeSelect')) { document.getElementById('tzModeSelect').value = status.tzMode; }
             const now = new Date(); document.getElementById('lastUpdate').textContent = now.toLocaleTimeString('en-US');
+        }
+        async function setManualTime() {
+            const epoch = Math.floor(Date.now() / 1000);
+            try {
+                const response = await fetch(`/api/time?epoch=${epoch}`);
+                const result = await response.json();
+                if (result.success) { showMessage('Time synchronized with browser'); fetchStatus(); }
+            } catch (error) { showMessage('Error setting time', 'error'); }
+        }
+        async function setWiFi() {
+            const ssid = document.getElementById('wifiSSID').value;
+            const pass = document.getElementById('wifiPass').value;
+            if (!ssid) { showMessage('SSID required', 'error'); return; }
+            try {
+                const response = await fetch('/api/wifi', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `ssid=${encodeURIComponent(ssid)}&pass=${encodeURIComponent(pass)}`
+                });
+                const result = await response.json();
+                if (result.success) { showMessage('WiFi saved. Rebooting...'); }
+            } catch (error) { showMessage('Error saving WiFi', 'error'); }
         }
         async function fetchStatus() { try { const response = await fetch('/api/status'); const status = await response.json(); updateUI(status); } catch (error) { console.error('Error fetching status:', error); } }
         async function setTzMode() { const mode = document.getElementById('tzModeSelect').value; try { const response = await fetch(`/api/tz?mode=${mode}`); const result = await response.json(); if (result.success) { showMessage('Timezone mode saved'); fetchStatus(); } else { showMessage('Error: ' + result.error, 'error'); } } catch (error) { showMessage('Error saving timezone', 'error'); } }

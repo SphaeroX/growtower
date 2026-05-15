@@ -62,3 +62,18 @@ The GrowTower includes a built-in web server for easy control via WiFi:
 ## 3D Printing Instructions
 
 All STL files and detailed printing instructions are located in the [`stls/`](stls/) directory. This includes material recommendations, slicer settings, and assembly instructions. For detailed post-processing (light-proofing), see [`stls/README.md`](stls/README.md).
+
+## Troubleshooting
+
+### Light is blinking every second
+If the main light is blinking in a 1-second interval, the controller **cannot synchronize the time** (no internet connection). Since the light timer depends on the current time, the controller enters this safety/warning mode.
+- **Solution:**
+  1. Connect your phone/PC to the WiFi network `GrowTower-Fallback`.
+  2. Open `http://192.168.4.1` in your browser.
+  3. Go to the settings and update your WiFi credentials (SSID & Password).
+  4. Alternatively, you can manually set the current time via the API to enable offline operation.
+
+### Cannot reach `growtower.local`
+- Ensure you are on the same WiFi network as the GrowTower.
+- Try accessing it via the IP address shown in the Serial Monitor.
+- Some Windows systems require "Bonjour" or "iTunes" installed for `.local` (mDNS) support.

@@ -26,6 +26,11 @@ bool isLightOn = false;
 int currentFanSpeed = 30;
 TimezoneMode currentTzMode = TZ_AUTO;
 
+bool isAPMode = false;
+unsigned long lastBlinkTime = 0;
+char wifiSSID[32] = "";
+char wifiPass[64] = "";
+
 PhaseData phases[3] = {{0, false}, {0, false}, {0, false}};
 PlantPhase currentPhase = PHASE_NONE;
 
@@ -39,6 +44,15 @@ void deleteLogEntry(int index);
 void clearLogbook();
 String getLogbookJSON();
 void checkWiFi();
+void setSystemTime(long epoch);
+
+void setSystemTime(long epoch) {
+  struct timeval tv;
+  tv.tv_sec = epoch;
+  tv.tv_usec = 0;
+  settimeofday(&tv, NULL);
+  Serial.printf("[TIME] System time set manually to: %ld\n", epoch);
+}
 
 void applyTimezone() {
   const char *tz;
@@ -106,7 +120,20 @@ void setup() {
 
 void loop() {
   ArduinoOTA.handle();
-  checkTimer();
+
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    // No time available -> Blink!
+    unsigned long now = millis();
+    if (now - lastBlinkTime >= 1000) {
+      lastBlinkTime = now;
+      setLight(!isLightOn);
+      Serial.println("[SYS] WARNING: No time sync! Blinking...");
+    }
+  } else {
+    checkTimer();
+  }
+
   checkWiFi();
 
   if (Serial.available() > 0) {
@@ -121,6 +148,9 @@ void loop() {
 }
 
 void checkWiFi() {
+  if (isAPMode)
+    return;
+
   if (WiFi.status() != WL_CONNECTED) {
     if (wasConnected) {
       Serial.println("[WIFI] Connection lost!");
@@ -132,14 +162,7 @@ void checkWiFi() {
     if (now - lastWiFiCheck >= WIFI_RECONNECT_INTERVAL) {
       lastWiFiCheck = now;
       Serial.println("[WIFI] Attempting to reconnect...");
-
-#ifdef WIFI_SSID
-#ifdef WIFI_PASS
-      WiFi.begin(WIFI_SSID, WIFI_PASS);
-#else
-      WiFi.begin(WIFI_SSID);
-#endif
-#endif
+      initWiFi();
     }
   } else {
     if (!wasConnected) {
@@ -162,37 +185,53 @@ void initPWM() {
 }
 
 void initWiFi() {
+  String ssid = String(wifiSSID);
+  String pass = String(wifiPass);
+
+  if (ssid == "") {
 #ifdef WIFI_SSID
-  Serial.printf("[WIFI] Connecting to: %s\n", WIFI_SSID);
-
+    ssid = WIFI_SSID;
 #ifdef WIFI_PASS
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-#else
-  WiFi.begin(WIFI_SSID);
-  Serial.println("[WIFI] Warning: No password defined");
+    pass = WIFI_PASS;
 #endif
-
-  int retries = 0;
-  while (WiFi.status() != WL_CONNECTED && retries < 30) {
-    delay(500);
-    Serial.print(".");
-    retries++;
+#endif
   }
-  Serial.println();
+
+  if (ssid != "") {
+    Serial.printf("[WIFI] Connecting to: %s\n", ssid.c_str());
+    WiFi.mode(WIFI_STA);
+    if (pass != "") {
+      WiFi.begin(ssid.c_str(), pass.c_str());
+    } else {
+      WiFi.begin(ssid.c_str());
+    }
+
+    int retries = 0;
+    while (WiFi.status() != WL_CONNECTED && retries < 20) {
+      delay(500);
+      Serial.print(".");
+      retries++;
+    }
+    Serial.println();
+  }
 
   if (WiFi.status() == WL_CONNECTED) {
     Serial.printf("[WIFI] Connected! IP: %s\n",
                   WiFi.localIP().toString().c_str());
-
+    isAPMode = false;
+    wasConnected = true;
     Serial.println("[NTP] Initializing time synchronization...");
     applyTimezone();
     printLocalTime();
   } else {
-    Serial.println("[WIFI] Connection failed!");
+    Serial.println("[WIFI] Connection failed! Starting Fallback AP...");
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP("GrowTower-Fallback");
+    Serial.printf("[WIFI] AP Started: GrowTower-Fallback | IP: %s\n",
+                  WiFi.softAPIP().toString().c_str());
+    isAPMode = true;
+    wasConnected = false;
   }
-#else
-  Serial.println("[WIFI] Error: WIFI_SSID not defined in secrets.h");
-#endif
 }
 
 void initOTA() {
@@ -285,6 +324,11 @@ void loadSettings() {
   strncpy(currentHostname, savedHostname.c_str(), sizeof(currentHostname) - 1);
   currentHostname[sizeof(currentHostname) - 1] = '\0';
 
+  String savedSSID = preferences.getString("ssid", "");
+  String savedPass = preferences.getString("pass", "");
+  strncpy(wifiSSID, savedSSID.c_str(), sizeof(wifiSSID) - 1);
+  strncpy(wifiPass, savedPass.c_str(), sizeof(wifiPass) - 1);
+
   preferences.end();
 
   loadPhaseData();
@@ -295,6 +339,20 @@ void loadSettings() {
                 "Hostname=%s, TzMode=%d\n",
                 fanMinPercent, fanMaxPercent, currentFanSpeed, lightOnHour,
                 lightDuration, currentHostname, (int)currentTzMode);
+}
+
+void saveWiFiCredentials(const char *ssid, const char *pass) {
+  preferences.begin("growtower", false);
+  preferences.putString("ssid", ssid);
+  preferences.putString("pass", pass);
+  preferences.end();
+
+  strncpy(wifiSSID, ssid, sizeof(wifiSSID) - 1);
+  strncpy(wifiPass, pass, sizeof(wifiPass) - 1);
+
+  Serial.println("[CONFIG] WiFi credentials saved. Restarting...");
+  delay(1000);
+  ESP.restart();
 }
 
 void saveFanSpeed(int percent) {

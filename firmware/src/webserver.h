@@ -14,8 +14,8 @@ extern String getLogbookJSON();
 extern void saveFanSpeed(int percent);
 
 void initWebServer() {
-    if (WiFi.status() != WL_CONNECTED) {
-        Serial.println("[WEB] WiFi not connected, Web Server disabled");
+    if (WiFi.status() != WL_CONNECTED && !isAPMode) {
+        Serial.println("[WEB] WiFi not connected and not in AP mode, Web Server disabled");
         return;
     }
 
@@ -25,6 +25,28 @@ void initWebServer() {
 
     server.on("/api/status", HTTP_GET, [](AsyncWebServerRequest *request) {
         request->send(200, "application/json", getStatusJSON());
+    });
+
+    server.on("/api/time", HTTP_GET, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("epoch")) {
+            long epoch = request->getParam("epoch")->value().toInt();
+            setSystemTime(epoch);
+            request->send(200, "application/json", "{\"success\":true}");
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing epoch param\"}");
+        }
+    });
+
+    server.on("/api/wifi", HTTP_POST, [](AsyncWebServerRequest *request) {
+        if (request->hasParam("ssid", true) && request->hasParam("pass", true)) {
+            String ssid = request->getParam("ssid", true)->value();
+            String pass = request->getParam("pass", true)->value();
+            request->send(200, "application/json", "{\"success\":true,\"message\":\"Saving credentials and rebooting...\"}");
+            delay(500);
+            saveWiFiCredentials(ssid.c_str(), pass.c_str());
+        } else {
+            request->send(400, "application/json", "{\"success\":false,\"error\":\"Missing ssid or pass param\"}");
+        }
     });
 
     server.on("/api/light", HTTP_GET, [](AsyncWebServerRequest *request) {
