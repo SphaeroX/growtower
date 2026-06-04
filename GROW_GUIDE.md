@@ -41,6 +41,7 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 ### Week 3 (Day 15–21): Activating the Reservoir
 *   **The Reservoir Test:** Fill the reservoir to 20–30% with pure, pH-adjusted water.
     *   *Important:* If there is still water from the First Flush (Week 2) in the reservoir, **pour it out completely** before adding the fresh reservoir water. The old flush water may contain unwanted runoff and is not suitable for the wick system.
+    *   *Water Freshness:* In the early stages when the seedling consumes very little water, do not let the nutrient solution sit in the reservoir for more than **7 to 10 days** (maximum 14 days) to prevent it from going bad.
 *   **Action:** Stop all top-watering. The three wicks now take over the supply.
 *   **Nutrients:** Since pumice is inert, a minimal dose of fertilizer (25% schedule) can be added if needed if the plant turns light green.
 
@@ -69,3 +70,5 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **No Top-Watering:** Once the wick system is active, never water from above again! This would flush accumulated mineral salts from the surface directly to the roots ("nutrient shock").
 *   **pH Stability:** Since pumice has no buffering capacity, a correct pH (approx. 5.8) is vital.
 *   **Wick Contact:** Ensure the wicks in the pot have direct contact with the seed container to pull moisture up during the critical initial phase.
+*   **Stagnant Reservoir Water (Root Rot Prevention):** Since the GrowTower is a passive wick system without active aeration (like air stones), stagnant water will lose its dissolved oxygen over time. If water is left in the reservoir for too long (especially in the early growth stages when water consumption is very low), it will become anaerobic. This breeds harmful bacteria and pathogens like *Pythium*, leading to **root rot (Wurzelfäule)**, which turns roots brown and slimy and kills the plant.
+    *   *Rule of Thumb:* Never let the nutrient solution sit in the reservoir for more than **7 to 10 days (maximum 14 days)**. If it is not consumed by then, pour it out, rinse the reservoir, and refill it with fresh solution. If you notice a sour, swampy smell or cloudy water, replace it immediately.
