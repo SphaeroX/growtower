@@ -1,45 +1,45 @@
-# GrowTower: Protokoll & Logbuch
+# GrowTower: Protocol & Logbook
 
-Dieses Protokoll dient als Ausdruck (Printable Logbook) zur Dokumentation deines aktuellen Grows nach der **12/12 One-Bud Methode**. Trage das Datum ein und hake die erledigten Schritte ab.
+This protocol serves as a printable logbook to document your current grow using the **12/12 One-Bud method**. Enter the dates and check off the completed steps.
 
-**Startdatum (Keimung):** ________________________  
-**Sorte (Strain):** ________________________  
-**Angegebene Blütezeit:** ________________________  
+**Start Date (Germination):** ________________________  
+**Strain:** ________________________  
+**Stated Flowering Time:** ________________________  
 
 ---
 
-## Phasen-Protokoll
+## Phase Protocol
 
-| Phase / Zeitraum | Tag | Datum | Aktion (Kurzformat) | Erledigt / Notizen |
+| Phase / Timeline | Day | Date | Action (Short Format) | Completed / Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| **Phase 0:**<br>Keimung | **Tag 0** | | - Samen 24-36h in Wasser einlegen<br>- Einpflanzen, 1x 30ml pH-Wasser<br>- Licht: 12/12, Fan: 0%<br>- Täglich: 2x 3ml per Pipette | |
-| **Woche 1:**<br>Etablierung | **Tag 1 - 7** | | - Nur per Pipette befeuchten, falls extrem trocken<br>- Fan: 30% | |
-| **Woche 2:**<br>First Flush | **Tag 8 - 10** | | - 1x 800ml pH-Wasser von oben (bis Drain läuft)<br>- Danach **gar nicht mehr gießen**, Substrat trocknen lassen! | |
-| **Woche 3:**<br>Reservoir | **Tag 15 - 21** | | - Altes Flush-Wasser restlos wegschütten!<br>- Reservoir zu 20-30% füllen (nur pH-Wasser)<br>- **Nie wieder von oben gießen!**<br>- Ggf. 25% Dünger bei sehr hellen Blättern | |
-| **Woche 4-5:**<br>Stretch | **Tag 22 - 35** | | - 50% Dünger ins Reservoir (~0.9ml auf 800ml)<br>- Reservoir regelmäßig auffüllen<br>- Achte auf erste weiße Haare (Pistils) | |
-| **Blüte:**<br>Blütetag 1 | **ca. Tag 30** | | - Erste weiße Haare gesichtet = Blütetag 1!<br>- Datum für Blütetag 1 eintragen (siehe unten) | |
-| **Blütephase:**<br>Volle Blüte | **BT 1 bis Ende** | | - Fan: 46%<br>- 100% Dünger: ~1.8ml Dünger + ~2.3ml pH-Down auf 800ml | |
-| **Spülen:**<br>Flush | **Letzte 14 T.** | | - 10-14 Tage vor Ernte: Dünger komplett absetzen<br>- Nur noch reines pH-Wasser ins Reservoir füllen | |
-| **Ernte** | **-** | | - Trocknen & Curen | |
+| **Phase 0:**<br>Germination | **Day 0** | | - Soak seed in water for 24-36h<br>- Plant seed, water once with 30ml pH-adjusted water<br>- Light: 12/12, Fan: 0%<br>- Daily: 2x 3ml via pipette directly to seed spot | |
+| **Week 1:**<br>Establishment | **Day 1 - 7** | | - Water only drop by drop via pipette if extremely dry<br>- Fan: 30% | |
+| **Week 2:**<br>First Flush | **Day 8 - 10** | | - 1x full watering (800ml pH-adjusted water) from above (until runoff/drain)<br>- Afterwards **do not water at all**, let substrate dry! | |
+| **Week 3:**<br>Reservoir | **Day 15 - 21** | | - Pour out old flush water completely first!<br>- Fill reservoir to 20-30% with pure, pH-adjusted water<br>- **Never water from above again!**<br>- Add 25% fertilizer dose if leaves turn light green | |
+| **Week 4-5:**<br>Stretch | **Day 22 - 35** | | - 50% fertilizer dose in reservoir (~0.9ml per 800ml)<br>- Refill reservoir regularly<br>- Watch out for first white hairs (pistils) | |
+| **Flowering:**<br>Flower Day 1 | **ca. Day 30** | | - First white hairs spotted = Flower Day 1!<br>- Note the exact date for Flower Day 1 below | |
+| **Flowering Phase:**<br>Full Bloom | **FD 1 to End** | | - Fan: 46%<br>- 100% fertilizer: ~1.8ml fertilizer + ~2.3ml pH-Down per 800ml | |
+| **Flushing:**<br>Flush | **Last 14 Days** | | - Stop all fertilizer 10-14 days before harvest<br>- Fill reservoir only with pure, pH-adjusted water | |
+| **Harvest** | **-** | | - Cut, dry & cure | |
 
 ---
 
-## Wichtige Daten & Meilensteine
+## Important Dates & Milestones
 
-* **Tag 1 (Sämling zeigt sich):** ________________________
-* **Tag 8 (First Flush durchgeführt):** ________________________
-* **Blütetag 1 (Erste Haare sichtbar):** ________________________
-* **Geplantes Erntedatum (BT 1 + Blütezeit):** ________________________
-* **Start Spül-Phase (-14 Tage vor Ernte):** ________________________
+* **Day 1 (Seedling emerges):** ________________________
+* **Day 8 (First Flush completed):** ________________________
+* **Flower Day 1 (First pistils visible):** ________________________
+* **Planned Harvest Date (FD 1 + Flowering Time):** ________________________
+* **Start Flushing Phase (-14 days before harvest):** ________________________
 
 ---
 
-## Logbuch: Nährlösung & Messwerte
+## Logbook: Nutrient Solution & Measurements
 
-*Regel:* Nährlösung maximal 7-14 Tage im Reservoir lassen (Gefahr von Wurzelfäule!). 
-*Rezept (800ml):* ~1.8ml Grow Blüte + ~2.3ml pH-Down (Ziel pH: 5.8).
+*Rule:* Never let nutrient solution sit in the reservoir for more than 7-10 days (maximum 14 days) to prevent root rot!  
+*Recipe (800ml):* ~1.8ml Grow Bloom + ~2.3ml pH-Down (Target pH: 5.8).
 
-| Datum | Aktion (Auffüllen / Wechsel) | Menge Wasser (ml) | Menge Dünger (ml) | pH-Wert gemessen | Bemerkungen (Pflanzenzustand) |
+| Date | Action (Refill / Change) | Amount Water (ml) | Amount Fertilizer (ml) | pH Measured | Notes (Plant Health / Appearance) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | | | | | | |
 | | | | | | |
@@ -59,4 +59,4 @@ Dieses Protokoll dient als Ausdruck (Printable Logbook) zur Dokumentation deines
 | | | | | | |
 
 ---
-*Erinnerung: Sobald das Wick-System (Reservoir) aktiv ist, niemals von oben gießen!*
+*Reminder: Once the wick system (reservoir) is active, never water from above again!*
