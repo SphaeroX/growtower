@@ -7,15 +7,17 @@ This guide describes how to grow in the GrowTower using a full-hydroponic wick s
 ### Substrate & Wick System
 *   **Main Medium:** Pumice (Pumice granules, e.g., from Compo Sana).
 *   **Seed Container:** A small indentation at the top center is filled with **Compo Sana Quality Potting Soil** (recommended) or Rockwool. 
-    *   *Note:* Using soil provides essential initial nutrients (like CalMag). If you choose Rockwool, you must add a minimal dose of fertilizer from day one, as Rockwool is completely inert.
+    *   *Note:* Using soil provides essential initial nutrients (like CalMag). If you choose Rockwool, you must add a minimal dose of Hy-Pro Terra from day one, as Rockwool is completely inert. The same applies to pumice — the reservoir must receive a 25% dose as soon as it is activated (see Week 3).
 *   **Wicks:** Three wicks in total. One wick is pulled into **each of the three feet** of the plant pot.
 *   **Installation:** The wicks must reach the bottom of the reservoir and be guided spirally upwards through the pumice inside the pot, ending directly at/under the seed container (Rockwool/Soil).
 
 ### Nutrient Solution (The 800ml Recipe)
 Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
-*   **Fertilizer (Flowering Phase):** **~1.8 ml** Compo Grow Blüte (Mineral) per 800 ml water.
+*   **Fertilizer:** **Hy-Pro Terra** — a complete 1-component nutrient for both growth and flowering. Ideal for inert substrates like pumice, as it provides all essential nutrients from day one.
+    *   *Dosage:* **5 ml per liter** throughout the entire cycle (manufacturer recommendation).
+    *   *800ml Reservoir:* **~4.0 ml** at full strength (100%), **~2.0 ml** at 50%, **~1.0 ml** at 25%.
 *   **pH Correction:** **~2.3 ml** Canna pH- Bloom per 800 ml water.
-    *   *Target pH:* **5.8** (Hydro standard). The exact amount of pH-Down depends on your tap water; ideally, test the value after mixing.
+    *   *Target pH:* **5.8** (Hydro standard). The exact amount of pH-Down depends on your tap water and the fertilizer used; test the value after mixing and adjust accordingly.
 *   **Mixing Order:** First dissolve the fertilizer in the water, then adjust the pH.
 
 ---
@@ -43,19 +45,19 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
     *   *Important:* If there is still water from the First Flush (Week 2) in the reservoir, **pour it out completely** before adding the fresh reservoir water. The old flush water may contain unwanted runoff and is not suitable for the wick system.
     *   *Water Freshness:* In the early stages when the seedling consumes very little water, do not let the nutrient solution sit in the reservoir for more than **7 to 10 days** (maximum 14 days) to prevent it from going bad.
 *   **Action:** Stop all top-watering. The three wicks now take over the supply.
-*   **Nutrients:** Since pumice is inert, a minimal dose of fertilizer (25% schedule) can be added if needed if the plant turns light green.
+*   **Nutrients:** Since pumice is inert, **fertilizer is required from the start**. Add a **25% dose** (~1.0 ml Hy-Pro Terra per 800 ml) once the reservoir is active. This provides the essential nutrients that soil would normally supply during the early vegetative phase.
 
 ### Week 4–5 (Day 22–35): Pre-Flowering, Stretch & Flowering Start
 *   **Development:** The plant reaches hormonal maturity and begins to stretch suddenly. First white hairs (pistils) appear.
 *   **Mark Flowering Day:** Note the exact day the first pistils appear — this is **Day 1 of flowering**! If your grow controller supports switching to a flowering timer, set it to this day. If unsure, assume **Day 30** as a rule of thumb.
-*   **Fertilization:** Since nutrient demand increases massively during the stretch, add **50% of the fertilizer dose** (~0.9 ml per 800 ml) now. This prevents the plant from pulling nutrients from the lower leaves, which would cause them to turn yellow.
+*   **Fertilization:** Since nutrient demand increases massively during the stretch, add **50% of the fertilizer dose** (~2.0 ml Hy-Pro Terra per 800 ml) now. This prevents the plant from pulling nutrients from the lower leaves, which would cause them to turn yellow.
 *   **Care:** Refill the reservoir regularly. Water consumption increases sharply.
 
 ### Flowering Phase (Flower Day 1 to End of Strain's Flowering Time)
 *   **Duration:** Depends on the strain. Check the breeder's info (e.g., Purple Bud ~60 days flowering time). **Total grow time ≈ 30 days (pre/veg) + strain's flowering time**.
 *   **Development:** Vertical stretch stops after the first half of flowering, focus shifts entirely to bud formation.
 *   **Fan:** Increase to **46% power**. As leaves become denser, more airflow is needed to remove moisture and prevent mold.
-*   **Fertilization:** Fill the reservoir with the nutrient solution (**~1.8 ml fertilizer + ~2.3 ml pH-Down per 800 ml**).
+*   **Fertilization:** Fill the reservoir with the nutrient solution (**~4.0 ml Hy-Pro Terra + ~2.3 ml pH-Down per 800 ml**).
 *   **Observation:** If leaves become very dark, reduce the fertilizer dose.
 
 ### Final Ripening & Flush (Last 10–14 Days Before Harvest)

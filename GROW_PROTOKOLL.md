@@ -15,10 +15,10 @@ This protocol serves as a printable logbook to document your current grow using 
 | **Phase 0:**<br>Germination | **Day 0** | | - Soak seed in water for 24-36h<br>- Plant seed, water once with 30ml pH-adjusted water<br>- Light: 12/12, Fan: 0%<br>- Daily: 2x 3ml via pipette directly to seed spot | |
 | **Week 1:**<br>Establishment | **Day 1 - 7** | | - Water only drop by drop via pipette if extremely dry<br>- Fan: 30% | |
 | **Week 2:**<br>First Flush | **Day 8 - 10** | | - 1x full watering (800ml pH-adjusted water) from above (until runoff/drain)<br>- Afterwards **do not water at all**, let substrate dry! | |
-| **Week 3:**<br>Reservoir | **Day 15 - 21** | | - Pour out old flush water completely first!<br>- Fill reservoir to 20-30% with pure, pH-adjusted water<br>- **Never water from above again!**<br>- Add 25% fertilizer dose if leaves turn light green | |
-| **Week 4-5:**<br>Stretch | **Day 22 - 35** | | - 50% fertilizer dose in reservoir (~0.9ml per 800ml)<br>- Refill reservoir regularly<br>- Watch out for first white hairs (pistils) | |
+| **Week 3:**<br>Reservoir | **Day 15 - 21** | | - Pour out old flush water completely first!<br>- Fill reservoir to 20-30% with pure, pH-adjusted water<br>- **Never water from above again!**<br>- Add 25% Hy-Pro Terra dose (~1.0ml per 800ml) — essential since pumice is inert | |
+| **Week 4-5:**<br>Stretch | **Day 22 - 35** | | - 50% Hy-Pro Terra dose in reservoir (~2.0ml per 800ml)<br>- Refill reservoir regularly<br>- Watch out for first white hairs (pistils) | |
 | **Flowering:**<br>Flower Day 1 | **ca. Day 30** | | - First white hairs spotted = Flower Day 1!<br>- Note the exact date for Flower Day 1 below | |
-| **Flowering Phase:**<br>Full Bloom | **FD 1 to End** | | - Fan: 46%<br>- 100% fertilizer: ~1.8ml fertilizer + ~2.3ml pH-Down per 800ml | |
+| **Flowering Phase:**<br>Full Bloom | **FD 1 to End** | | - Fan: 46%<br>- 100% Hy-Pro Terra: ~4.0ml fertilizer + ~2.3ml pH-Down per 800ml | |
 | **Flushing:**<br>Flush | **Last 14 Days** | | - Stop all fertilizer 10-14 days before harvest<br>- Fill reservoir only with pure, pH-adjusted water | |
 | **Harvest** | **-** | | - Cut, dry & cure | |
 
@@ -37,7 +37,7 @@ This protocol serves as a printable logbook to document your current grow using 
 ## Logbook: Nutrient Solution & Measurements
 
 *Rule:* Never let nutrient solution sit in the reservoir for more than 7-10 days (maximum 14 days) to prevent root rot!  
-*Recipe (800ml):* ~1.8ml Grow Bloom + ~2.3ml pH-Down (Target pH: 5.8).
+*Recipe (800ml):* ~4.0ml Hy-Pro Terra + ~2.3ml pH-Down (Target pH: 5.8).
 
 | Date | Action (Refill / Change) | Amount Water (ml) | Amount Fertilizer (ml) | pH Measured | Notes (Plant Health / Appearance) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
