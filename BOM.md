@@ -30,9 +30,8 @@ These materials depend on the specific grow method being tested (Soil vs. Hydrop
 
 | Component | Description | Price (Est.) | Notes |
 | :--- | :--- | :---: | :--- |
-| **Rockwool** | Grodan or similar starter plugs | ~4.00€ | Recommended seed container for pure pumice setups. Completely inert, sterile, excellent air/water ratio. |
-| **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Optional — alternative seed container medium. Not needed for pure pumice + Rockwool setups. |
-| **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Main growing medium (inert). Provides excellent aeration and wicking in the reservoir system. |
+| **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Main medium for Grow #1 and #2. |
+| **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Used for drainage and aeration in Test #3. |
 | **Wick System (Dochte)** | Nylon or Cotton Wicks | ~5.00€ | Passive irrigation for reservoir setups. |
 | **Fertilizer** | Hy-Pro Terra (Single Base) | ~15.00€ | Complete 1-component nutrient for growth & bloom. Works with inert substrates (pumice, coco, rockwool). Dosage: 5ml/L throughout the cycle. ~4.0ml per 800ml reservoir at full strength. Use a pipette for precision. |
 | **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro and Soil. Recommended: ~2.3ml per 800ml water (depends on local tap water). Use a pipette. |  
