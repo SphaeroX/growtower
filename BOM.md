@@ -30,11 +30,12 @@ These materials depend on the specific grow method being tested (Soil vs. Hydrop
 
 | Component | Description | Price (Est.) | Notes |
 | :--- | :--- | :---: | :--- |
-| **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Main medium for Grow #1 and #2. |
-| **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Used for drainage and aeration in Test #3. |
+| **Composana Soil** | Qualitätsblumenerde | ~12.00€ | Small "earth nest" at top of pot for germination and initial seedling nutrients. Only ~200ml needed per grow. |
+| **Pumice (Bimsstein)** | Compo Sana Granulat | ~9.00€ | Main growing medium (inert, no CEC). Excellent aeration and wicking. Reusable indefinitely — rinse between grows. |
 | **Wick System (Dochte)** | Nylon or Cotton Wicks | ~5.00€ | Passive irrigation for reservoir setups. |
-| **Fertilizer** | Hy-Pro Terra (Single Base) | ~15.00€ | Complete 1-component nutrient for growth & bloom. Works with inert substrates (pumice, coco, rockwool). Dosage: 5ml/L throughout the cycle. ~4.0ml per 800ml reservoir at full strength. Use a pipette for precision. |
-| **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro and Soil. Recommended: ~2.3ml per 800ml water (depends on local tap water). Use a pipette. |  
+| **Fertilizer** | Hy-Pro Terra (Single Base) | ~15.00€ | Complete 1-component mineral nutrient (NPK 2-5-5). For pumice: 50% start → 75-100% stretch → 100% flower → optional 125% peak. ~2.0–5.0ml per 800ml. Use a pipette for precision. |
+| **pH-Down** | Canna pH- Bloom (Phosphoric Acid) | ~12.00€ | Critical for Hydro and Soil. Recommended: ~2.3ml per 800ml water (depends on local tap water). Use a pipette. |
+| **CalMag** | Hy-Pro Cal-Mag (or equivalent) | ~12.00€ | Prevents Ca/Mg deficiencies in reused inert substrate. Add 0.5–1.0 ml/L to every 3rd reservoir refill. |  
 ## 3D Printed Parts
 
 Most parts need to be printed in **PETG White** to ensure maximum light reflection inside the tower. However, to prevent light leaks and algae, specific parts (Filter, Plant Pot, Reservoir) should be printed in black, and the white outer shell must be post-processed to be light-proof from the outside. For detailed printing instructions and color choices, see [`stls/README.md`](stls/README.md).
