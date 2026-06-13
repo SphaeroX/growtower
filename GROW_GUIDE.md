@@ -10,6 +10,15 @@ This guide describes how to grow in the GrowTower using a full-hydroponic wick s
 *   **Wicks:** Three wicks in total. One wick is pulled into **each of the three feet** of the plant pot.
 *   **Installation:** The wicks must reach the bottom of the reservoir and be guided spirally upwards through the pumice inside the pot, ending directly at/under the soil nest.
 
+### Preparing the Earth Nest (Erde-Nest)
+The soil nest is the only organic component in an otherwise fully inert system. Get this right — it's the seed's first home.
+1.  **Fill the pot with pumice** up to ~3 cm below the rim. Level the surface.
+2.  **Create a small bowl** in the center: press a depression ~5 cm wide × 3 cm deep into the pumice. This is your nest cavity.
+3.  **Ensure wick contact:** All three wicks should be visible at the bottom of the cavity, spiraling up through the pumice. If not, gently pull the wick ends into the cavity with tweezers.
+4.  **Add soil:** Fill the cavity with **Compo Sana Quality Potting Soil** (~50–70 ml, about a small handful). Do not compress — keep it fluffy.
+5.  **Pre-water the nest:** Saturate the soil with **~20 ml of pH-adjusted water (pH 5.8)**. Let it absorb fully. This pre-charges the wicks and ensures moisture reaches the seed immediately after planting.
+6.  **Plant the seed:** Push the seed ~0.5–1 cm deep into the moist soil, cover lightly. See Phase 0 for the full germination procedure.
+
 ### Nutrient Solution (The 800ml Recipe)
 Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Fertilizer:** **Hy-Pro Terra** — a complete 1-component nutrient for both growth and flowering. NPK 2-5-5, mineral-based for immediate availability.
