@@ -6,16 +6,17 @@ This guide describes how to grow in the GrowTower using a full-hydroponic wick s
 
 ### Substrate & Wick System
 *   **Main Medium:** Pumice (Pumice granules, e.g., from Compo Sana).
-*   **Seed Container:** A small indentation at the top center is filled with **Compo Sana Quality Potting Soil** (recommended) or Rockwool. 
-    *   *Note:* Using soil provides essential initial nutrients (like CalMag). If you choose Rockwool, you must add a minimal dose of Hy-Pro Terra from day one, as Rockwool is completely inert. The same applies to pumice — the reservoir must receive a 25% dose as soon as it is activated (see Week 3).
+*   **Seed Container:** A small indentation at the top center is filled with **Rockwool** (recommended for pumice setups). Alternatively, **Compo Sana Quality Potting Soil** can be used.
+    *   *Note:* Rockwool is completely inert — it provides zero nutrients. The seedling lives off its cotyledons for the first ~7–10 days. Hy-Pro Terra covers all macro- and micronutrients (including CalMag) once feeding begins. If using soil, it provides some initial nutrients but is less consistent in a wick system.
 *   **Wicks:** Three wicks in total. One wick is pulled into **each of the three feet** of the plant pot.
-*   **Installation:** The wicks must reach the bottom of the reservoir and be guided spirally upwards through the pumice inside the pot, ending directly at/under the seed container (Rockwool/Soil).
+*   **Installation:** The wicks must reach the bottom of the reservoir and be guided spirally upwards through the pumice inside the pot, ending directly at/under the seed container (Rockwool).
 
 ### Nutrient Solution (The 800ml Recipe)
 Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Fertilizer:** **Hy-Pro Terra** — a complete 1-component nutrient for both growth and flowering. Ideal for inert substrates like pumice, as it provides all essential nutrients from day one.
     *   *Dosage:* **5 ml per liter** throughout the entire cycle (manufacturer recommendation).
     *   *800ml Reservoir:* **~4.0 ml** at full strength (100%), **~2.0 ml** at 50%, **~1.0 ml** at 25%.
+    *   *CalMag:* Hy-Pro Terra contains calcium and magnesium. However, if you use RO water or very soft tap water (EC < 0.2), consider adding a CalMag supplement to prevent deficiencies.
 *   **pH Correction:** **~2.3 ml** Canna pH- Bloom per 800 ml water.
     *   *Target pH:* **5.8** (Hydro standard). The exact amount of pH-Down depends on your tap water and the fertilizer used; test the value after mixing and adjust accordingly.
 *   **Mixing Order:** First dissolve the fertilizer in the water, then adjust the pH.
@@ -26,7 +27,7 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 
 ### Phase 0: Pre-Phase (Germination & Establishment)
 *   **Duration:** Approx. 3 to 7 days.
-*   **Action:** Soak seed in water for 24 to 36 hours. Then plant in the seed container (Rockwool/Soil) and water once with **30 ml** of pH-adjusted water.
+*   **Action:** Soak seed in water for 24 to 36 hours. Then plant in the Rockwool seed container and water once with **30 ml** of pH-adjusted water (no fertilizer — the seedling's cotyledons provide nutrients for the first ~7–10 days).
 *   **Care:** Carefully add **3 ml** with the pipette directly onto the seed spot twice a day (keep moist, do not soak).
 *   **Light:** Set to **12/12 cycle** (12h ON / 12h OFF) immediately.
 *   **Fan:** **0% power** (high humidity for the seedling).

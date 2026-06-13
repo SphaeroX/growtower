@@ -12,7 +12,7 @@ This protocol serves as a printable logbook to document your current grow using 
 
 | Phase / Timeline | Day | Date | Action (Short Format) | Completed / Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| **Phase 0:**<br>Germination | **Day 0** | | - Soak seed in water for 24-36h<br>- Plant seed, water once with 30ml pH-adjusted water<br>- Light: 12/12, Fan: 0%<br>- Daily: 2x 3ml via pipette directly to seed spot | |
+| **Phase 0:**<br>Germination | **Day 0** | | - Soak seed in water for 24-36h<br>- Plant in Rockwool, water once with 30ml pH-adjusted water (no nutrients — cotyledons feed the seedling)<br>- Light: 12/12, Fan: 0%<br>- Daily: 2x 3ml via pipette directly to seed spot | |
 | **Week 1:**<br>Establishment | **Day 1 - 7** | | - Water only drop by drop via pipette if extremely dry<br>- Fan: 30% | |
 | **Week 2:**<br>First Flush | **Day 8 - 10** | | - 1x full watering (800ml pH-adjusted water) from above (until runoff/drain)<br>- Afterwards **do not water at all**, let substrate dry! | |
 | **Week 3:**<br>Reservoir | **Day 15 - 21** | | - Pour out old flush water completely first!<br>- Fill reservoir to 20-30% with pure, pH-adjusted water<br>- **Never water from above again!**<br>- Add 25% Hy-Pro Terra dose (~1.0ml per 800ml) — essential since pumice is inert | |
