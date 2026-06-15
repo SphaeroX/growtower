@@ -41,7 +41,7 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Duration:** Approx. 3 to 7 days.
 *   **Action:** Soak seed in water for 24 to 36 hours. Then plant in the soil nest and water once with **30 ml** of pH-adjusted water.
 *   **Care:** Carefully add **3 ml** with the pipette directly onto the seed spot twice a day (keep moist, do not soak).
-*   **Light:** Set to **12/12 cycle** (12h ON / 12h OFF) immediately.
+*   **Light:** Set to **18/6 cycle** (18h ON / 6h OFF) for the vegetative phase. The long light period builds a strong root system and canopy before switching to 12/12 at Week 3.
 *   **Fan:** **0% power** (high humidity for the seedling).
 
 ### Week 1 (Day 1–7): Establishment
@@ -53,7 +53,8 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Action (Day 8–10):** Single full watering from above with **800 ml** of pH-adjusted water (without fertilizer) until water runs out the bottom (drain).
 *   **Important:** After this, **do not water at all** until the substrate feels significantly lighter. This forces the roots to grow to the bottom of the pot.
 
-### Week 3 (Day 15–21): Activating the Reservoir
+### Week 3 (Day 15–21): Activating the Reservoir & Switching to Flower
+*   **Light Switch:** Switch the light cycle from **18/6 to 12/12** (12h ON / 12h OFF). This triggers the hormonal transition from vegetative growth to flowering.
 *   **The Reservoir Test:** Fill the reservoir to 20–30% with pure, pH-adjusted water.
     *   *Important:* If there is still water from the First Flush (Week 2) in the reservoir, **pour it out completely** before adding the fresh reservoir water. The old flush water may contain unwanted runoff and is not suitable for the wick system.
     *   *Water Freshness:* In the early stages when the seedling consumes very little water, do not let the nutrient solution sit in the reservoir for more than **7 to 10 days** (maximum 14 days) to prevent it from going bad.
