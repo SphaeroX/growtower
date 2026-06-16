@@ -41,7 +41,12 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Duration:** Approx. 3 to 7 days.
 *   **Action:** Soak seed in water for 24 to 36 hours. Then plant in the soil nest and water once with **30 ml** of pH-adjusted water.
 *   **Care:** Carefully add **3 ml** with the pipette directly onto the seed spot twice a day (keep moist, do not soak).
-*   **Light:** Set to **18/6 cycle** (18h ON / 6h OFF) for the vegetative phase. The long light period builds a strong root system and canopy before switching to 12/12 at Week 3.
+* **Light:** Set to **18/6 or 20/4 cycle** for the vegetative phase (see experience table below). The long light period builds a strong root system and canopy before switching to 12/12 at Week 3.
+* **Which light duration? (Experience-based)**
+    * **18/6 (Standard)** — For compact indica-dominant strains, limited tower height (< 80 cm internal), or when growing in confined spaces. 18 hours is the safe, proven default. The plant gets enough light to build structure without excessive stretch.
+    * **20/4 (Aggressive)** — For sativa-dominant or stretchy hybrids where you expect the plant to fill the full tower height (80-100 cm). The extra 2 hours accelerate root development and stem thickness early on, giving the plant more "engine" to pull nutrients during the stretch. Use only if your environment can handle the extra heat and the seedling shows vigorous growth from Day 3 onward.
+    * **Dynamic approach (advanced):** Start at 18/6 for Days 0-7, then switch to 20/4 for Days 8-21 if the plant looks healthy and you want maximum vegetative mass before flipping. This avoids stressing a fragile seedling while still maximizing the veg window.
+    * **Rule of thumb:** Compact plant → 18/6. Stretchy plant / full tower → 20/4. When in doubt, stick with 18/6 — it never fails.
 *   **Fan:** **0% power** (high humidity for the seedling).
 
 ### Week 1 (Day 1–7): Establishment
@@ -54,7 +59,7 @@ Precision is key. Always use a **pipette** for dosing in the 800ml reservoir.
 *   **Important:** After this, **do not water at all** until the substrate feels significantly lighter. This forces the roots to grow to the bottom of the pot.
 
 ### Week 3 (Day 15–21): Activating the Reservoir & Switching to Flower
-*   **Light Switch:** Switch the light cycle from **18/6 to 12/12** (12h ON / 12h OFF). This triggers the hormonal transition from vegetative growth to flowering.
+* **Light Switch:** Switch the light cycle from your vegetative schedule (**18/6 or 20/4**) to **12/12** (12h ON / 12h OFF). This triggers the hormonal transition from vegetative growth to flowering.
 *   **The Reservoir Test:** Fill the reservoir to 20–30% with pure, pH-adjusted water.
     *   *Important:* If there is still water from the First Flush (Week 2) in the reservoir, **pour it out completely** before adding the fresh reservoir water. The old flush water may contain unwanted runoff and is not suitable for the wick system.
     *   *Water Freshness:* In the early stages when the seedling consumes very little water, do not let the nutrient solution sit in the reservoir for more than **7 to 10 days** (maximum 14 days) to prevent it from going bad.
